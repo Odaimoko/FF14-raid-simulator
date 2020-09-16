@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Envrionment : MonoBehaviour
+public class SingleWaymark : MonoBehaviour
 {
-    // The stage
-
-    private SingleWaymark[] waymarks;
-    private GameObject shape;
-    private Texture texture; //sprite
-    
     // Start is called before the first frame update
     void Start()
     {
