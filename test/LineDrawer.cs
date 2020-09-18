@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter),typeof(MeshRenderer))]
 public class LineDrawer : MonoBehaviour
 {
     // private LineRenderer lineRenderer;
@@ -33,6 +34,12 @@ public class LineDrawer : MonoBehaviour
             3,2,1
         };
         theMesh.triangles = tri;
+        theMesh.uv = new Vector2[4]{
+            new Vector2(0,4),
+            new Vector2(1,4),
+            new Vector2(1,2),
+            new Vector2(1,4),
+        };
     }
 
     // Update is called once per frame
