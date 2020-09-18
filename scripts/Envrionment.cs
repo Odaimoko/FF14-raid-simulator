@@ -9,16 +9,21 @@ public class Envrionment : MonoBehaviour
     private SingleWaymark[] waymarks;
     private GameObject shape;
     private Texture texture; //sprite
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    void ConstrainPlayer()
+    {
+
     }
 }
