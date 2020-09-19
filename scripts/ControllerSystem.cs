@@ -32,8 +32,6 @@ public class ControllerSystem : MonoBehaviour
         Vector3 inputVec = new Vector3(xInput, 0, zInput);
         if (inputVec.magnitude > 0.1)
             MoveByWorldVector(inputVec);
-
-
         ChangeAnimation();
     }
 
@@ -51,11 +49,11 @@ public class ControllerSystem : MonoBehaviour
         float towardsZAngle = Vector3.Angle(Vector3.forward, worldTowards);
         // rotation property is based on rotating around the axis clockwise
         if (worldTowards.x < 0) towardsZAngle = 360 - towardsZAngle;
-        Debug.Log("towardsZAngle");
-        Debug.Log(towardsZAngle);
-        Debug.Log("transform.eulerAngles");
-        Debug.Log(transform.eulerAngles);
-        Debug.Log(towardsZAngle - transform.eulerAngles.y);
+        // Debug.Log("towardsZAngle");
+        // Debug.Log(towardsZAngle);
+        // Debug.Log("transform.eulerAngles");
+        // Debug.Log(transform.eulerAngles);
+        // Debug.Log(towardsZAngle - transform.eulerAngles.y);
         float rotationY = transform.eulerAngles.y;
         if (Mathf.Abs(towardsZAngle - transform.eulerAngles.y) > 2f)
         {
