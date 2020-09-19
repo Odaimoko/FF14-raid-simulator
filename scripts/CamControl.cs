@@ -6,6 +6,12 @@ public class CamControl : MonoBehaviour
 {
     // Controls camera and audio
     // Start is called before the first frame update
+    [SerializeField]
+    private float maxFocalDistance, minFocalDistance, rotateSensitivity;
+    public GameObject player;
+    public Camera mainCam;
+    [SerializeField]
+    private bool followPlayer;
     void Start()
     {
 
@@ -17,7 +23,13 @@ public class CamControl : MonoBehaviour
 
     }
 
-    void RotateCamera()
+    private void LateUpdate()
+    {
+        if (followPlayer)
+            transform.position = player.transform.position;
+    }
+
+    void RotateCamera(float angle)
     {
 
     }
