@@ -5710,6 +5710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam: {fileID: 16356836}
   moveSpeed: 4
+  spinSpeed: 0.4
 --- !u!114 &1990517886
 MonoBehaviour:
   m_ObjectHideFlags: 0
