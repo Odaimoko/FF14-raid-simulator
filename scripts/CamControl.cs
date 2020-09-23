@@ -11,7 +11,7 @@ public class CamControl : MonoBehaviour
     public GameObject player;
     public Camera mainCam;
     [SerializeField]
-    private bool followPlayer;
+    private bool followPlayer = false;
     void Start()
     {
 

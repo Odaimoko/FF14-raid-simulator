@@ -13,7 +13,7 @@ public class Orbit : MonoBehaviour
     private Plane plane;
     private float radius;
     [SerializeField]
-    private float angleSpeed;
+    private float angleSpeed = 3f;
     public float selfRotateSpeed = 0;
     // Start is called before the first frame update
     void Start()
