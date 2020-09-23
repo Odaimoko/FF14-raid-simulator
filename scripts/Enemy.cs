@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Statuses))]
 public class Enemy : MonoBehaviour
 {
     //
@@ -20,7 +21,6 @@ public class Enemy : MonoBehaviour
     public bool isInBattle; // has the battle started
     public bool targetable;
     private bool isBoss; // is boss or regular
-    private Status[] statuses;
     private int normalAtkRawDamage;
     private int[] aggro;
     private int healthPoint;

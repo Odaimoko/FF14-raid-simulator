@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Status))]
+[RequireComponent(typeof(Statuses))]
 public class ControllerSystem : MonoBehaviour
 {
     // For keyboard and mouse, console and mobile
