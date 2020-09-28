@@ -9,6 +9,7 @@ public class ControllerSystem : MonoBehaviour
     public Camera mainCam;
     [SerializeField] private float moveSpeed = 4f, spinSpeed = .4f;
     private Rigidbody playerRB;
+    private Vector2 touchStartPos = Vector2.zero, touchEndPos = Vector2.zero;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,20 +27,56 @@ public class ControllerSystem : MonoBehaviour
 
     }
 
+
     void Update()
     {
-        float xInput = Input.GetAxis("Horizontal"), zInput = Input.GetAxis("Vertical");
-        Vector3 inputVec = new Vector3(xInput, 0, zInput);
+        Vector3 inputVec = GetInputVector();
         if (inputVec.magnitude > 0.1)
             MoveByWorldVector(inputVec);
         ChangeAnimation();
     }
 
+    Vector3 GetInputVector()
+    {
+
+        Vector3 inputVec = Vector3.zero;
+        if (Input.touchCount > 0)
+        {
+            // For mobile devices
+            //  use finger id 0
+            Touch t = Input.GetTouch(0);
+            switch (t.phase)
+            {
+                case TouchPhase.Began:
+                    touchStartPos = t.position;
+                    break;
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                    touchEndPos = t.position;
+                    break;
+                default:
+                    touchEndPos = Vector2.zero;
+                    touchStartPos = Vector2.zero;
+                    break;
+            }
+            Vector2 direction = touchEndPos - touchStartPos;
+            inputVec = new Vector3(direction.x, 0, direction.y);
+        }
+        else
+        {
+            float xInput = Input.GetAxis("Horizontal"), zInput = Input.GetAxis("Vertical");
+            inputVec = new Vector3(xInput, 0, zInput);
+        }
+        return inputVec.normalized;
+    }
+
     void MoveByWorldVector(Vector3 inputVec)
     {
+        // assume inputVec is normalized
         Vector3 camForward = GetCamForward();
         float camZAngle = Vector3.Angle(Vector3.forward, camForward) / 180 * Mathf.PI;
         if (camForward.x > 0) camZAngle = Mathf.PI * 2 - camZAngle;
+        // rotate the input vector to where the player is facing
         Vector3 worldTowards = new Vector3(
             Mathf.Cos(camZAngle) * inputVec.x - Mathf.Sin(camZAngle) * inputVec.z,
             0,

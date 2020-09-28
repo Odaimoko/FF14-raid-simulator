@@ -14,7 +14,7 @@ public class CamControl : MonoBehaviour
     private bool followPlayer = false;
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
