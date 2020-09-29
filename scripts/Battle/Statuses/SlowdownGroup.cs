@@ -6,11 +6,11 @@ using UnityEngine;
 public class SlowdownGroup : StatusGroup
 {
     // Wrapper
-    private ControllerSystem controller;
     // Start is called before the first frame update
-    void Start()
+    public SlowdownGroup(GameObject target) :
+        base(target)
     {
-        Slowdown slowdown = gameObject.AddComponent<Slowdown>();
+        Slowdown slowdown = new Slowdown(target);
         Add(slowdown);
     }
 

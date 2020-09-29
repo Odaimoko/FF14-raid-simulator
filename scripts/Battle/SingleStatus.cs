@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingleStatus : MonoBehaviour
+public class SingleStatus
 {
     public enum EffectType
     {
@@ -16,34 +16,35 @@ public class SingleStatus : MonoBehaviour
         Debuff
     }
     // Status on Player or Enemy
-    protected GameObject from; //From whom this status comes
+    public GameObject from, target; //From whom this status comes
     protected float startTime = 0;
-    public float duration { get; set; } // how long it will last
-    [SerializeField]
-    protected float countdown; // remaining time
-    protected string statusName, statusDescription;
+    public float duration { get; protected set; } // how long it will last
+    public float countdown { get; protected set; } // remaining time
+    public bool expired { get; protected set; } = false;
+    public string statusName, statusDescription;
     protected GameObject icon; // prefab
     // TODO: Effect variable
     protected bool lostAfterDeath = true;
 
-    // Start is called before the first frame update
-    void Start()
+    public SingleStatus(GameObject target)
     {
-
+        this.target = target;
     }
-
     // Update is called once per frame
-    protected void Update()
+    public void Update()
     {
         countdown -= Time.deltaTime;
+        if (countdown < 0 && !expired)
+        {
+            expired = true;
+            OnStatusExpire();
+        }
     }
 
     // Called per period (3 secs)
     public virtual void ApplyEffect()
     {
         Debug.Log("apply: Single Status " + this);
-        if (countdown < 0)
-            OnStatusExpire();
         //TODO which will be called?
     }
     // As the name says

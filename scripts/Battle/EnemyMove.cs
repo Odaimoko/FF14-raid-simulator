@@ -6,7 +6,7 @@ public class EnemyMove : MonoBehaviour
 {
     private GameObject animationFx;    // Prefab
     private AudioClip soundFx; // sound 
-    private float rawDamage;
+    public string moveName;
 
     public enum MoveType
     {

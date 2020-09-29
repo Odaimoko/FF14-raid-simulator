@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     public bool inBattle; // has the battle started
     public bool targetable;
     private bool isBoss; // is boss or regular
+    public bool casting; // if casting, boss cannot move
     [SerializeField]
     private int normalAtkRawDamage;
     private int[] aggro;

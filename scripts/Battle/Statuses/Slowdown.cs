@@ -6,17 +6,17 @@ using UnityEngine;
 public class Slowdown : SingleStatus
 {
     private ControllerSystem controller;
-    // Start is called before the first frame update
-    void Start()
+    public Slowdown(GameObject target) :
+        base(target)
     {
-        controller = GetComponent<ControllerSystem>();
+        controller = this.target.GetComponent<ControllerSystem>();
         duration = 10;
-        countdown=10;
+        countdown = 10;
     }
- 
+
     public override void ApplyEffect()
     {
-        Debug.Log("APPLIED: Slowdown effect to " + gameObject.ToString());
+        Debug.Log("APPLIED: Slowdown effect to " + target.ToString());
         controller.moveSpeedMultiplier = 0.4f;
         base.ApplyEffect();
     }

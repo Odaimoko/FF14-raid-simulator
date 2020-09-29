@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(StatusGroup))]
 public class ControllerSystem : MonoBehaviour
 {
     // For keyboard and mouse, console and mobile
@@ -12,10 +11,12 @@ public class ControllerSystem : MonoBehaviour
         get => defaultMoveSpeed * moveSpeedMultiplier;
         set { }
     }
+    //  sometimes the player cannot control themselves
+    public bool canControl { get; set; } = true;
 
     private float defaultMoveSpeed = 4f;
     // Accerlarate, or slowdown
-    public float moveSpeedMultiplier  = 1f;
+    public float moveSpeedMultiplier = 1f;
 
     private float spinSpeed = .4f;
     private Rigidbody playerRB;
@@ -32,6 +33,7 @@ public class ControllerSystem : MonoBehaviour
 
     public void Control()
     {
+        if(!canControl)return;
         Vector3 inputVec = GetInputVector();
         if (inputVec.magnitude > 0.1)
             MoveByWorldVector(inputVec);
@@ -108,9 +110,7 @@ public class ControllerSystem : MonoBehaviour
             else
                 rotateDirection = towardsZAngle - rotationY;
             transform.Rotate(
-                0,
-                spinSpeed * rotateDirection,
-                0);
+                0, spinSpeed * rotateDirection, 0);
         }
     }
 
