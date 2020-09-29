@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(ControllerSystem))]
 public class SinglePlayer : MonoBehaviour
 {
+    public List<Enemy> enemies = new List<Enemy>();
+
     public enum StratPosition
     {
         MT, ST, H1, H2, D1, D2, D3, D4
@@ -24,6 +26,9 @@ public class SinglePlayer : MonoBehaviour
     //
     public string job;
     public StratPosition stratPosition; // D1234 H12 MST
+    public bool controllable = true;
+
+
     void Start()
     {
         controller = GetComponent<ControllerSystem>();
@@ -33,14 +38,15 @@ public class SinglePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        controller.Control();
+        if (controllable)
+            controller.Control();
         foreach (StatusGroup statusGroup in statusGroups)
         {
             statusGroup.Update();
         }
     }
 
-    void AddStatusGroup(StatusGroup sg)
+    public void AddStatusGroup(StatusGroup sg)
     {
         statusGroups.Add(sg);
     }
@@ -51,6 +57,14 @@ public class SinglePlayer : MonoBehaviour
         {
             Debug.Log("Player Apply");
             statusGroup.ApplyEffect();
+        }
+    }
+
+    public void RegisterEntities()
+    {
+        foreach (GameObject en in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            enemies.Add(en.GetComponent<Enemy>());
         }
     }
 }

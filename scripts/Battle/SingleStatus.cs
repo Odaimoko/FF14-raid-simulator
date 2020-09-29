@@ -22,6 +22,7 @@ public class SingleStatus
     public float countdown { get; protected set; } // remaining time
     public bool expired { get; protected set; } = false;
     public string statusName, statusDescription;
+    public bool showIcon; // should we show icon on ui
     protected GameObject icon; // prefab
     // TODO: Effect variable
     protected bool lostAfterDeath = true;
