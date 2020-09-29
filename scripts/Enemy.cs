@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Statuses))]
+[RequireComponent(typeof(StatusGroup))]
 public class Enemy : MonoBehaviour
 {
     //
@@ -18,12 +18,18 @@ public class Enemy : MonoBehaviour
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
 
-    public bool isInBattle; // has the battle started
+    public bool inBattle; // has the battle started
     public bool targetable;
     private bool isBoss; // is boss or regular
+    [SerializeField]
     private int normalAtkRawDamage;
     private int[] aggro;
-    private int healthPoint;
+    public int healthPoint
+    {
+        get; set;
+    }
+    public List<StatusGroup> statusGroups;
+
 
     void Init(int num_players)
     {
@@ -56,7 +62,17 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private void ResetVariable() {
-        
+    private void ResetVariable()
+    {
+
+    }
+
+    public void ApplyEffect()
+    {
+        foreach (StatusGroup statusGroup in statusGroups)
+        {
+            statusGroup.ApplyEffect();
+        }
     }
 }
+

@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Statuses))]
+[RequireComponent(typeof(StatusGroup))]
 public class ControllerSystem : MonoBehaviour
 {
     // For keyboard and mouse, console and mobile
     public Camera mainCam;
-    [SerializeField] private float moveSpeed = 4f, spinSpeed = .4f;
+    public float moveSpeed
+    {
+        get => defaultMoveSpeed * moveSpeedMultiplier;
+        set { }
+    }
+
+    private float defaultMoveSpeed = 4f;
+    // Accerlarate, or slowdown
+    public float moveSpeedMultiplier  = 1f;
+
+    private float spinSpeed = .4f;
     private Rigidbody playerRB;
     private Vector2 touchStartPos = Vector2.zero, touchEndPos = Vector2.zero;
     // Start is called before the first frame update
@@ -16,24 +26,25 @@ public class ControllerSystem : MonoBehaviour
         playerRB = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    Vector3 GetCamForward()
+    void Update()
     {
-
-        Vector3 towards = mainCam.transform.forward;
-        towards.y = 0;
-        towards = towards.normalized;
-        return towards;
-
     }
 
-
-    void Update()
+    public void Control()
     {
         Vector3 inputVec = GetInputVector();
         if (inputVec.magnitude > 0.1)
             MoveByWorldVector(inputVec);
         ChangeAnimation();
+    }
+
+    Vector3 GetCamForward()
+    {
+        Vector3 towards = mainCam.transform.forward;
+        towards.y = 0;
+        towards = towards.normalized;
+        return towards;
+
     }
 
     Vector3 GetInputVector()
@@ -84,13 +95,8 @@ public class ControllerSystem : MonoBehaviour
         transform.Translate(worldTowards.normalized * moveSpeed * Time.deltaTime, Space.World);
         // rotate towards the velocity direction
         float towardsZAngle = Vector3.Angle(Vector3.forward, worldTowards);
-        // rotation property is based on rotating around the axis clockwise
+        // rotation in unity is clockwise
         if (worldTowards.x < 0) towardsZAngle = 360 - towardsZAngle;
-        // Debug.Log("towardsZAngle");
-        // Debug.Log(towardsZAngle);
-        // Debug.Log("transform.eulerAngles");
-        // Debug.Log(transform.eulerAngles);
-        // Debug.Log(towardsZAngle - transform.eulerAngles.y);
         float rotationY = transform.eulerAngles.y;
         if (Mathf.Abs(towardsZAngle - transform.eulerAngles.y) > 2f)
         {
