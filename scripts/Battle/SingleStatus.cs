@@ -27,30 +27,51 @@ public class SingleStatus
     // TODO: Effect variable
     protected bool lostAfterDeath = true;
 
-    public SingleStatus(GameObject target)
+    public SingleStatus(GameObject from, GameObject target)
     {
+        this.from = from;
         this.target = target;
     }
-    // Update is called once per frame
+
     public void Update()
     {
         countdown -= Time.deltaTime;
         if (countdown < 0 && !expired)
         {
             expired = true;
-            OnStatusExpire();
+            RegisterEffect();
+        }
+    }
+    protected virtual void NormalEffect()
+    {
+
+    }
+
+    protected virtual void ExpireEffect()
+    {
+
+    }
+
+    
+    public void Apply()
+    {
+        if (!expired)
+        {
+            Debug.Log($"{this}: From {from} to {target}", this.target);
+            NormalEffect();
+        }
+        else
+        {
+            Debug.Log($"{this} Expired: From {from} to {target}", this.target);
+            ExpireEffect();
         }
     }
 
     // Called per period (3 secs)
-    public virtual void ApplyEffect()
+    public void RegisterEffect()
     {
-        Debug.Log("apply: Single Status " + this, this.target);
-        //TODO which will be called?
-    }
-    // As the name says
-    public virtual void OnStatusExpire()
-    {
-        Debug.Log("expired: base class " + this, this.target);
+        Debug.Log("Single Status: RegisterEffect: " + this, this.target);
+        BattleManager bm = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
+        bm.AddEvent(this);
     }
 }

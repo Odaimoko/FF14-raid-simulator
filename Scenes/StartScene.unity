@@ -693,6 +693,7 @@ MonoBehaviour:
   players: []
   moveSpeed: 0.04
   minAtkDistance: 1
+  inBattleDistance: 10
   targetCircle: {fileID: 0}
   inBattle: 0
   targetable: 0
@@ -1075,7 +1076,7 @@ GameObject:
   - component: {fileID: 1257624462}
   - component: {fileID: 1257624460}
   m_Layer: 0
-  m_Name: BattleManager
+  m_Name: Battle  Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

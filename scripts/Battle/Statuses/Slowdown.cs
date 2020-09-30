@@ -6,25 +6,23 @@ using UnityEngine;
 public class Slowdown : SingleStatus
 {
     private ControllerSystem controller;
-    public Slowdown(GameObject target) :
-        base(target)
+    public Slowdown(GameObject from, GameObject target) :
+        base(from, target)
     {
         controller = this.target.GetComponent<ControllerSystem>();
         duration = 10;
         countdown = 10;
     }
 
-    public override void ApplyEffect()
+    protected override void NormalEffect()
     {
-        Debug.Log("APPLIED: Slowdown effect to " + target.ToString(), this.target);
+        base.NormalEffect();
         controller.moveSpeedMultiplier = 0.4f;
-        base.ApplyEffect();
     }
-    // As the name says
-    public override void OnStatusExpire()
+    
+    protected override void ExpireEffect()
     {
-        Debug.Log("EXPIRED: SLOWDOWN", this.target);
-        base.OnStatusExpire();
+        base.ExpireEffect();
         controller.moveSpeedMultiplier = 1f;
     }
 }

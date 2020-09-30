@@ -19,7 +19,7 @@ public class SinglePlayer : MonoBehaviour
     public bool dead = false;
     public List<StatusGroup> statusGroups = new List<StatusGroup>();
     public GameObject targetBoss;
-    public int healthPoints, manaPoints;
+    public int healthPoint, maxHP, manaPoints;
 
     //
     // ─── STRAT ──────────────────────────────────────────────────────────────────────
@@ -32,7 +32,8 @@ public class SinglePlayer : MonoBehaviour
     void Start()
     {
         controller = GetComponent<ControllerSystem>();
-        AddStatusGroup(new SlowdownGroup(gameObject));
+        GameObject shiva = GameObject.Find("Shiva");
+        AddStatusGroup(new SlowdownGroup(shiva, gameObject));
     }
 
     // Update is called once per frame
@@ -51,12 +52,12 @@ public class SinglePlayer : MonoBehaviour
         statusGroups.Add(sg);
     }
 
-    public void ApplyEffect()
+    public void RegisterEffect()
     {
         foreach (StatusGroup statusGroup in statusGroups)
         {
-            Debug.Log("Player Apply", this.gameObject);
-            statusGroup.ApplyEffect();
+            Debug.Log("Player: RegisterEffect", this.gameObject);
+            statusGroup.RegisterEffect();
         }
     }
 
@@ -67,4 +68,13 @@ public class SinglePlayer : MonoBehaviour
             enemies.Add(en.GetComponent<Enemy>());
         }
     }
+
+    public void DealDamageTest()
+    {
+        foreach (Enemy enemy in enemies)
+        {
+
+        }
+    }
+
 }

@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SlowdownGroup : StatusGroup
+public class DealDamageGroup : StatusGroup
 {
     // Wrapper
     // Start is called before the first frame update
-    public SlowdownGroup(GameObject from, GameObject target) :
+    public DealDamageGroup(GameObject from, GameObject target, int dmg) :
         base(from, target)
     {
-        Slowdown slowdown = new Slowdown(from, target);
-        Add(slowdown);
+        Add(new DealDamage(from, target, dmg));
     }
 
     public override void RegisterEffect()
     {
-        Debug.Log("SlowdownGroup: RegisterEffect", this.target);
+        Debug.Log("DealDamageGroup: RegisterEffect", this.target);
         base.RegisterEffect();
     }
 }

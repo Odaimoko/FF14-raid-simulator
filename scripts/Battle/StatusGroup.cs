@@ -9,9 +9,10 @@ public class StatusGroup
     protected List<SingleStatus> statuses = new List<SingleStatus>(); // Should be overridden, with a fixed size?
     public GameObject from, target;
     public bool expired { get; protected set; } = false;
-    
-    public StatusGroup(GameObject target)
+
+    public StatusGroup(GameObject from, GameObject target)
     {
+        this.from = from;
         this.target = target;
     }
     public void Update()
@@ -25,19 +26,19 @@ public class StatusGroup
     public void Add(SingleStatus s)
     {
         statuses.Add(s);
+        s.from = from;
         s.target = target;
     }
 
-    public virtual void ApplyEffect()
+    public virtual void RegisterEffect()
     {
         // each group will apply their effects differently
-        Debug.Log("apply: Status Group: " + this, this.target);
+        Debug.Log("Status Group: Register " + this, this.target);
         foreach (SingleStatus s in statuses)
         {
             if (!s.expired)
             {
-                Debug.Log("single status name: " + s.statusName, this.target);
-                s.ApplyEffect();
+                s.RegisterEffect();
             }
         }
     }

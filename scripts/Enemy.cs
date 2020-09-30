@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    //
+    // ─── BATTLE STATUS ─────────────────────────────────────────────────────────────────────
+    //
+    public enum BattleStatus
+    {
+        PreBattle,
+        InBattle,
+        PlayerWin,
+        PlayerLose
+    }
+
     //
     // ─── INFORMATION ────────────────────────────────────────────────────────────────
     //
@@ -15,6 +27,7 @@ public class Enemy : MonoBehaviour
     //
     [SerializeField]
     public float moveSpeed = .05f, minAtkDistance = 3f;
+    public float inBattleDistance = 10f;
     public GameObject targetCircle;
     private GameObject model; // 
 
@@ -24,18 +37,31 @@ public class Enemy : MonoBehaviour
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
 
-    public bool inBattle; // has the battle started
-    public bool targetable;
+    public bool inBattle = false; // has the battle started
+    public bool targetable = true;
     private bool isBoss; // is boss or regular
-    public bool movable { get; set; }  // if movable, boss will follow MT
+    public bool movable { get; set; } = true; // if movable, boss will follow MT
+    private bool dead = false;
+    public BattleStatus battleStatus
+    {
+        get
+        {
+            if (inBattle) return BattleStatus.InBattle;
+            else
+            {
+                if (dead)
+                    return BattleStatus.PlayerWin;
+                else if (healthPoint == maxHP) return BattleStatus.PreBattle;
+                else return BattleStatus.PlayerLose;
+            }
+        }
+    }
     [SerializeField]
     private int normalAtkRawDamage;
     public Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
     public GameObject cachedMT { get; protected set; }
-    public int healthPoint
-    {
-        get; set;
-    }
+    public int maxHP = 10;
+    public int healthPoint;
     public List<StatusGroup> statusGroups = new List<StatusGroup>();
 
     //
@@ -47,7 +73,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        movable = true;
+        healthPoint = maxHP;
     }
 
     public void RegisterEntities()
@@ -59,17 +85,33 @@ public class Enemy : MonoBehaviour
             Debug.Log($"Enemy Register: Player Added: {pl}", this.gameObject);
         }
     }
+
+    private void Update()
+    {
+        if (!inBattle && DetectInBattle()) inBattle = true;
+    }
+
     void FixedUpdate()
     {
         // Debug.Log("Enemy Fixed Update: " + movable, this.gameObject);
         MovePerFrame();
     }
 
+    bool DetectInBattle()
+    {
+        foreach (SinglePlayer p in players)
+        {
+            if (!p.dead)
+                if ((this.gameObject.transform.position - p.gameObject.transform.position).magnitude < inBattleDistance)
+                    return true;
+        }
+        return false;
+    }
+
     private GameObject GetFirstAggroPlayer()
     {
         int hi_aggro = 0;
-        // Return MT directly
-        if (cachedMT == null)
+        if (cachedMT == null || !cachedMT.GetComponent<SinglePlayer>().dead)
         {
             // if mt is not dead
             foreach (SinglePlayer p in players)
@@ -93,17 +135,18 @@ public class Enemy : MonoBehaviour
         cachedMT = null;
     }
 
-    void MovePerFrame()
+    protected virtual void MovePerFrame()
     {
         // dont follow the dead players (if he fell off the edge)
-        if (!movable) return;
+        if (!movable || !inBattle) return;
         GameObject mt = GetFirstAggroPlayer();
         if (mt)
         {
             // if not null
             Vector3 towards = mt.transform.position - gameObject.transform.position;
             towards.y = 0;
-            if (towards.magnitude < minAtkDistance) return;
+            if (towards.magnitude < minAtkDistance)
+                return;
 
             towards = towards.normalized;
             Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}", this.gameObject);
@@ -126,13 +169,26 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void ApplyEffect()
+
+    public void RegisterEffect()
     {
-        Debug.Log($"Enemy Apply effect: {this}", this.gameObject);
+        Debug.Log($"Enemy RegisterEffect: {this}", this.gameObject);
         foreach (StatusGroup statusGroup in statusGroups)
         {
-            statusGroup.ApplyEffect();
+            statusGroup.RegisterEffect();
         }
+    }
+
+    public void OnBattleStart()
+    {
+        inBattle = true;
+    }
+
+    public void OnBattleEnd()
+    {
+        // TODO: Player win or lose
+        inBattle = false;
+
     }
 }
 

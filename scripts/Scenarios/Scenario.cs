@@ -10,7 +10,7 @@ public class Scenario : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         // Init Enemy and Player
         GenerateEntities();
@@ -24,11 +24,15 @@ public class Scenario : MonoBehaviour
 
     }
 
+    public virtual void StartScenario(int phase=0)
+    {
+
+    }
     public virtual void GenerateEntities()
     {
 
     }
-    void RegisterEntities()
+    protected virtual void RegisterEntities()
     {
         // Find enemies and players in the scene
         foreach (GameObject en in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -41,8 +45,10 @@ public class Scenario : MonoBehaviour
         }
     }
 
+
     protected virtual void SetAggro()
     {
+        Debug.Log("Scenario Set Aggro.", this.gameObject);
         Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
         foreach (SinglePlayer p in players)
         {
@@ -87,5 +93,9 @@ public class Scenario : MonoBehaviour
         {
             e.aggro = new Dictionary<GameObject, int>(aggro);
         }
+    }
+    
+    public virtual void Stop(){
+        // Stop current phase
     }
 }
