@@ -11,6 +11,7 @@ public class SlowdownGroup : StatusGroup
         base(from, target)
     {
         Slowdown slowdown = new Slowdown(from, target);
+        name = "Slowdown";
         Add(slowdown);
     }
 

@@ -11,6 +11,7 @@ public class DealDamageGroup : StatusGroup
         base(from, target)
     {
         Add(new DealDamage(from, target, dmg));
+        name = "DealDamage";
     }
 
     public override void RegisterEffect()

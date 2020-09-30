@@ -6,7 +6,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
 {
     public bool inBattle = false; // has the battle started
     public bool dead = false;
-    public List<StatusGroup> statusGroups = new List<StatusGroup>();
+    public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
 
     public abstract GameObject target { get; set; }
 
@@ -31,9 +31,9 @@ public abstract class Entity : MonoBehaviour, GotDamage
     {
         StartCoroutine(AutoAttack());
     }
+
     protected virtual void Update()
     {
-
         foreach (StatusGroup statusGroup in statusGroups)
         {
             statusGroup.Update();
@@ -42,12 +42,19 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     public void GotDamage(int dmg)
     {
+        // TODO: Check Magic/Physical Vulnerability
         currentHP -= dmg;
     }
 
     public void AddStatusGroup(StatusGroup sg)
     {
         statusGroups.Add(sg);
+        // Debug.Log($"Entity {this} has {statusGroups.Count} Statuses.");
+    }
+
+    public void RemoveStatusGroup(StatusGroup sg)
+    {
+        statusGroups.Remove(sg);
         // Debug.Log($"Entity {this} has {statusGroups.Count} Statuses.");
     }
 
@@ -58,6 +65,10 @@ public abstract class Entity : MonoBehaviour, GotDamage
         {
             statusGroup.RegisterEffect();
         }
+    }
+
+    private void CheckStatusExpiration(){
+        // 
     }
 
     protected IEnumerator AutoAttack()

@@ -9,12 +9,15 @@ public class StatusGroup
     protected List<SingleStatus> statuses = new List<SingleStatus>(); // Should be overridden, with a fixed size?
     public GameObject from, target;
     public bool expired { get; protected set; } = false;
+    public string name;
+    
 
     public StatusGroup(GameObject from, GameObject target)
     {
         this.from = from;
         this.target = target;
     }
+    
     public void Update()
     {
         foreach (SingleStatus s in statuses)
@@ -41,5 +44,10 @@ public class StatusGroup
                 s.RegisterEffect();
             }
         }
+    }
+
+    public override int GetHashCode()
+    {
+        return (name + from.ToString()).GetHashCode();
     }
 }
