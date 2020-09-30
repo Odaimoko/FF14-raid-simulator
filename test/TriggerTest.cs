@@ -18,7 +18,7 @@ public class TriggerTest : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
-        Debug.Log(gameObject);
+        Debug.Log(other, this.gameObject);
+        Debug.Log(gameObject, this.gameObject);
     }
 }

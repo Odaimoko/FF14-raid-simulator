@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
-  moveSpeed: 0.1
+  moveSpeed: 0.04
   minAtkDistance: 1
   targetCircle: {fileID: 0}
   inBattle: 0

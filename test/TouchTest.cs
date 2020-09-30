@@ -5,7 +5,6 @@ using TMPro;
 public class TouchTest : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    private float startTime = 0;
     private Vector2 startPos, endPos;
     // Start is called before the first frame update
     void Start()
@@ -17,18 +16,18 @@ public class TouchTest : MonoBehaviour
     void Update()
     {
 # if UNITY_ANDROID
-        Debug.Log("Android");
+        Debug.Log("Android", this.gameObject);
 # endif
 # if UNITY_IOS
-        Debug.Log("IOS");
+        Debug.Log("IOS", this.gameObject);
 # endif
         if (Input.touchCount > 0)
         {
             Touch t = Input.GetTouch(0);
-            // Debug.Log(t.phase.ToString());
-            Debug.Log(t.fingerId);
-            Debug.Log(t.radius);
-            Debug.Log(t.tapCount);
+            // Debug.Log(t.phase.ToString(), this.gameObject);
+            Debug.Log(t.fingerId, this.gameObject);
+            Debug.Log(t.radius, this.gameObject);
+            Debug.Log(t.tapCount, this.gameObject);
             switch (t.phase)
 
             {
@@ -59,6 +58,6 @@ public class TouchTest : MonoBehaviour
                     ((theTouch.radius / (theTouch.radius + theTouch.radiusVariance)) * 100f).ToString("F1"));
         }
         text.text = multiTouchInfo;
-        Debug.Log(multiTouchInfo);
+        Debug.Log(multiTouchInfo, this.gameObject);
     }
 }

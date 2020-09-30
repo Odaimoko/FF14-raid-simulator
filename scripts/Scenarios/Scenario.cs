@@ -15,6 +15,7 @@ public class Scenario : MonoBehaviour
         // Init Enemy and Player
         GenerateEntities();
         RegisterEntities();
+        SetAggro();
     }
 
     // Update is called once per frame
@@ -38,6 +39,53 @@ public class Scenario : MonoBehaviour
         {
             players.Add(en.GetComponent<SinglePlayer>());
         }
-        
+    }
+
+    protected virtual void SetAggro()
+    {
+        Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
+        foreach (SinglePlayer p in players)
+        {
+            int agg = 0;
+            switch (p.stratPosition)
+            {
+                case SinglePlayer.StratPosition.MT:
+                    agg = 1000000;
+                    break;
+                case SinglePlayer.StratPosition.ST:
+                    agg = 600000;
+                    break;
+                case SinglePlayer.StratPosition.D4:
+                case SinglePlayer.StratPosition.D1:
+                    agg = 100000;
+                    break;
+                case SinglePlayer.StratPosition.D2:
+                case SinglePlayer.StratPosition.D3:
+                    agg = 60000;
+                    break;
+                case SinglePlayer.StratPosition.H1:
+                    agg = 50000;
+                    break;
+                case SinglePlayer.StratPosition.H2:
+                    agg = 30000;
+                    break;
+
+                default:
+                    agg = 0;
+                    break;
+            }
+            try
+            {
+                aggro.Add(p.gameObject, agg);
+            }
+            catch (System.ArgumentException)
+            {
+                aggro[p.gameObject] = agg;
+            }
+        }
+        foreach (Enemy e in enemies)
+        {
+            e.aggro = new Dictionary<GameObject, int>(aggro);
+        }
     }
 }

@@ -31,12 +31,12 @@ public class StatusGroup
     public virtual void ApplyEffect()
     {
         // each group will apply their effects differently
-        Debug.Log("apply: Status Group: " + this);
+        Debug.Log("apply: Status Group: " + this, this.target);
         foreach (SingleStatus s in statuses)
         {
             if (!s.expired)
             {
-                Debug.Log("single status name: " + s.statusName);
+                Debug.Log("single status name: " + s.statusName, this.target);
                 s.ApplyEffect();
             }
         }

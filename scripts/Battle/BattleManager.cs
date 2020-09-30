@@ -11,7 +11,6 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("ApplyStatusEffect Started");
         StartCoroutine("ApplyStatusEffect");
         scenario = GetComponent<Scenario>();
         RegisterEntities();
@@ -20,7 +19,8 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // TODO Check if somebody's dead, reset Enemy's cached MT
+        
     }
     void RegisterEntities()
     {
@@ -33,11 +33,11 @@ public class BattleManager : MonoBehaviour
         {
             players.Add(en.GetComponent<SinglePlayer>());
         }
-        Debug.Log("BM register enemy " + enemies.Count);
-        Debug.Log("BM register players " + players.Count);
+        Debug.Log("BM register enemy " + enemies.Count, this.gameObject);
+        Debug.Log("BM register players " + players.Count, this.gameObject);
         foreach (Enemy e in enemies)
         {
-            Debug.Log("BM register enemy " + e);
+            Debug.Log("BM register enemy " + e, this.gameObject);
             e.RegisterEntities();
 
         }
@@ -49,7 +49,7 @@ public class BattleManager : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("BattleManager ApplyStatusEffect Enter");
+            Debug.Log("BattleManager ApplyStatusEffect Enter", this.gameObject);
             foreach (Enemy e in enemies)
             {
                 e.ApplyEffect();

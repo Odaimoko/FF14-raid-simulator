@@ -16,14 +16,14 @@ public class Slowdown : SingleStatus
 
     public override void ApplyEffect()
     {
-        Debug.Log("APPLIED: Slowdown effect to " + target.ToString());
+        Debug.Log("APPLIED: Slowdown effect to " + target.ToString(), this.target);
         controller.moveSpeedMultiplier = 0.4f;
         base.ApplyEffect();
     }
     // As the name says
     public override void OnStatusExpire()
     {
-        Debug.Log("EXPIRED: SLOWDOWN");
+        Debug.Log("EXPIRED: SLOWDOWN", this.target);
         base.OnStatusExpire();
         controller.moveSpeedMultiplier = 1f;
     }

@@ -15,7 +15,7 @@ public class LineDrawer : MonoBehaviour
         theMeshFilter = GetComponent<MeshFilter>();
         theMesh = new Mesh();
         theMeshFilter.mesh = theMesh;
-        Debug.Log(theMeshFilter);
+        Debug.Log(theMeshFilter, this.gameObject);
         InitMesh();
     }
     void InitMesh()

@@ -38,7 +38,7 @@ public class IceRingEffect : MonoBehaviour
                 {
                     float angle = startAngle + iceInterval * i + interRingOffset;
                     Vector3 icePos = center + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
-                    // Debug.Log(icePos);
+                    // Debug.Log(icePos, this.gameObject);
                     GameObject ice = Instantiate(iceOnRingObj, icePos, iceOnRingObj.transform.rotation);
 
                     ice.transform.SetParent(item.transform);
@@ -62,7 +62,7 @@ public class IceRingEffect : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(gameObject);
-        Debug.Log(other);
+        Debug.Log(gameObject, this.gameObject);
+        Debug.Log(other, this.gameObject);
     }
 }

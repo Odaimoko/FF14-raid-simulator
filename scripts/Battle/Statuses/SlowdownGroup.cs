@@ -16,7 +16,7 @@ public class SlowdownGroup : StatusGroup
 
     public override void ApplyEffect()
     {
-        Debug.Log("APPLIED SLOWDOWNGROUP");
+        Debug.Log("APPLIED SLOWDOWNGROUP", this.target);
         base.ApplyEffect();
     }
 }

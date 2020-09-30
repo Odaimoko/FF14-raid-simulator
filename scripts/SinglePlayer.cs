@@ -55,7 +55,7 @@ public class SinglePlayer : MonoBehaviour
     {
         foreach (StatusGroup statusGroup in statusGroups)
         {
-            Debug.Log("Player Apply");
+            Debug.Log("Player Apply", this.gameObject);
             statusGroup.ApplyEffect();
         }
     }

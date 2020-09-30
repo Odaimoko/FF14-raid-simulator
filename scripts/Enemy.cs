@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     // ─── MOVEMENT ───────────────────────────────────────────────────────────────────
     //
     [SerializeField]
-    public float moveSpeed = .1f, minAtkDistance = 3f;
+    public float moveSpeed = .05f, minAtkDistance = 3f;
     public GameObject targetCircle;
     private GameObject model; // 
 
@@ -30,8 +30,8 @@ public class Enemy : MonoBehaviour
     public bool movable { get; set; }  // if movable, boss will follow MT
     [SerializeField]
     private int normalAtkRawDamage;
-    private Dictionary<GameObject, int> aggro;
-    private GameObject cachedMT;
+    public Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
+    public GameObject cachedMT { get; protected set; }
     public int healthPoint
     {
         get; set;
@@ -52,39 +52,45 @@ public class Enemy : MonoBehaviour
 
     public void RegisterEntities()
     {
-        Debug.Log("Enemy Register: Started.");
+        Debug.Log("Enemy Register: Started.", this.gameObject);
         foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
         {
             players.Add(pl.GetComponent<SinglePlayer>());
-            Debug.Log("Enemy Register: Player Added: " + pl);
+            Debug.Log($"Enemy Register: Player Added: {pl}", this.gameObject);
         }
     }
     void FixedUpdate()
     {
-        Debug.Log("Enemy Fixed Update: " + movable);
+        // Debug.Log("Enemy Fixed Update: " + movable, this.gameObject);
         MovePerFrame();
     }
 
     private GameObject GetFirstAggroPlayer()
     {
-        // int hi_aggro = 0;
-        // for 
+        int hi_aggro = 0;
         // Return MT directly
-
         if (cachedMT == null)
         {
             // if mt is not dead
             foreach (SinglePlayer p in players)
             {
-                Debug.Log("Check if " + p + " is MT: " + p.stratPosition);
-                if (p.stratPosition == SinglePlayer.StratPosition.MT)
+                Debug.Log($"Enemy Aggro: Check if {p} is MT. Aggro: {aggro[p.gameObject]}. Position: {p.stratPosition}", this.gameObject);
+                if (!p.dead)
                 {
-                    cachedMT = p.gameObject;
+                    if (aggro[p.gameObject] > hi_aggro)
+                    {
+                        cachedMT = p.gameObject;
+                    }
                 }
             }
         }
-        Debug.Log("MT is " + cachedMT);
+        Debug.Log("MT is " + cachedMT, this.gameObject);
         return cachedMT;
+    }
+
+    public void ResetMT()
+    {
+        cachedMT = null;
     }
 
     void MovePerFrame()
@@ -100,7 +106,7 @@ public class Enemy : MonoBehaviour
             if (towards.magnitude < minAtkDistance) return;
 
             towards = towards.normalized;
-            Debug.Log(this + " Move Towards " + mt + " " + towards);
+            Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}", this.gameObject);
             transform.Translate(towards * moveSpeed, Space.World);
         }
     }
@@ -122,7 +128,7 @@ public class Enemy : MonoBehaviour
 
     public void ApplyEffect()
     {
-        Debug.Log("Enemy Apply effect: " + this);
+        Debug.Log($"Enemy Apply effect: {this}", this.gameObject);
         foreach (StatusGroup statusGroup in statusGroups)
         {
             statusGroup.ApplyEffect();

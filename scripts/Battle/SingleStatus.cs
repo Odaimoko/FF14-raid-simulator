@@ -45,12 +45,12 @@ public class SingleStatus
     // Called per period (3 secs)
     public virtual void ApplyEffect()
     {
-        Debug.Log("apply: Single Status " + this);
+        Debug.Log("apply: Single Status " + this, this.target);
         //TODO which will be called?
     }
     // As the name says
     public virtual void OnStatusExpire()
     {
-        Debug.Log("expired: base class " + this);
+        Debug.Log("expired: base class " + this, this.target);
     }
 }
