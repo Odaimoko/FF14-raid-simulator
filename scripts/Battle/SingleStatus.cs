@@ -63,12 +63,10 @@ public class SingleStatus
     {
         if (!expired)
         {
-            Debug.Log($"SingleStatus ({this}): From {from} to {target}", this.target);
             NormalEffect();
         }
         else
         {
-            Debug.Log($"SingleStatus ({this}) Expired: From {from} to {target}", this.target);
             ExpireEffect();
         }
     }

@@ -17,7 +17,7 @@ public class Enemy : Entity
     // ─── MOVEMENT ───────────────────────────────────────────────────────────────────
     //
     [SerializeField]
-    public float moveSpeed = .05f, minAtkDistance = 3f;
+    public float moveSpeed = .05f;
     public float inBattleDistance = 10f;
     public GameObject targetCircle;
     private GameObject model; // 
@@ -49,7 +49,19 @@ public class Enemy : Entity
     private int normalAtkRawDamage;
     public Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
     public GameObject cachedMT { get; protected set; }
-
+    public override GameObject target
+    {
+        get
+        {
+            GameObject go = GetFirstAggroPlayer();
+            Debug.Log($"Enemy ({this}) Get Target: {go}.", gameObject);
+            return go;
+        }
+        set
+        {
+            cachedMT = value;
+        }
+    }
     //
     // ─── UI ─────────────────────────────────────────────────────────────────────────
     //
@@ -57,8 +69,9 @@ public class Enemy : Entity
     public bool shownInEnemyList;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         currentHP = maxHP;
     }
 
@@ -136,15 +149,11 @@ public class Enemy : Entity
                 return;
 
             towards = towards.normalized;
-            Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}", this.gameObject);
+            // Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}", this.gameObject);
             transform.Translate(towards * moveSpeed, Space.World);
         }
     }
 
-    void NormalAtk()
-    {
-
-    }
 
     void CastingAtk()
     {

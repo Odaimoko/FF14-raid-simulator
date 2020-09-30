@@ -94,7 +94,7 @@ public class BattleManager : MonoBehaviour
 
     void ApplyEventQueue()
     {
-        Debug.Log("BM: Apply all effects.");
+        // Debug.Log("BM: Apply all effects.");
         foreach (SingleStatus s in eventQueue)
         {
             s.Apply();

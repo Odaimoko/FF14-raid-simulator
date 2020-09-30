@@ -16,7 +16,18 @@ public class SinglePlayer : Entity, GotDamage
     //
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
-    public GameObject targetBoss;
+    public override GameObject target
+    {
+        get
+        {
+            Debug.Log($"SinglePlayer ({this}) Get Target", gameObject);
+            return null;
+        }
+        set
+        {
+
+        }
+    }
     public int manaPoints;
 
     //
@@ -27,12 +38,13 @@ public class SinglePlayer : Entity, GotDamage
     public bool controllable = true;
 
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         controller = GetComponent<ControllerSystem>();
-        GameObject shiva = GameObject.Find("Shiva");
-        AddStatusGroup(new SlowdownGroup(shiva, gameObject));
-        DealDamageTest();
+        // GameObject shiva = GameObject.Find("Shiva");
+        // AddStatusGroup(new SlowdownGroup(shiva, gameObject));
+        // DealDamageTest();
     }
 
     // Update is called once per frame
