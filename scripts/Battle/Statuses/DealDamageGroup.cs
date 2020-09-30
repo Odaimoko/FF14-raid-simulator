@@ -15,7 +15,6 @@ public class DealDamageGroup : StatusGroup
 
     public override void RegisterEffect()
     {
-        Debug.Log("DealDamageGroup: RegisterEffect", this.target);
         base.RegisterEffect();
     }
 }

@@ -35,34 +35,40 @@ public class SingleStatus
 
     public void Update()
     {
-        countdown -= Time.deltaTime;
+        if (countdown >= 0)
+        {
+            countdown -= Time.deltaTime;
+            // Debug.Log($"SingleStatus ({this}) Countdown: {countdown}");
+        }
         if (countdown < 0 && !expired)
         {
             expired = true;
+            Debug.Log($"SingleStatus ({this} Expired. Registering.");
             RegisterEffect();
         }
     }
     protected virtual void NormalEffect()
     {
-
+        Debug.Log($"SingleStatus ({this}) Normal: From {from} to {target}", this.target);
     }
 
     protected virtual void ExpireEffect()
     {
 
+        Debug.Log($"SingleStatus ({this}) Expire: From {from} to {target}", this.target);
     }
 
-    
+
     public void Apply()
     {
         if (!expired)
         {
-            Debug.Log($"{this}: From {from} to {target}", this.target);
+            Debug.Log($"SingleStatus ({this}): From {from} to {target}", this.target);
             NormalEffect();
         }
         else
         {
-            Debug.Log($"{this} Expired: From {from} to {target}", this.target);
+            Debug.Log($"SingleStatus ({this}) Expired: From {from} to {target}", this.target);
             ExpireEffect();
         }
     }
@@ -70,7 +76,7 @@ public class SingleStatus
     // Called per period (3 secs)
     public void RegisterEffect()
     {
-        Debug.Log("Single Status: RegisterEffect: " + this, this.target);
+        Debug.Log($"SingleStatus ({this}) RegisterEffect: " + this, this.target);
         BattleManager bm = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
         bm.AddEvent(this);
     }

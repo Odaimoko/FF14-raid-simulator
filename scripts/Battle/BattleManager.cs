@@ -27,14 +27,14 @@ public class BattleManager : MonoBehaviour
             {
                 switch (e.battleStatus)
                 {
-                    case Enemy.BattleStatus.InBattle:
+                    case EntityBattleStatus.InBattle:
                         prebattle = false;
                         return BattleStatus.InBattle;
-                    case Enemy.BattleStatus.PlayerLose:
-                    case Enemy.BattleStatus.PlayerWin:
+                    case EntityBattleStatus.PlayerLose:
+                    case EntityBattleStatus.PlayerWin:
                         prebattle = false;
                         break;
-                    case Enemy.BattleStatus.PreBattle:
+                    case EntityBattleStatus.PreBattle:
                         break;
                 }
             }
@@ -56,10 +56,11 @@ public class BattleManager : MonoBehaviour
     void Update()
     {
         CheckBattleStatus();
-        if (battleStatus == BattleStatus.InBattle)
-        {
-            ApplyEventQueue();
-        }
+        ApplyEventQueue();
+        // if (battleStatus == BattleStatus.InBattle)
+        // {
+        //     ApplyEventQueue();
+        // }
     }
 
 

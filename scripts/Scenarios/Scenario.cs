@@ -24,7 +24,7 @@ public class Scenario : MonoBehaviour
 
     }
 
-    public virtual void StartScenario(int phase=0)
+    public virtual void StartScenario(int phase = 0)
     {
 
     }
@@ -94,8 +94,9 @@ public class Scenario : MonoBehaviour
             e.aggro = new Dictionary<GameObject, int>(aggro);
         }
     }
-    
-    public virtual void Stop(){
+
+    public virtual void Stop()
+    {
         // Stop current phase
     }
 }

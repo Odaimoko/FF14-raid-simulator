@@ -9,29 +9,23 @@ public class DealDamage : SingleStatus
     public DealDamage(GameObject from, GameObject target, int dmg) :
         base(from, target)
     {
-        duration = .1f;
-        countdown = .1f;
+        duration = 1;
+        countdown = 1;
         damage = dmg;
     }
 
-    // public override void Apply()
-    // {
-    //     base.Apply();
-    //     if (!expired)
-    //     {
-    //     }
-    //     else
-    //     {
-    //         Debug.Log($"Deal {damage} Damage to {target}", target);
-    //     }
-    // }
     protected override void NormalEffect()
     {
         base.NormalEffect();
+        Debug.Log($"DealDamage Normal. {countdown}", target);
     }
 
     protected override void ExpireEffect()
     {
         base.ExpireEffect();
+
+        Entity e = target.GetComponent<Entity>();
+        Debug.Log($"DealDamage {damage}!!! {e}", target);
+        e.GotDamage(damage);
     }
 }

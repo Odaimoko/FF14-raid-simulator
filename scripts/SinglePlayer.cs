@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ControllerSystem))]
-public class SinglePlayer : MonoBehaviour
+public class SinglePlayer : Entity, GotDamage
 {
     public List<Enemy> enemies = new List<Enemy>();
 
@@ -16,10 +16,8 @@ public class SinglePlayer : MonoBehaviour
     //
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
-    public bool dead = false;
-    public List<StatusGroup> statusGroups = new List<StatusGroup>();
     public GameObject targetBoss;
-    public int healthPoint, maxHP, manaPoints;
+    public int manaPoints;
 
     //
     // ─── STRAT ──────────────────────────────────────────────────────────────────────
@@ -34,32 +32,18 @@ public class SinglePlayer : MonoBehaviour
         controller = GetComponent<ControllerSystem>();
         GameObject shiva = GameObject.Find("Shiva");
         AddStatusGroup(new SlowdownGroup(shiva, gameObject));
+        DealDamageTest();
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (controllable)
             controller.Control();
-        foreach (StatusGroup statusGroup in statusGroups)
-        {
-            statusGroup.Update();
-        }
     }
 
-    public void AddStatusGroup(StatusGroup sg)
-    {
-        statusGroups.Add(sg);
-    }
 
-    public void RegisterEffect()
-    {
-        foreach (StatusGroup statusGroup in statusGroups)
-        {
-            Debug.Log("Player: RegisterEffect", this.gameObject);
-            statusGroup.RegisterEffect();
-        }
-    }
 
     public void RegisterEntities()
     {
@@ -73,7 +57,7 @@ public class SinglePlayer : MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
-
+            enemy.AddStatusGroup(new DealDamageGroup(gameObject, enemy.gameObject, 4));
         }
     }
 

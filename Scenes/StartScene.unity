@@ -690,12 +690,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abcd69e96b98443268c45a486bee493e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inBattle: 0
+  dead: 0
+  maxHP: 16
+  currentHP: 0
   players: []
   moveSpeed: 0.04
   minAtkDistance: 1
   inBattleDistance: 10
   targetCircle: {fileID: 0}
-  inBattle: 0
   targetable: 0
   normalAtkRawDamage: 0
   shownInEnemyList: 0
@@ -758,7 +761,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800210547}
   m_LocalRotation: {x: 0.37703264, y: 0, z: 0, w: 0.9262}
-  m_LocalPosition: {x: 0, y: 0.72, z: 0}
+  m_LocalPosition: {x: 1.32, y: 0.72, z: 6.6}
   m_LocalScale: {x: 1, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1077,7 +1080,7 @@ GameObject:
   - component: {fileID: 1257624460}
   m_Layer: 0
   m_Name: Battle  Manager
-  m_TagString: Untagged
+  m_TagString: BattleManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6094,10 +6097,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e866ebe3eb3d493d80c8e519e6f9fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
+  inBattle: 0
   dead: 0
+  maxHP: 43
+  currentHP: 16
+  enemies: []
   targetBoss: {fileID: 0}
-  healthPoints: 0
   manaPoints: 0
   job: 
   stratPosition: 0

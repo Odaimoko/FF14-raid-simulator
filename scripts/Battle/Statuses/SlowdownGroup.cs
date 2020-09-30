@@ -16,7 +16,6 @@ public class SlowdownGroup : StatusGroup
 
     public override void RegisterEffect()
     {
-        Debug.Log("SlowdownGroup: RegisterEffect", this.target);
         base.RegisterEffect();
     }
 }

@@ -33,7 +33,7 @@ public class StatusGroup
     public virtual void RegisterEffect()
     {
         // each group will apply their effects differently
-        Debug.Log("Status Group: Register " + this, this.target);
+        Debug.Log($"Status Group ({this}) RegisterEffect.", this.target);
         foreach (SingleStatus s in statuses)
         {
             if (!s.expired)

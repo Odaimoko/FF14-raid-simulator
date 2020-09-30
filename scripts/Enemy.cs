@@ -2,19 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
 
-    //
-    // ─── BATTLE STATUS ─────────────────────────────────────────────────────────────────────
-    //
-    public enum BattleStatus
-    {
-        PreBattle,
-        InBattle,
-        PlayerWin,
-        PlayerLose
-    }
+
 
     //
     // ─── INFORMATION ────────────────────────────────────────────────────────────────
@@ -37,22 +28,20 @@ public class Enemy : MonoBehaviour
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
 
-    public bool inBattle = false; // has the battle started
     public bool targetable = true;
     private bool isBoss; // is boss or regular
     public bool movable { get; set; } = true; // if movable, boss will follow MT
-    private bool dead = false;
-    public BattleStatus battleStatus
+    public EntityBattleStatus battleStatus
     {
         get
         {
-            if (inBattle) return BattleStatus.InBattle;
+            if (inBattle) return EntityBattleStatus.InBattle;
             else
             {
                 if (dead)
-                    return BattleStatus.PlayerWin;
-                else if (healthPoint == maxHP) return BattleStatus.PreBattle;
-                else return BattleStatus.PlayerLose;
+                    return EntityBattleStatus.PlayerWin;
+                else if (healthPoint == maxHP) return EntityBattleStatus.PreBattle;
+                else return EntityBattleStatus.PlayerLose;
             }
         }
     }
@@ -60,9 +49,6 @@ public class Enemy : MonoBehaviour
     private int normalAtkRawDamage;
     public Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
     public GameObject cachedMT { get; protected set; }
-    public int maxHP = 10;
-    public int healthPoint;
-    public List<StatusGroup> statusGroups = new List<StatusGroup>();
 
     //
     // ─── UI ─────────────────────────────────────────────────────────────────────────
@@ -73,21 +59,22 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        healthPoint = maxHP;
+        currentHP = maxHP;
     }
 
     public void RegisterEntities()
     {
-        Debug.Log("Enemy Register: Started.", this.gameObject);
+        Debug.Log("Enemy RegisterEntities Started.", this.gameObject);
         foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
         {
             players.Add(pl.GetComponent<SinglePlayer>());
-            Debug.Log($"Enemy Register: Player Added: {pl}", this.gameObject);
+            Debug.Log($"Enemy RegisterEntities: Player Added: {pl}", this.gameObject);
         }
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (!inBattle && DetectInBattle()) inBattle = true;
     }
 
@@ -167,16 +154,6 @@ public class Enemy : MonoBehaviour
     private void ResetVariable()
     {
 
-    }
-
-
-    public void RegisterEffect()
-    {
-        Debug.Log($"Enemy RegisterEffect: {this}", this.gameObject);
-        foreach (StatusGroup statusGroup in statusGroups)
-        {
-            statusGroup.RegisterEffect();
-        }
     }
 
     public void OnBattleStart()
