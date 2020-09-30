@@ -116,7 +116,7 @@ public class Enemy : Entity
             // if mt is not dead
             foreach (SinglePlayer p in players)
             {
-                Debug.Log($"Enemy Aggro: Check if {p} is MT. Aggro: {aggro[p.gameObject]}. Position: {p.stratPosition}", this.gameObject);
+                // Debug.Log($"Enemy Aggro: Check if {p} is MT. Aggro: {aggro[p.gameObject]}. Position: {p.stratPosition}", this.gameObject);
                 if (!p.dead)
                 {
                     if (aggro[p.gameObject] > hi_aggro)
@@ -126,7 +126,7 @@ public class Enemy : Entity
                 }
             }
         }
-        Debug.Log("MT is " + cachedMT, this.gameObject);
+        // Debug.Log("MT is " + cachedMT, this.gameObject);
         return cachedMT;
     }
 

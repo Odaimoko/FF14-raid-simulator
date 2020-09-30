@@ -48,6 +48,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
     public void AddStatusGroup(StatusGroup sg)
     {
         statusGroups.Add(sg);
+        // Debug.Log($"Entity {this} has {statusGroups.Count} Statuses.");
     }
 
     public void RegisterEffect()
@@ -70,14 +71,16 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     protected void AutoAttack(GameObject target)
     {
-        Debug.Log($"{this} prepares to AutoAttack target: " + target);
+        // Debug.Log($"{this} prepares to AutoAttack target: " + target);
         if (target != null)
         {
             // TODO: Damage calculation
-            Debug.Log($"Entity AutoAttack: From {this} to {target}");
+            Vector3 towards = target.transform.position - gameObject.transform.position;
+            towards.y = 0;
             int damage = 10; // How much damage will be dealt. Calculated by the target and this object's statistics
-            if (Vector3.Distance(target.transform.position, gameObject.transform.position) < minAtkDistance)
+            if (towards.magnitude <= minAtkDistance)
             {
+                Debug.Log($"Entity AutoAttack Prepares: From {this} to {target}");
                 AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, damage));
             }
         }
