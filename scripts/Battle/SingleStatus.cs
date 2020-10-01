@@ -21,11 +21,16 @@ public class SingleStatus
     public float duration { get; protected set; } // how long it will last
     public float countdown { get; protected set; } // remaining time
     public bool expired { get; protected set; } = false;
+    protected bool lostAfterDeath = true;
+    // if this status has effect once attached to an entity
+    protected bool effectiveAtOnce = false;
+    //
+    // ─── METAINFO ───────────────────────────────────────────────────────────────────
+    //
     public string statusName, statusDescription;
     public bool showIcon; // should we show icon on ui
     protected GameObject icon; // prefab
     // TODO: Effect variable
-    protected bool lostAfterDeath = true;
 
     public SingleStatus(GameObject from, GameObject target)
     {
@@ -71,11 +76,21 @@ public class SingleStatus
         }
     }
 
+    // called when the status is first attached to an entity
+    public void OnAttachedToEntity()
+    {
+        if (effectiveAtOnce)
+        {
+            BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BMTag).GetComponent<BattleManager>();
+            bm.AddEvent(this);
+        }
+    }
+
     // Called per period (3 secs)
     public void RegisterEffect()
     {
         Debug.Log($"SingleStatus ({this}) RegisterEffect: " + this, this.target);
-        BattleManager bm = GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>();
+        BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BMTag).GetComponent<BattleManager>();
         bm.AddEvent(this);
     }
 }

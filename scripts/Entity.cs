@@ -6,10 +6,13 @@ public abstract class Entity : MonoBehaviour, GotDamage
 {
     public bool inBattle = false; // has the battle started
     public bool dead = false;
-    public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
+
+
+    //
+    // ─── BATTLE ─────────────────────────────────────────────────────────────────────
+    //
 
     public abstract GameObject target { get; set; }
-
     [SerializeField]
     protected float minAtkDistance = 3f, autoAtkInterval = 3f;
     public int maxHP = 10;
@@ -27,9 +30,15 @@ public abstract class Entity : MonoBehaviour, GotDamage
             // check dead or not
         }
     }
+
+    public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
+
+    
     protected virtual void Start()
     {
         StartCoroutine(AutoAttack());
+        StartCoroutine(CheckStatusExpiration());
+
     }
 
     protected virtual void Update()
@@ -49,13 +58,13 @@ public abstract class Entity : MonoBehaviour, GotDamage
     public void AddStatusGroup(StatusGroup sg)
     {
         statusGroups.Add(sg);
-        // Debug.Log($"Entity {this} has {statusGroups.Count} Statuses.");
+        Debug.Log($"Entity {this} adds {sg.ToString()}, has {statusGroups.Count} statuses.");
     }
 
     public void RemoveStatusGroup(StatusGroup sg)
     {
+        Debug.Log($"Entity {this} removes {sg.ToString()}, has {statusGroups.Count} statuses.");
         statusGroups.Remove(sg);
-        // Debug.Log($"Entity {this} has {statusGroups.Count} Statuses.");
     }
 
     public void RegisterEffect()
@@ -67,8 +76,24 @@ public abstract class Entity : MonoBehaviour, GotDamage
         }
     }
 
-    private void CheckStatusExpiration(){
-        // 
+    IEnumerator CheckStatusExpiration()
+    {
+        // if some statusGroup is expired, remove it from the Hashset
+        // Lazy remove
+        while (true)
+        {
+
+            List<StatusGroup> toremove = new List<StatusGroup>();
+            foreach (StatusGroup statusGroup in statusGroups)
+            {
+                if (statusGroup.expired) toremove.Add(statusGroup);
+            }
+            foreach (StatusGroup item in toremove)
+            {
+                RemoveStatusGroup(item);
+            }
+            yield return new WaitForSeconds(3f);
+        }
     }
 
     protected IEnumerator AutoAttack()

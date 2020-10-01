@@ -42,7 +42,18 @@ public class BattleManager : MonoBehaviour
             else return BattleStatus.PostBattle;
         }
     }
-    private List<SingleStatus> eventQueue = new List<SingleStatus>(); // Pending Effects 
+
+    // Pending Effects 
+    private List<SingleStatus> eventQueue = new List<SingleStatus>();
+
+
+    //
+    // ─── BUFF DEBUFF MANAGEMENT ──────────────────────────────────────────────────────
+    //
+
+    private float checkEvery = 3f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,6 +105,7 @@ public class BattleManager : MonoBehaviour
 
     void ApplyEventQueue()
     {
+        // TODO: Lock?
         // Debug.Log("BM: Apply all effects.");
         foreach (SingleStatus s in eventQueue)
         {
@@ -102,6 +114,7 @@ public class BattleManager : MonoBehaviour
         eventQueue.Clear();
     }
 
+    // called every Interval seconds
     IEnumerator RegisterStatusEffect()
     {
         while (true)
@@ -115,7 +128,7 @@ public class BattleManager : MonoBehaviour
             {
                 p.RegisterEffect();
             }
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(checkEvery);
         }
     }
 

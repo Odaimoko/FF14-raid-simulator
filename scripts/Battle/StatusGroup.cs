@@ -8,16 +8,30 @@ public class StatusGroup
     // Shoul dbe attached to every player or enemy
     protected List<SingleStatus> statuses = new List<SingleStatus>(); // Should be overridden, with a fixed size?
     public GameObject from, target;
-    public bool expired { get; protected set; } = false;
+    public bool expired
+    {
+        get
+        {
+            bool isExpire = true;
+            foreach (SingleStatus s in statuses)
+            {
+                if (!s.expired)
+                {
+                    return false;
+                }
+            }
+            return isExpire;
+        }
+    }
     public string name;
-    
+
 
     public StatusGroup(GameObject from, GameObject target)
     {
         this.from = from;
         this.target = target;
     }
-    
+
     public void Update()
     {
         foreach (SingleStatus s in statuses)
@@ -28,9 +42,11 @@ public class StatusGroup
 
     public void Add(SingleStatus s)
     {
+        // Assume s' from and target is properly set
         statuses.Add(s);
-        s.from = from;
-        s.target = target;
+        // this will not have effect since the default behaviour 
+        // is not to take effect on attach
+        s.OnAttachedToEntity();
     }
 
     public virtual void RegisterEffect()
@@ -44,6 +60,11 @@ public class StatusGroup
                 s.RegisterEffect();
             }
         }
+    }
+
+    public override string ToString()
+    {
+        return $"StatusGroup: {name} ({from}->{target}).";
     }
 
     public override int GetHashCode()
