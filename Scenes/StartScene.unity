@@ -692,11 +692,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBattle: 0
   dead: 0
+  minAtkDistance: 1
+  autoAtkInterval: 3
   maxHP: 16
   currentHP: 0
   players: []
   moveSpeed: 0.04
-  minAtkDistance: 1
   inBattleDistance: 10
   targetCircle: {fileID: 0}
   targetable: 0
@@ -6099,10 +6100,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBattle: 0
   dead: 0
+  minAtkDistance: 3
+  autoAtkInterval: 3
   maxHP: 43
   currentHP: 16
   enemies: []
-  targetBoss: {fileID: 0}
   manaPoints: 0
   job: 
   stratPosition: 0

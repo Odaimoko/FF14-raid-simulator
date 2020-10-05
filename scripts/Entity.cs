@@ -31,9 +31,20 @@ public abstract class Entity : MonoBehaviour, GotDamage
         }
     }
 
+    // if casting, boss wont move and AA
+    private bool _casting;
+    public bool casting
+    {
+        get { return _casting; }
+        set
+        {
+            _casting = value;
+        }
+    }
+
     public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
 
-    
+
     protected virtual void Start()
     {
         StartCoroutine(AutoAttack());
@@ -107,7 +118,11 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     protected void AutoAttack(GameObject target)
     {
-        // Debug.Log($"{this} prepares to AutoAttack target: " + target);
+        if (casting)
+        {
+            Debug.Log($"Entity {this} AutoAttack: Casting.");
+            return;
+        }
         if (target != null)
         {
             // TODO: Damage calculation

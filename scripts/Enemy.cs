@@ -30,7 +30,6 @@ public class Enemy : Entity
 
     public bool targetable = true;
     private bool isBoss; // is boss or regular
-    public bool movable { get; set; } = true; // if movable, boss will follow MT
     public EntityBattleStatus battleStatus
     {
         get
@@ -93,7 +92,6 @@ public class Enemy : Entity
 
     void FixedUpdate()
     {
-        // Debug.Log("Enemy Fixed Update: " + movable, this.gameObject);
         MovePerFrame();
     }
 
@@ -138,7 +136,7 @@ public class Enemy : Entity
     protected virtual void MovePerFrame()
     {
         // dont follow the dead players (if he fell off the edge)
-        if (!movable || !inBattle) return;
+        if (casting || !inBattle) return;
         GameObject mt = GetFirstAggroPlayer();
         if (mt)
         {

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator), typeof(Rigidbody))]
 public class ControllerSystem : MonoBehaviour
 {
     // For keyboard and mouse, console and mobile
     public Camera mainCam;
+    private Animator animator;
     public float moveSpeed
     {
         get => defaultMoveSpeed * moveSpeedMultiplier;
@@ -25,6 +27,7 @@ public class ControllerSystem : MonoBehaviour
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -33,11 +36,17 @@ public class ControllerSystem : MonoBehaviour
 
     public void Control()
     {
-        if(!canControl)return;
+        if (!canControl) return;
         Vector3 inputVec = GetInputVector();
         if (inputVec.magnitude > 0.1)
+        {
             MoveByWorldVector(inputVec);
-        ChangeAnimation();
+            ChangeAnimation(true);
+        }
+        else
+        {
+            ChangeAnimation(false);
+        }
     }
 
     Vector3 GetCamForward()
@@ -46,7 +55,6 @@ public class ControllerSystem : MonoBehaviour
         towards.y = 0;
         towards = towards.normalized;
         return towards;
-
     }
 
     Vector3 GetInputVector()
@@ -114,8 +122,27 @@ public class ControllerSystem : MonoBehaviour
         }
     }
 
-    void ChangeAnimation()
+    void ChangeAnimation(bool move)
     {
+        if (move)
+        {
+            if (moveSpeedMultiplier > .5)
+            {
+                animator.SetBool("Run", true);
+                animator.SetBool("Walk", false);
+            }
+            else
+            {
+                animator.SetBool("Walk", true);
+                animator.SetBool("Run", false);
+            }
+        }
+        else
+        {
+            animator.SetBool("Run", false);
+            animator.SetBool("Walk", false);
+
+        }
     }
 
     Vector2 GetKeyBoardInput()

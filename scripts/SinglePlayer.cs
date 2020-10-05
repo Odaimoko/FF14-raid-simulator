@@ -42,8 +42,8 @@ public class SinglePlayer : Entity, GotDamage
     {
         base.Start();
         controller = GetComponent<ControllerSystem>();
-        // GameObject shiva = GameObject.Find("Shiva");
-        // AddStatusGroup(new SlowdownGroup(shiva, gameObject));
+        GameObject shiva = GameObject.Find("Shiva");
+        AddStatusGroup(new SlowdownGroup(shiva, gameObject));
         // DealDamageTest();
     }
 
