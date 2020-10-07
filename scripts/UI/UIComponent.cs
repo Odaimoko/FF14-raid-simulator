@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UIComponent : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Vector2 position;
+     
     void Start()
     {
         

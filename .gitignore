@@ -255,3 +255,5 @@ ehthumbs.db
 Thumbs.db
 Chicken
 lib/
+*.otf
+*.ttf 
