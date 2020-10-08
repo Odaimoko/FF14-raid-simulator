@@ -12,6 +12,7 @@ public class Slowdown : SingleStatus
         controller = this.target.GetComponent<ControllerSystem>();
         duration = 10;
         countdown = 10;
+        effectiveAtOnce = true;
     }
 
     protected override void NormalEffect()
@@ -19,7 +20,7 @@ public class Slowdown : SingleStatus
         base.NormalEffect();
         controller.moveSpeedMultiplier = 0.4f;
     }
-    
+
     protected override void ExpireEffect()
     {
         base.ExpireEffect();

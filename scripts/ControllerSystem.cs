@@ -14,7 +14,7 @@ public class ControllerSystem : MonoBehaviour
         set { }
     }
     //  sometimes the player cannot control themselves
-    public bool canControl { get; set; } = true;
+    public bool controllable { get; set; } = true;
 
     private float defaultMoveSpeed = 4f;
     // Accerlarate, or slowdown
@@ -36,7 +36,7 @@ public class ControllerSystem : MonoBehaviour
 
     public void Control()
     {
-        if (!canControl) return;
+        if (!controllable) return;
         Vector3 inputVec = GetInputVector();
         if (inputVec.magnitude > 0.1)
         {

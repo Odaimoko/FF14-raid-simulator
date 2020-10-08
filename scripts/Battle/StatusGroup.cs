@@ -6,7 +6,7 @@ public class StatusGroup
 {
     // The Buff/Debuff Manager to handle the status expiration and effect
     // Shoul dbe attached to every player or enemy
-    protected List<SingleStatus> statuses = new List<SingleStatus>(); // Should be overridden, with a fixed size?
+    public List<SingleStatus> statuses = new List<SingleStatus>(); // Should be overridden, with a fixed size?
     public GameObject from, target;
     public bool expired
     {

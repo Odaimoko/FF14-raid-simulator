@@ -59,7 +59,7 @@ public class SingleStatus
 
     protected virtual void ExpireEffect()
     {
-
+        // TODO: tell UI manager to eliminate this
         Debug.Log($"SingleStatus ({this}) Expire: From {from} to {target}", this.target);
     }
 
@@ -81,7 +81,7 @@ public class SingleStatus
     {
         if (effectiveAtOnce)
         {
-            BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BMTag).GetComponent<BattleManager>();
+            BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM_Tag).GetComponent<BattleManager>();
             bm.AddEvent(this);
         }
     }
@@ -90,7 +90,7 @@ public class SingleStatus
     public void RegisterEffect()
     {
         Debug.Log($"SingleStatus ({this}) RegisterEffect: " + this, this.target);
-        BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BMTag).GetComponent<BattleManager>();
+        BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM_Tag).GetComponent<BattleManager>();
         bm.AddEvent(this);
     }
 }

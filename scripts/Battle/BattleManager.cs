@@ -12,6 +12,8 @@ public class BattleManager : MonoBehaviour
     }
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
+    // default MT
+    public SinglePlayer.StratPosition playerPosition = SinglePlayer.StratPosition.MT;
     public Scenario scenario;
     private BattleStatus prevBattleStatus = BattleStatus.PreBattle;
     private BattleStatus battleStatus
@@ -53,11 +55,17 @@ public class BattleManager : MonoBehaviour
 
     private float checkEvery = 3f;
 
+    //
+    // ─── UI ─────────────────────────────────────────────────────────────────────────
+    //
+
+    private UIManager uIManager;
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine("RegisterStatusEffect");
+        uIManager = GetComponent<UIManager>();
         scenario = GetComponent<Scenario>();
         scenario.Init();
         RegisterEntities();
@@ -68,12 +76,22 @@ public class BattleManager : MonoBehaviour
     {
         CheckBattleStatus();
         ApplyEventQueue();
+        UpdateUI();
         // if (battleStatus == BattleStatus.InBattle)
         // {
         //     ApplyEventQueue();
         // }
     }
 
+    void InitUI()
+    {
+
+    }
+
+    void UpdateUI()
+    {
+
+    }
 
     void RegisterEntities()
     {

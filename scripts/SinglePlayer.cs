@@ -12,7 +12,7 @@ public class SinglePlayer : Entity, GotDamage
         MT, ST, H1, H2, D1, D2, D3, D4
     }
 
-    private ControllerSystem controller;
+    public ControllerSystem controller;
     //
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
@@ -37,13 +37,17 @@ public class SinglePlayer : Entity, GotDamage
     public StratPosition stratPosition; // D1234 H12 MST
     public bool controllable = true;
 
-
-    protected override void Start()
+    private void Awake()
     {
-        base.Start();
+        // controller should be init here so UI manager can find controller.
         controller = GetComponent<ControllerSystem>();
         GameObject shiva = GameObject.Find("Shiva");
         AddStatusGroup(new SlowdownGroup(shiva, gameObject));
+
+    }
+    protected override void Start()
+    {
+        base.Start();
         // DealDamageTest();
     }
 
