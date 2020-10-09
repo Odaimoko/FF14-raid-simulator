@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,17 +15,20 @@ public class UIManager : MonoBehaviour
     public List<GameObject> partylistItems = new List<GameObject>();
     public GameObject statusListGO;
     public GameObject statusIconPrefab;
-    public List<StatusSet> statusSets = new List<StatusSet>();
+    public Dictionary<int, StatusSet> statusSets = new Dictionary<int, StatusSet>();
     void Start()
     {
         RegisterEntities();
         InitPartylist();
-        InitStatusList();
+        OnStatusListChange();
+        InitTargetInfo();
     }
 
     void Update()
     {
         UpdateStatusList();
+        UpdatePartyList();
+        UpdateTargetInfo();
     }
 
     public void InitPartylist(int numPlayers = 8)
@@ -32,7 +36,7 @@ public class UIManager : MonoBehaviour
         // partylistItems[i] is according to the order in default
         // change the position of the item, not the assignment
         int controlled_player = (int)controlledPlayer.stratPosition;
-        Debug.Log($"UIManager InitPartylist: Finding {Constants.UI_PartyListItemPrefix + controlled_player}...");
+        Debug.Log($"UIManager InitPartylist: Finding {Constants.UI.PartyListItemPrefix + controlled_player}...");
         int pos = 0;
         for (int i = 0; i < numPlayers; i++)
         {
@@ -41,9 +45,9 @@ public class UIManager : MonoBehaviour
             else if (i == controlled_player) pos = 0;
             else pos = i;
 
-            float offset = Constants.UI_PartyListYStart - pos * Constants.UI_PartyListYInterval;
+            float offset = Constants.UI.PartyListYStart - pos * Constants.UI.PartyListYInterval;
             Debug.Log($"UIManager InitPartylist: player {i}, should be at pos {pos}, offset {offset}");
-            RectTransform t = partyList.transform.Find(Constants.UI_PartyListItemPrefix + i).GetComponent<RectTransform>();
+            RectTransform t = partyList.transform.Find(Constants.UI.PartyListItemPrefix + i).GetComponent<RectTransform>();
             // Set position on Canvas
             t.anchoredPosition = new Vector2(t.anchoredPosition.x, offset);
             // set name
@@ -53,29 +57,42 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void InitStatusList()
+    public void UpdatePartyList()
+    {
+
+    }
+    public void OnStatusListChange()
     {
         int i = 0;
+        Debug.Log($"UIManager OnStatusListChange Start. {controlledPlayer.statusGroups.Count} Groups.", this.gameObject);
         foreach (StatusGroup statusGroup in controlledPlayer.statusGroups)
         {
-
-            Debug.Log($"UIManager InitStatusList {statusGroup}", this.gameObject);
             foreach (SingleStatus status in statusGroup.statuses)
             {
+                Debug.Log($"UIManager OnStatusListChange Has Key {status.statusName}/{status.GetHashCode()}: {statusSets.ContainsKey(status.GetHashCode())}");
+                if (!status.showIcon || statusSets.ContainsKey(status.GetHashCode()))
+                    continue;
+                Debug.Log($"UIManager OnStatusListChange {status.statusName}", this.gameObject);
                 Vector2 offset = GetIconOffset(i);
                 GameObject icon = Instantiate(statusIconPrefab, statusListGO.transform.position, statusListGO.transform.rotation);
+                icon.name = status.statusName;
                 // set its parent to Status list or it won not appear
                 icon.transform.SetParent(statusListGO.transform);
                 RectTransform rt = icon.GetComponent<RectTransform>();
+                // set position
                 rt.anchoredPosition = offset;
+                // set icon
+                Image image = icon.GetComponent<Image>();
+                image.sprite = status.icon;
+                Debug.Log($"UIManager OnStatusListChange: Set icon {status.icon} to {image}", this.gameObject);
                 // set scale
                 Vector3 scale = rt.localScale;
-                scale.y = scale.x = Constants.UI_StatusIconScale;
+                scale.y = scale.x = Constants.UI.StatusIconScale;
                 rt.localScale = scale;
                 // set countdown
                 TextMeshProUGUI cdText = icon.transform.Find("countdown").GetComponent<TextMeshProUGUI>();
                 cdText.text = Mathf.CeilToInt(status.countdown).ToString();
-                statusSets.Add(new StatusSet(icon, status));
+                statusSets.Add(status.GetHashCode(), new StatusSet(icon, status));
                 i++;
             }
         }
@@ -84,15 +101,13 @@ public class UIManager : MonoBehaviour
     public void UpdateStatusList()
     {
         // update current status
-        int numStatuses = statusSets.Count;
-        List<StatusSet> toRemove = new List<StatusSet>();
-        foreach (StatusSet s in statusSets)
+        List<int> toRemove = new List<int>();
+        foreach (StatusSet s in statusSets.Values)
         {
             if (s.singleStatus.expired)
             {
-
-                Debug.Log($"UIManager UpdateStatusList: {s} has expired.", this.gameObject);
-                toRemove.Add(s);
+                Debug.Log($"UIManager UpdateStatusList: {s.singleStatus.statusName} has expired.", this.gameObject);
+                toRemove.Add(s.singleStatus.GetHashCode());
             }
             else
             {
@@ -103,33 +118,48 @@ public class UIManager : MonoBehaviour
             }
         }
         // remove expired status
-        foreach (StatusSet s in toRemove)
+        foreach (int j in toRemove)
         {
-            Debug.Log($"UIManager UpdateStatusList: Removing {s}.", this.gameObject);
+            StatusSet s = statusSets[j];
+            Debug.Log($"UIManager UpdateStatusList: Removing {s.singleStatus.statusName}.", this.gameObject);
+            statusSets.Remove(s.singleStatus.GetHashCode());
             Destroy(s.icon);
-            statusSets.Remove(s);
         }
-        for (int i = 0; i < statusSets.Count; i++)
+        int i = 0;
+        foreach (StatusSet s in statusSets.Values)
         {
             // reset position
-            StatusSet s = statusSets[i];
             RectTransform rt = s.icon.GetComponent<RectTransform>();
             rt.anchoredPosition = GetIconOffset(i);
+            i++;
         }
     }
+
 
     Vector2 GetIconOffset(int i)
     {
-        Vector2 offset = new Vector2(i * Constants.UI_StatusListXInterval + Constants.UI_StatusListXStart,
-                                     Constants.UI_StatusListYStart);
+        Vector2 offset = new Vector2(i * Constants.UI.StatusListXInterval + Constants.UI.StatusListXStart,
+                                     Constants.UI.StatusListYStart);
         return offset;
     }
 
-    void AddIconToStatusList(SingleStatus status)
+    // Use Player's enemy info.
+    // Fixed: Since player cannot choose target now.
+    public void InitTargetInfo()
+    {
+        GameObject target = controlledPlayer.target;
+        if (target != null)
+        {
+            Debug.Log($"UIManager InitTargetInfo {target} ", this.gameObject);
+
+        }
+        else
+            Debug.Log($"UIManager InitTargetInfo: Target is Null.", this.gameObject);
+    }
+    public void UpdateTargetInfo()
     {
 
     }
-
 
     void RegisterEntities()
     {

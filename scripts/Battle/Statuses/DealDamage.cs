@@ -6,12 +6,12 @@ using UnityEngine;
 public class DealDamage : SingleStatus
 {
     private int damage;
-    public DealDamage(GameObject from, GameObject target, int dmg) :
-        base(from, target)
+    public DealDamage(GameObject from, GameObject target, int dmg, string name = "AutoAttack") :
+        base(from, target, 1)
     {
-        duration = 1;
-        countdown = 1;
+        this.statusName = name;
         damage = dmg;
+        showIcon = false;
     }
 
     protected override void NormalEffect()

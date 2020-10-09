@@ -69,18 +69,20 @@ public abstract class Entity : MonoBehaviour, GotDamage
     public void AddStatusGroup(StatusGroup sg)
     {
         statusGroups.Add(sg);
-        Debug.Log($"Entity {this} adds {sg.ToString()}, has {statusGroups.Count} statuses.");
+        BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM.Tag).GetComponent<BattleManager>();
+        bm.AddStatusIconToUI(sg);
+        Debug.Log($"Entity {this.name} added {sg.ToString()}, has {statusGroups.Count} statuses.");
     }
 
     public void RemoveStatusGroup(StatusGroup sg)
     {
-        Debug.Log($"Entity {this} removes {sg.ToString()}, has {statusGroups.Count} statuses.");
+        Debug.Log($"Entity {this.name} removes {sg.ToString()}, has {statusGroups.Count} statuses.");
         statusGroups.Remove(sg);
     }
 
     public void RegisterEffect()
     {
-        Debug.Log($"Entity ({this}) RegisterEffect", this.gameObject);
+        Debug.Log($"Entity ({this.name}) RegisterEffect", this.gameObject);
         foreach (StatusGroup statusGroup in statusGroups)
         {
             statusGroup.RegisterEffect();
@@ -120,7 +122,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
     {
         if (casting)
         {
-            Debug.Log($"Entity {this} AutoAttack: Casting.");
+            Debug.Log($"Entity {this.name} AutoAttack: Casting.");
             return;
         }
         if (target != null)
@@ -131,13 +133,13 @@ public abstract class Entity : MonoBehaviour, GotDamage
             int damage = 10; // How much damage will be dealt. Calculated by the target and this object's statistics
             if (towards.magnitude <= minAtkDistance)
             {
-                Debug.Log($"Entity AutoAttack Prepares: From {this} to {target}");
+                Debug.Log($"Entity AutoAttack Prepares: From {this.name} to {target.name}");
                 AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, damage));
             }
         }
         else
         {
-            Debug.Log($"Entity AutoAttack ({this}): No Target.");
+            Debug.Log($"Entity AutoAttack: {this} Has No Target.");
         }
     }
 }

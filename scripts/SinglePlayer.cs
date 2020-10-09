@@ -12,20 +12,21 @@ public class SinglePlayer : Entity, GotDamage
         MT, ST, H1, H2, D1, D2, D3, D4
     }
 
-    public ControllerSystem controller;
     //
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
+    // ver 0: player cannot choose target. this will be assgined in Scenario.
+    private GameObject _target;
     public override GameObject target
     {
         get
         {
-            Debug.Log($"SinglePlayer ({this}) Get Target", gameObject);
-            return null;
+            Debug.Log($"SinglePlayer ({this}) Get Target {_target}", gameObject);
+            return _target;
         }
         set
         {
-
+            _target = value;
         }
     }
     public int manaPoints;
@@ -33,16 +34,30 @@ public class SinglePlayer : Entity, GotDamage
     //
     // ─── STRAT ──────────────────────────────────────────────────────────────────────
     //
+    public ControllerSystem controller;
     public string job;
     public StratPosition stratPosition; // D1234 H12 MST
-    public bool controllable = true;
+    private bool _controllable = true;
+
+    public bool controllable
+    {
+        get
+        {
+            return _controllable;
+        }
+        set
+        {
+            controller.controllable = _controllable = value;
+            // Debug.Log($"SinglePlayer set Controllable. {value}. _controllable: {_controllable}. controller.controllable: {controller.controllable}");
+        }
+    }
 
     private void Awake()
     {
         // controller should be init here so UI manager can find controller.
         controller = GetComponent<ControllerSystem>();
-        GameObject shiva = GameObject.Find("Shiva");
-        AddStatusGroup(new SlowdownGroup(shiva, gameObject));
+        // GameObject shiva = GameObject.Find("Shiva");
+        // AddStatusGroup(new SlowdownGroup(shiva, gameObject));
 
     }
     protected override void Start()
@@ -55,8 +70,7 @@ public class SinglePlayer : Entity, GotDamage
     protected override void Update()
     {
         base.Update();
-        if (controllable)
-            controller.Control();
+        controller.Control();
     }
 
 

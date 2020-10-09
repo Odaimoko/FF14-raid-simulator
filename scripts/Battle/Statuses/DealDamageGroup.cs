@@ -10,12 +10,8 @@ public class DealDamageGroup : StatusGroup
     public DealDamageGroup(GameObject from, GameObject target, int dmg) :
         base(from, target)
     {
-        Add(new DealDamage(from, target, dmg));
         name = "DealDamage";
+        Add(new DealDamage(from, target, dmg));
     }
-
-    public override void RegisterEffect()
-    {
-        base.RegisterEffect();
-    }
+ 
 }

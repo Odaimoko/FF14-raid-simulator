@@ -53,7 +53,6 @@ public class Enemy : Entity
         get
         {
             GameObject go = GetFirstAggroPlayer();
-            Debug.Log($"Enemy ({this}) Get Target: {go}.", gameObject);
             return go;
         }
         set

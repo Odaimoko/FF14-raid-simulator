@@ -10,7 +10,7 @@ public class Scenario : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
     // Start is called before the first frame update
-    public void Init()
+    public virtual void Init()
     {
         // Init Enemy and Player
         GenerateEntities();
@@ -19,7 +19,7 @@ public class Scenario : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
 
     }

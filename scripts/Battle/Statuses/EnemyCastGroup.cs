@@ -13,9 +13,5 @@ public class EnemyCastGroup : StatusGroup
         name = "EnemyCast";
         Add(new EnemyCast(from, target, time));
     }
-
-    public override void RegisterEffect()
-    {
-        base.RegisterEffect();
-    }
+ 
 }

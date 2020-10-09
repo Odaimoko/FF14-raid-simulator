@@ -6,13 +6,14 @@ using UnityEngine;
 public class Slowdown : SingleStatus
 {
     private ControllerSystem controller;
-    public Slowdown(GameObject from, GameObject target) :
-        base(from, target)
+    public Slowdown(GameObject from, GameObject target, float dur) :
+        base(from, target, dur)
     {
         controller = this.target.GetComponent<ControllerSystem>();
-        duration = 10;
-        countdown = 10;
         effectiveAtOnce = true;
+        icon = Resources.Load<Sprite>("battle_status/status_slowdown");
+        statusName = "Slowdown";
+        
     }
 
     protected override void NormalEffect()

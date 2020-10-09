@@ -36,16 +36,23 @@ public class ControllerSystem : MonoBehaviour
 
     public void Control()
     {
-        if (!controllable) return;
-        Vector3 inputVec = GetInputVector();
-        if (inputVec.magnitude > 0.1)
+        if (!controllable)
         {
-            MoveByWorldVector(inputVec);
-            ChangeAnimation(true);
+            ChangeAnimation(false);
         }
         else
         {
-            ChangeAnimation(false);
+
+            Vector3 inputVec = GetInputVector();
+            if (inputVec.magnitude > 0.1)
+            {
+                MoveByWorldVector(inputVec);
+                ChangeAnimation(true);
+            }
+            else
+            {
+                ChangeAnimation(false);
+            }
         }
     }
 

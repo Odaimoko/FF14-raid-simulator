@@ -7,16 +7,11 @@ public class SlowdownGroup : StatusGroup
 {
     // Wrapper
     // Start is called before the first frame update
-    public SlowdownGroup(GameObject from, GameObject target) :
+    public SlowdownGroup(GameObject from, GameObject target, float dur) :
         base(from, target)
     {
-        Slowdown slowdown = new Slowdown(from, target);
         name = "Slowdown";
+        Slowdown slowdown = new Slowdown(from, target, dur);
         Add(slowdown);
-    }
-
-    public override void RegisterEffect()
-    {
-        base.RegisterEffect();
-    }
+    } 
 }

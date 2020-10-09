@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SingleStatus
 {
+    protected static int globalStatusID = 0;
+    private int statusID;
     public enum EffectType
     {
         EffectOverTime,
@@ -23,19 +25,25 @@ public class SingleStatus
     public bool expired { get; protected set; } = false;
     protected bool lostAfterDeath = true;
     // if this status has effect once attached to an entity
-    protected bool effectiveAtOnce = false;
+    protected bool effectiveAtOnce = true;
     //
     // ─── METAINFO ───────────────────────────────────────────────────────────────────
     //
     public string statusName, statusDescription;
-    public bool showIcon; // should we show icon on ui
-    protected GameObject icon; // prefab
+    public bool showIcon = true; // should we show icon on ui   
+    public Sprite icon; // prefab
     // TODO: Effect variable
+    protected BattleManager bm;
 
-    public SingleStatus(GameObject from, GameObject target)
+
+    public SingleStatus(GameObject from, GameObject target, float dur)
     {
         this.from = from;
         this.target = target;
+        duration = countdown = dur;
+        bm = GameObject.FindGameObjectWithTag(Constants.BM.Tag).GetComponent<BattleManager>();
+        statusID = globalStatusID;
+        globalStatusID++;
     }
 
     public void Update()
@@ -48,19 +56,19 @@ public class SingleStatus
         if (countdown < 0 && !expired)
         {
             expired = true;
-            Debug.Log($"SingleStatus ({this} Expired. Registering.");
+            Debug.Log($"SingleStatus ({this.statusName}) Expired. Registering.");
             RegisterEffect();
         }
     }
     protected virtual void NormalEffect()
     {
-        Debug.Log($"SingleStatus ({this}) Normal: From {from} to {target}", this.target);
+        Debug.Log($"SingleStatus ({this.statusName}) Normal: From {from.name} to {target.name}", this.target);
     }
 
     protected virtual void ExpireEffect()
     {
         // TODO: tell UI manager to eliminate this
-        Debug.Log($"SingleStatus ({this}) Expire: From {from} to {target}", this.target);
+        Debug.Log($"SingleStatus ({this.statusName}) Expire: From {from.name} to {target.name}", this.target);
     }
 
 
@@ -81,7 +89,6 @@ public class SingleStatus
     {
         if (effectiveAtOnce)
         {
-            BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM_Tag).GetComponent<BattleManager>();
             bm.AddEvent(this);
         }
     }
@@ -89,8 +96,12 @@ public class SingleStatus
     // Called per period (3 secs)
     public void RegisterEffect()
     {
-        Debug.Log($"SingleStatus ({this}) RegisterEffect: " + this, this.target);
-        BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM_Tag).GetComponent<BattleManager>();
+        Debug.Log($"SingleStatus ({this.statusName}) RegisterEffect.", this.target);
         bm.AddEvent(this);
+    }
+
+    public override int GetHashCode()
+    {
+        return (statusName + statusID).GetHashCode();
     }
 }

@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 212312366}
   - component: {fileID: 212312365}
   m_Layer: 5
-  m_Name: boss info
+  m_Name: target info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -353,10 +353,10 @@ RectTransform:
   m_Father: {fileID: 714972508}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 91.2}
-  m_SizeDelta: {x: 148.4, y: 10.5}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -143, y: -140}
+  m_SizeDelta: {x: 148.40002, y: 10.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &212312365
 MonoBehaviour:
@@ -1767,6 +1767,7 @@ GameObject:
   - component: {fileID: 800210548}
   - component: {fileID: 800210551}
   - component: {fileID: 800210552}
+  - component: {fileID: 800210553}
   m_Layer: 0
   m_Name: Shiva
   m_TagString: Enemy
@@ -1893,6 +1894,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.86, y: 2.31, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &800210553
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800210547}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bcb6543484db9a04582627540cd86c21, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &837405036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,7 +2769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: c37be6ad65a89fb48889627465fcdf16, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9243399, b: 0.5509434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2888,6 +2908,7 @@ GameObject:
   - component: {fileID: 1257624462}
   - component: {fileID: 1257624460}
   - component: {fileID: 1257624463}
+  - component: {fileID: 1257624464}
   m_Layer: 0
   m_Name: Battle Manager
   m_TagString: BattleManager
@@ -2909,7 +2930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies: []
   players: []
-  playerPosition: 6
+  controlledPlayer: {fileID: 0}
   scenario: {fileID: 0}
 --- !u!4 &1257624461
 Transform:
@@ -2934,7 +2955,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1257624459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59204933474264c6d9a1352d7332adec, type: 3}
+  m_Script: {fileID: 11500000, guid: 58ee9a1e5f895b94aad092ce1283cd29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
@@ -2961,6 +2982,25 @@ MonoBehaviour:
   partylistItems: []
   statusListGO: {fileID: 610717846}
   statusIconPrefab: {fileID: 7604194006087797206, guid: 3134f86aaa3a2514187d5198a87ffbba, type: 3}
+--- !u!95 &1257624464
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257624459}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1435011de418d514a99cbcb6020513dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1277828158
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,11 +6,11 @@ public class EnemyCast : SingleStatus
 {
     // Start is called before the first frame update
     public EnemyCast(GameObject from, GameObject target, float time) :
-        base(from, target)
+        base(from, target, time)
     {
-        duration = time;
-        countdown = time;
         effectiveAtOnce = true;
+        showIcon = false;
+        statusName = "EnemyCast";
     }
 
     protected override void NormalEffect()

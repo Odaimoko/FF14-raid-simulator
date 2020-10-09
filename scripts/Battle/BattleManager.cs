@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
     // default MT
-    public SinglePlayer.StratPosition playerPosition = SinglePlayer.StratPosition.MT;
+    public SinglePlayer controlledPlayer;
     public Scenario scenario;
     private BattleStatus prevBattleStatus = BattleStatus.PreBattle;
     private BattleStatus battleStatus
@@ -100,9 +100,14 @@ public class BattleManager : MonoBehaviour
         {
             enemies.Add(en.GetComponent<Enemy>());
         }
-        foreach (GameObject en in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
         {
-            players.Add(en.GetComponent<SinglePlayer>());
+            SinglePlayer sp = pl.GetComponent<SinglePlayer>();
+            if (sp.controller.controllable)
+            {
+                controlledPlayer = sp;
+            }
+            players.Add(sp);
         }
         Debug.Log("BM register enemy " + enemies.Count, this.gameObject);
         Debug.Log("BM register players " + players.Count, this.gameObject);
@@ -113,6 +118,22 @@ public class BattleManager : MonoBehaviour
         }
         foreach (SinglePlayer p in players)
             p.RegisterEntities();
+    }
+
+    public void AddStatusIconToUI(StatusGroup status)
+    {
+        // only called when a status is shown at the first time
+        Debug.Log($"BM AddStatusIconToUI: Adding {status.target.GetComponent<SinglePlayer>().stratPosition}. Controlled: {controlledPlayer.stratPosition}.");
+        if (status.target.GetComponent<SinglePlayer>().stratPosition == controlledPlayer.stratPosition)
+        {
+            Debug.Log($"BM AddStatusIconToUI: Add {status} to Self.");
+            uIManager.OnStatusListChange();
+        }
+        else
+        {
+            Debug.Log($"BM AddStatusIconToUI: Add {status} to PartyList.");
+            // TODO: Update status info in Party list
+        }
     }
 
     public void AddEvent(SingleStatus status)

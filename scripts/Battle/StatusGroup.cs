@@ -64,11 +64,11 @@ public class StatusGroup
 
     public override string ToString()
     {
-        return $"StatusGroup: {name} ({from}->{target}).";
+        return $"StatusGroup: {name} ({from.name}->{target.name}).";
     }
 
     public override int GetHashCode()
     {
-        return (name + from.ToString()).GetHashCode();
+        return (name + from.name).GetHashCode();
     }
 }
