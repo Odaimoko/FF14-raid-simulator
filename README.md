@@ -70,9 +70,11 @@ Animation：时间轴，使用Animator Controller 的状态机实现转阶段（
 
 效果的实现是两层。最底层是`SingleStatus`类，用一个`StatusGroup`封装。`StatusGroup`是考虑到有些效果会共通作用，比如绝亚P2最终审判，可以让每个人身上的 buff 都放在这个 group 里，最后生效的时候调用`StatusGroup`的生效函数。但是其实也可以通过检测其他 entity 身上的 buff 情况实现，待看。现在为止它只是在单纯包着一个`SingleStatus`。
 
-`SingleStatus`初始化的时候会要求传入`from`和`target`。如果想要实现不同的效果，重写`SingleStatus`的`NormalEffect`和`ExpireEffect`，分别是每三秒持续的效果和倒计时结束的效果。同时还有个`OnAttachedToEntity`，是一附到玩家/敌人身上立马就运行的函数。默认是一上身就生效，可以通过设置`effectiveAtOnce=false`修改。这样建模可以将几乎所有的状态全部囊括，例如自动攻击，就可以建立一个倒计时为 1 秒的状态，倒计时结束后对对象造成伤害。
+`SingleStatus`初始化的时候会要求传入`from`和`target`。如果想要实现不同的效果，重写`SingleStatus`的`NormalEffect`和`ExpireEffect`，分别是每三秒持续的效果和倒计时结束的效果。同时还有个`OnAttachedToEntity`，是一附到玩家/敌人身上立马就运行的函数。默认是一上身就生效，可以通过设置`effectiveAtOnce=false`修改。每一个`SingleStatus`有一个ID，游戏全局每多一个`SingleStatus`实例，就会自增1。
 
-事件链是：
+这样建模可以将几乎所有的状态全部囊括，例如自动攻击，就可以建立一个倒计时为 1 秒的状态，倒计时结束后对对象造成伤害。
+
+**事件链**：
 
 每三秒：BM 调用所有 `Entity` 的 `RegisterEffect`方法—— `Entity` 调用`StatusGroup`——`StatusGroup`调用`SingleStatus`——`SingleStatus`调用 BM 的 `AddEvent` 方法将自己的效果加入处理队列。
 
@@ -84,7 +86,19 @@ Animation：时间轴，使用Animator Controller 的状态机实现转阶段（
 
 ## UI
 
+UI Manager：绘制 UI。 主要是获取场景里敌人和玩家的信息。
+
+### 小队列表
 
 
-UI Manager：绘制 UI。
+
+### 自己的状态
+
+用字典存储已经在显示在屏幕上的状态集合（用来显示图标的GameObject，对应的`SingleStatus`实例，以及是否显示的flag不过暂时没用）。Key是`SingleStatus`实例的名字+ID
+
+每帧检查：状态如果到期了，从字典里去掉，并且Destroy。
+
+TODO：可以优化为可重复使用的Object Pool而不是每次都Instantiate+Destroy。
+
+<img src="D:\D\unity prj\Lesson5\Assets\assets\image-20201009185651827.png" alt="image-20201009185651827" style="zoom:50%;" />
 

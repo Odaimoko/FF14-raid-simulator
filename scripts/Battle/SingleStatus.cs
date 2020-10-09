@@ -67,7 +67,6 @@ public class SingleStatus
 
     protected virtual void ExpireEffect()
     {
-        // TODO: tell UI manager to eliminate this
         Debug.Log($"SingleStatus ({this.statusName}) Expire: From {from.name} to {target.name}", this.target);
     }
 
@@ -85,7 +84,7 @@ public class SingleStatus
     }
 
     // called when the status is first attached to an entity
-    public void OnAttachedToEntity()
+    public virtual void OnAttachedToEntity()
     {
         if (effectiveAtOnce)
         {
