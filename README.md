@@ -43,3 +43,48 @@
 ​	盲点：首先，要将`towards`向量转为 y 轴的旋转角度，同样用 V3.Angle。
 
 ​	其次，如果现在朝向前方，想要转到左方，`towards`就是 270，`rot_y=0`。`tranform.Rotate`是顺时针，于是这样就会从右半边转到左边，但是更好的是左转 90 度。于是就要写判断，从更小的角度的那一边转过去。
+
+### 控制
+
+TODO
+
+### Entity：Player 和 Enemy
+
+TODO
+
+
+
+## 战斗
+
+BattleManager：用于处理每场战斗都会有的东西，例如 buff 结算、胜负判定。
+
+Scenario：每场战斗不一样的地方，也就是不同的 boss 会有不同的效果。
+
+Animation：时间轴，使用Animator Controller 的状态机实现转阶段（P1/P2……）的效果。使用Animation Event 实现时间轴。
+
+### Status：buff 和 debuff 的实现
+
+用事件的思路实现的。BM：BattleManager 的缩写。
+
+如果要使一个效果生效，首先在 BM 里注册效果的处理队列。BM 在每帧的 Update 里会使已注册的效果生效（调用`SingleStatus`的`Apply`），每三秒注册一次 scene 里每个 Enemy 和 Player的`NormalEffect`。
+
+效果的实现是两层。最底层是`SingleStatus`类，用一个`StatusGroup`封装。`StatusGroup`是考虑到有些效果会共通作用，比如绝亚P2最终审判，可以让每个人身上的 buff 都放在这个 group 里，最后生效的时候调用`StatusGroup`的生效函数。但是其实也可以通过检测其他 entity 身上的 buff 情况实现，待看。现在为止它只是在单纯包着一个`SingleStatus`。
+
+`SingleStatus`初始化的时候会要求传入`from`和`target`。如果想要实现不同的效果，重写`SingleStatus`的`NormalEffect`和`ExpireEffect`，分别是每三秒持续的效果和倒计时结束的效果。同时还有个`OnAttachedToEntity`，是一附到玩家/敌人身上立马就运行的函数。默认是一上身就生效，可以通过设置`effectiveAtOnce=false`修改。这样建模可以将几乎所有的状态全部囊括，例如自动攻击，就可以建立一个倒计时为 1 秒的状态，倒计时结束后对对象造成伤害。
+
+事件链是：
+
+每三秒：BM 调用所有 `Entity` 的 `RegisterEffect`方法—— `Entity` 调用`StatusGroup`——`StatusGroup`调用`SingleStatus`——`SingleStatus`调用 BM 的 `AddEvent` 方法将自己的效果加入处理队列。
+
+每帧：BM 使处理队列里的效果生效。`SingleStatus`的`Apply`会调用`NormalEffect`。
+
+每新有 Status 注册到 Entity 上：运行`OnAttachedToEntity`。
+
+每有 Status 倒计时结束：注册一次，`SingleStatus`的`Apply`此时会调用`ExpireEffect`。
+
+## UI
+
+
+
+UI Manager：绘制 UI。
+
