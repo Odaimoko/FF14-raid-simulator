@@ -18,7 +18,6 @@ public class Enemy : Entity
     //
     [SerializeField]
     public float moveSpeed = .05f;
-    public float inBattleDistance = 10f;
 
     private Animator animator;
 
@@ -90,16 +89,20 @@ public class Enemy : Entity
 
     void FixedUpdate()
     {
-        MovePerFrame();
+        if (!dead)
+            MovePerFrame();
     }
 
     bool DetectInBattle()
     {
+        // if more than one (inclusive) player is near this enemy
         foreach (SinglePlayer p in players)
         {
             if (!p.dead)
-                if ((this.gameObject.transform.position - p.gameObject.transform.position).magnitude < inBattleDistance)
+                if ((this.gameObject.transform.position - p.gameObject.transform.position).magnitude < Constants.Battle.inBattleDistance)
+                {
                     return true;
+                }
         }
         return false;
     }
@@ -141,7 +144,7 @@ public class Enemy : Entity
             // if not null
             Vector3 towards = mt.transform.position - gameObject.transform.position;
             towards.y = 0;
-            if (towards.magnitude < minAtkDistance)
+            if (towards.magnitude < Constants.Battle.minAtkDistance)
                 return;
 
             towards = towards.normalized;
@@ -177,11 +180,9 @@ public class Enemy : Entity
         inBattle = true;
     }
 
-    public void OnBattleEnd()
+    public override void OnDead()
     {
-        // TODO: Player win or lose
-        inBattle = false;
-
+        base.OnDead();
     }
 }
 

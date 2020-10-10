@@ -5,10 +5,13 @@ using UnityEngine;
 public class Shiva_ex : Scenario
 {
     private GameObject Shiva;
+    [SerializeField]
+    private SinglePlayer controlledPlayer;
     public override void Init()
     {
         base.Init();
         Shiva = GameObject.Find("Shiva");
+        controlledPlayer.target = Shiva;
     }
 
     // Update is called once per frame

@@ -12,6 +12,7 @@ public class DealDamage : SingleStatus
         this.statusName = name;
         damage = dmg;
         showIcon = false;
+        effectiveAtOnce=false;
     }
 
     protected override void NormalEffect()
@@ -24,8 +25,17 @@ public class DealDamage : SingleStatus
     {
         base.ExpireEffect();
 
+        Vector3 towards = target.transform.position - from.transform.position;
+        towards.y = 0;
         Entity e = target.GetComponent<Entity>();
-        Debug.Log($"DealDamage {damage}!!! {e}", target);
-        e.GotDamage(damage);
+        if (towards.magnitude <= Constants.Battle.minAtkDistance)
+        {
+            Debug.Log($"DealDamage {damage}!!! {e}", target);
+            e.GotDamage(damage);
+        }
+        else
+        {
+            Debug.Log($"DealDamage: {target.name} too far from {from.name}..", target);
+        }
     }
 }

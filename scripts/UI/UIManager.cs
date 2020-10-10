@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
         {
             if (player)
             {
-                Debug.Log($"PartyListItem Update {update}: {player.stratPosition}");
+                // Debug.Log($"PartyListItem Update {update}: {player.stratPosition}");
                 // HP
                 // TODO: SHIELD
                 TextMeshProUGUI t = hpValue.GetComponent<TextMeshProUGUI>();

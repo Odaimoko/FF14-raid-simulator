@@ -129,7 +129,7 @@ public class ControllerSystem : MonoBehaviour
         }
     }
 
-    void ChangeAnimation(bool move)
+    public void ChangeAnimation(bool move)
     {
         if (move)
         {

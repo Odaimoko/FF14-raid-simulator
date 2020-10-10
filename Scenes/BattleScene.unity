@@ -733,7 +733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4303844821561524, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.68
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4303844821561524, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2860,6 +2860,7 @@ MonoBehaviour:
   players: []
   controlledPlayer: {fileID: 0}
   scenario: {fileID: 0}
+  prevBattleStatus: 0
 --- !u!4 &1257624461
 Transform:
   m_ObjectHideFlags: 0
@@ -2890,6 +2891,7 @@ MonoBehaviour:
   audioClips: []
   enemies: []
   players: []
+  controlledPlayer: {fileID: 1990517882}
 --- !u!114 &1257624463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3796,13 +3798,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBattle: 0
   dead: 0
-  minAtkDistance: 1
   autoAtkInterval: 3
   maxHP: 16
   currentHP: 0
   players: []
   moveSpeed: 0.04
-  inBattleDistance: 10
   targetable: 0
   normalAtkRawDamage: 0
   shownInEnemyList: 0
@@ -9526,12 +9526,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBattle: 0
   dead: 0
-  minAtkDistance: 3
   autoAtkInterval: 3
   maxHP: 43
-  currentHP: 16
+  currentHP: 688
   enemies: []
-  manaPoints: 0
   controller: {fileID: 0}
   job: 
   stratPosition: 3

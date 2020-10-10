@@ -8,15 +8,16 @@ public class BattleManager : MonoBehaviour
     {
         PreBattle,
         InBattle,
-        PostBattle,
+        PlayerWin,
+        PlayerLose
     }
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
     // default MT
     public SinglePlayer controlledPlayer;
     public Scenario scenario;
-    private BattleStatus prevBattleStatus = BattleStatus.PreBattle;
-    private BattleStatus battleStatus
+    public BattleStatus prevBattleStatus = BattleStatus.PreBattle;
+    public BattleStatus battleStatus
     {
         // Check enemies status
         // if all pre -> pre
@@ -25,23 +26,25 @@ public class BattleManager : MonoBehaviour
         get
         {
             bool prebattle = true;
+            bool enemyAllDead = true, playerAllDead = true;
             foreach (Enemy e in enemies)
             {
-                switch (e.battleStatus)
-                {
-                    case EntityBattleStatus.InBattle:
-                        prebattle = false;
-                        return BattleStatus.InBattle;
-                    case EntityBattleStatus.PlayerLose:
-                    case EntityBattleStatus.PlayerWin:
-                        prebattle = false;
-                        break;
-                    case EntityBattleStatus.PreBattle:
-                        break;
-                }
+                if (!e.dead)
+                    enemyAllDead = false;
+                if (e.inBattle) prebattle = false;
+            }
+            foreach (SinglePlayer pl in players)
+            {
+                if (!pl.dead) playerAllDead = false;
+                if (pl.inBattle) prebattle = false;
             }
             if (prebattle) return BattleStatus.PreBattle;
-            else return BattleStatus.PostBattle;
+            if (enemyAllDead)
+                return BattleStatus.PlayerWin;
+            else if (playerAllDead)
+                return BattleStatus.PlayerLose;
+            else
+                return BattleStatus.InBattle;
         }
     }
 
@@ -76,21 +79,10 @@ public class BattleManager : MonoBehaviour
     {
         CheckBattleStatus();
         ApplyEventQueue();
-        UpdateUI();
         // if (battleStatus == BattleStatus.InBattle)
         // {
         //     ApplyEventQueue();
         // }
-    }
-
-    void InitUI()
-    {
-
-    }
-
-    void UpdateUI()
-    {
-
     }
 
     void RegisterEntities()
@@ -122,17 +114,27 @@ public class BattleManager : MonoBehaviour
 
     public void AddStatusIconToUI(StatusGroup status)
     {
+        // Check the target is enemy or player.
         // only called when a status is shown at the first time
-        Debug.Log($"BM AddStatusIconToUI: Adding {status.target.GetComponent<SinglePlayer>().stratPosition}. Controlled: {controlledPlayer.stratPosition}.");
-        if (status.target.GetComponent<SinglePlayer>().stratPosition == controlledPlayer.stratPosition)
+        GameObject target = status.target;
+        if (target.GetComponent<SinglePlayer>())
         {
-            Debug.Log($"BM AddStatusIconToUI: Add {status} to Self.");
-            uIManager.OnStatusListChange();
+            // A player
+            Debug.Log($"BM AddStatusIconToUI: Adding {status.target.GetComponent<SinglePlayer>().stratPosition}. Controlled: {controlledPlayer.stratPosition}.");
+            if (target.GetComponent<SinglePlayer>().stratPosition == controlledPlayer.stratPosition)
+            {
+                Debug.Log($"BM AddStatusIconToUI: Add {status} to Self.");
+                uIManager.OnStatusListChange();
+            }
+            else
+            {
+                Debug.Log($"BM AddStatusIconToUI: Add {status} to PartyList.");
+                // TODO: Update status info in Party list
+            }
         }
-        else
+        else if (target.GetComponent<Enemy>())
         {
-            Debug.Log($"BM AddStatusIconToUI: Add {status} to PartyList.");
-            // TODO: Update status info in Party list
+            // TODO: Enemy Status icon update
         }
     }
 
@@ -171,13 +173,14 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+
     void CheckBattleStatus()
     {
         if (prevBattleStatus != battleStatus)
         {
             if (prevBattleStatus == BattleStatus.PreBattle && battleStatus == BattleStatus.InBattle)
                 OnBattleStart();
-            else if (prevBattleStatus == BattleStatus.InBattle && battleStatus == BattleStatus.PostBattle)
+            else if (prevBattleStatus == BattleStatus.InBattle && (battleStatus == BattleStatus.PlayerWin || battleStatus == BattleStatus.PlayerLose))
                 OnBattleEnd();
             prevBattleStatus = battleStatus;
         }
@@ -189,7 +192,15 @@ public class BattleManager : MonoBehaviour
         // pre->in
         // Start Scenario
         // Set active enemies' inbattle=true. this happens if only one enemy detects the player, but not the others.
-        Debug.Log("BM: OnBattleStart");
+        Debug.Log("BM OnBattleStart: All in Battle!!!", this.gameObject);
+        foreach (Enemy e in enemies)
+        {
+            e.inBattle = true;
+        }
+        foreach (SinglePlayer p in players)
+        {
+            p.inBattle = true;
+        }
     }
 
     public void OnBattleEnd()
@@ -199,7 +210,16 @@ public class BattleManager : MonoBehaviour
         // Reset CD, HP,
         // Reset Scenario
         // reset enemy status to prepare
-        Debug.Log("BM: OnBattleEnd");
+        if (battleStatus == BattleStatus.PlayerWin)
+        {
+            Debug.Log("BM OnBattleEnd: PlayerWin.");
+
+        }
+        else
+        {
+            Debug.Log("BM OnBattleEnd: PlayerLose.");
+            
+        }
     }
 
 }

@@ -20,5 +20,11 @@ public static class Constants
         public static float PartyListYStart = -25;
         public static float PartyListYInterval = 35;
     }
+
+    public static class Battle
+    {
+        public static float inBattleDistance = 10f;
+        public static float minAtkDistance = 3f;
+    }
 }
 

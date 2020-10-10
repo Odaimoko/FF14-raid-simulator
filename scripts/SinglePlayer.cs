@@ -16,12 +16,20 @@ public class SinglePlayer : Entity, GotDamage
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
     // ver 0: player cannot choose target. this will be assgined in Scenario.
+
     private GameObject _target;
     public override GameObject target
     {
         get
         {
-            Debug.Log($"SinglePlayer ({this}) Get Target {_target}", gameObject);
+            if (_target)
+            {
+                Debug.Log($"SinglePlayer ({this.name}) Get Target {_target.name}", gameObject);
+            }
+            else
+            {
+                Debug.Log($"SinglePlayer ({this.name}) Has No Target.", gameObject);
+            }
             return _target;
         }
         set
@@ -29,8 +37,8 @@ public class SinglePlayer : Entity, GotDamage
             _target = value;
         }
     }
-    public int manaPoints;
-
+    private int manaPoints;
+ 
     //
     // ─── STRAT ──────────────────────────────────────────────────────────────────────
     //
@@ -63,14 +71,18 @@ public class SinglePlayer : Entity, GotDamage
     protected override void Start()
     {
         base.Start();
-        // DealDamageTest();
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-        controller.Control();
+        if (!dead)
+            controller.Control();
+        else
+        {
+            controllable = false;
+        }
     }
 
 
