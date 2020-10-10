@@ -19,8 +19,6 @@ public class Enemy : Entity
     [SerializeField]
     public float moveSpeed = .05f;
     public float inBattleDistance = 10f;
-    public GameObject targetCircle;
-    private GameObject model; // 
 
     private Animator animator;
 
@@ -65,12 +63,13 @@ public class Enemy : Entity
     //
 
     public bool shownInEnemyList;
-
+    private Transform targetCircleGO;
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         currentHP = maxHP;
+        targetCircleGO = transform.Find("target circle");
     }
 
     public void RegisterEntities()
@@ -146,8 +145,19 @@ public class Enemy : Entity
                 return;
 
             towards = towards.normalized;
-            // Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}", this.gameObject);
             transform.Translate(towards * moveSpeed, Space.World);
+            // Rotate Target Circle
+            float angle = Vector3.Angle(Vector3.forward, towards);
+            // Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}. Angle {angle}", this.gameObject);
+            if (towards.x > 0)
+            {
+                angle = 360 - angle;
+            }
+            Vector3 eulerAngle = targetCircleGO.transform.eulerAngles;
+            eulerAngle.z = angle;
+            eulerAngle.y = 0;
+            targetCircleGO.transform.eulerAngles = eulerAngle;
+            // Debug.Log($"Tachie Circle  eulerAngle {eulerAngle}, {targetCircleGO.transform.eulerAngles}", this.gameObject);
         }
     }
 

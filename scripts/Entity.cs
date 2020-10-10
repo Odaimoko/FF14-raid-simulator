@@ -44,12 +44,10 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
 
-
     protected virtual void Start()
     {
         StartCoroutine(AutoAttack());
         StartCoroutine(CheckStatusExpiration());
-
     }
 
     protected virtual void Update()
@@ -141,5 +139,10 @@ public abstract class Entity : MonoBehaviour, GotDamage
         {
             Debug.Log($"Entity AutoAttack: {this} Has No Target.");
         }
+    }
+
+    protected void InitTargetCircle()
+    {
+
     }
 }

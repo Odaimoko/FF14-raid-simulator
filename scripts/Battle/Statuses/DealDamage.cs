@@ -17,7 +17,7 @@ public class DealDamage : SingleStatus
     protected override void NormalEffect()
     {
         base.NormalEffect();
-        Debug.Log($"DealDamage Normal. {countdown}", target);
+        Debug.Log($"DealDamage Normal.", target);
     }
 
     protected override void ExpireEffect()

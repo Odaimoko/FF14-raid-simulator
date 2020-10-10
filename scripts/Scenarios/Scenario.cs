@@ -91,6 +91,7 @@ public class Scenario : MonoBehaviour
         }
         foreach (Enemy e in enemies)
         {
+            Debug.Log($"Scenario: Init Aggro {e}.");
             e.aggro = new Dictionary<GameObject, int>(aggro);
         }
     }
