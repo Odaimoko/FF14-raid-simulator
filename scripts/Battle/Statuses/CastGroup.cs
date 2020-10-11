@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CastGroup : StatusGroup
 {
-    private bool expired;
+    private bool castFinished = false;
     private SingleStatus timer, _actual;
     public SingleStatus actual { get => _actual; }
     public CastGroup(GameObject from, GameObject target, float time, SingleStatus actual) :
@@ -20,9 +20,9 @@ public class CastGroup : StatusGroup
     public override void Update()
     {
         base.Update();
-        if (timer.expired && !expired)
+        if (timer.expired && !castFinished)
         {
-            expired = true;
+            castFinished = true;
             Debug.Log($"CastGroup {target.name} finish casting. Applying {actual.statusName} to {actual.target.name}");
             target.GetComponent<Entity>().castingStatus = null;
             Add(_actual);

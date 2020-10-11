@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class BattleManager : MonoBehaviour
 {
     public enum BattleStatus
@@ -211,16 +211,18 @@ public class BattleManager : MonoBehaviour
         // Reset CD, HP,
         // Reset Scenario
         // reset enemy status to prepare
-        
+        GameObject touchtext = GameObject.Find("TouchText");
+        TextMeshProUGUI t = touchtext.GetComponent<TextMeshProUGUI>();
+
         if (battleStatus == BattleStatus.PlayerWin)
         {
             Debug.Log("BM OnBattleEnd: PlayerWin.");
-
+            t.text="PLAYER WIN";
         }
         else
         {
             Debug.Log("BM OnBattleEnd: PlayerLose.");
-            
+            t.text="PLAYER LOSE";
         }
     }
 
