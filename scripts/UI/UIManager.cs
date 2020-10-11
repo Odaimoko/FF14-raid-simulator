@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
         public void OnStatusListChange()
         {
             if (player)
-                UIManager.OnStatusListChange(statuslist, player, statusSets, 5);
+                UIManager.OnStatusListChange(statuslist, player, statusSets, 5, false);
         }
     }
     public List<Enemy> enemies = new List<Enemy>();
@@ -236,7 +236,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public static void OnStatusListChange(GameObject statusList, Entity en, Dictionary<int, StatusSet> sets, int maxIcons)
+    public static void OnStatusListChange(GameObject statusList, Entity en, Dictionary<int, StatusSet> sets, int maxIcons, bool showCDText = true)
     {
         int i = 0;
         Debug.Log($"UIManager OnStatusListChange Start. {en.statusGroups.Count} Groups.");
@@ -252,7 +252,7 @@ public class UIManager : MonoBehaviour
                     Debug.Log($"UIManager OnStatusListChange {status.statusName}");
                     Vector2 offset = GetIconOffset(i);
                     // GameObject icon = Instantiate(statusIconPrefab, statusList.transform.position, statusList.transform.rotation);
-                    GameObject icon = GetNewIconGO(); 
+                    GameObject icon = GetNewIconGO();
                     // Object pool does not support custom GO name
                     // icon.name = status.statusName; 
                     // set its parent to Status list or it won not appear
@@ -269,8 +269,15 @@ public class UIManager : MonoBehaviour
                     scale.y = scale.x = Constants.UI.StatusIconScale;
                     rt.localScale = scale;
                     // set countdown
-                    TextMeshProUGUI cdText = icon.transform.Find("countdown").GetComponent<TextMeshProUGUI>();
-                    cdText.text = Mathf.CeilToInt(status.countdown).ToString();
+                    GameObject cdGO = icon.transform.Find("countdown").gameObject;
+                    if (showCDText)
+                    { 
+                        cdGO.SetActive(true);
+                        TextMeshProUGUI cdText = cdGO.GetComponent<TextMeshProUGUI>();
+                        cdText.text = Mathf.CeilToInt(status.countdown).ToString();
+                    }
+                    else
+                        cdGO.SetActive(false);
                     sets.Add(status.GetHashCode(), new StatusSet(icon, status));
                 }
                 i++;
