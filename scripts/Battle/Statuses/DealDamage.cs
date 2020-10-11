@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class DealDamage : SingleStatus
 {
-    private int damage;
-    public DealDamage(GameObject from, GameObject target, int dmg, string name = "AutoAttack") :
-        base(from, target, 1)
+    private int _damage;
+    private float _range;
+    public DealDamage(GameObject from, GameObject target, int dmg, string name = "AutoAttack", float range = Constants.Battle.minAtkDistance) :
+        base(from, target, .1f)
     {
         this.statusName = name;
-        damage = dmg;
+        _damage = dmg;
         showIcon = false;
-        effectiveAtOnce=false;
+        effectiveAtOnce = false;
+        this._range=range;
     }
 
     protected override void NormalEffect()
@@ -28,10 +30,10 @@ public class DealDamage : SingleStatus
         Vector3 towards = target.transform.position - from.transform.position;
         towards.y = 0;
         Entity e = target.GetComponent<Entity>();
-        if (towards.magnitude <= Constants.Battle.minAtkDistance)
+        if (towards.magnitude <= _range)
         {
-            Debug.Log($"DealDamage {damage}!!! {e}", target);
-            e.GotDamage(damage);
+            Debug.Log($"DealDamage {_damage}!!! {e}", target);
+            e.GotDamage(_damage);
         }
         else
         {

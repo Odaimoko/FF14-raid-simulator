@@ -92,10 +92,9 @@ public class UIManager : MonoBehaviour
         private SinglePlayer controlledPlayer;
         private GameObject targetInfoGO, hpMask, castMask, castFrame, statusListGO;
         public Dictionary<int, StatusSet> statusSets = new Dictionary<int, StatusSet>();
-        private bool prevShown;
+
         public TargetInfoClass(GameObject targetInfoGO, SinglePlayer controlledPlayer)
         {
-            prevShown = false;
             this.controlledPlayer = controlledPlayer;
 
             this.targetInfoGO = targetInfoGO;
@@ -153,13 +152,15 @@ public class UIManager : MonoBehaviour
                 if (target.casting)
                 {
                     castFrame.SetActive(true);
-                    StatusGroup sg = target.castingStatus;
+                    CastGroup sg = target.castingStatus;
                     Debug.Log($"TargetInfoClass Init: StatusGroup has {sg.statuses.Count} statuses.");
                     SingleStatus s = sg.statuses[0];
                     RectTransform castRect = castMask.GetComponent<RectTransform>();
                     Vector3 castScale = castRect.localScale;
                     castScale.x = (float)s.countdown / s.duration;
                     castRect.localScale = castScale;
+
+                    moveName.text = sg.actual.statusName;
                 }
                 else
                 {
@@ -167,13 +168,13 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
         public void OnStatusListChange()
         {
 
             if (this.controlledPlayer.target == null)
             {
                 UIManager.OnStatusListChange(statusListGO, this.controlledPlayer.target.GetComponent<Entity>(), statusSets, 5);
-
             }
         }
     }

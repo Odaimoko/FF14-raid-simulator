@@ -206,10 +206,12 @@ public class BattleManager : MonoBehaviour
     public void OnBattleEnd()
     {
         // in->end
+        // Stop all casting
         // UI transition
         // Reset CD, HP,
         // Reset Scenario
         // reset enemy status to prepare
+        
         if (battleStatus == BattleStatus.PlayerWin)
         {
             Debug.Log("BM OnBattleEnd: PlayerWin.");

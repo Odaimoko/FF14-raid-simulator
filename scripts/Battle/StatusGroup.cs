@@ -32,7 +32,7 @@ public class StatusGroup
         this.target = target;
     }
 
-    public void Update()
+    public virtual void Update()
     {
         foreach (SingleStatus s in statuses)
         {

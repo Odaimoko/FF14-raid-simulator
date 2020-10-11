@@ -23,8 +23,9 @@ public static class Constants
 
     public static class Battle
     {
-        public static float inBattleDistance = 10f;
-        public static float minAtkDistance = 3f;
+        public const float inBattleDistance = 10f;
+        public const float minAtkDistance = 3f;
+        public const float raidWideDistance = 80f;
     }
 }
 
