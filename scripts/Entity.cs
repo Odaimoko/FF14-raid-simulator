@@ -64,7 +64,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
             OnDead();
         }
     }
-    public virtual void GotHealed(int hp)
+    public virtual void GotHealed(int amount)
     {
 
     }

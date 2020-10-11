@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-
+using Volpi.ObjectyPool;
 public class UIManager : MonoBehaviour
 {
     public class PartyListItem
@@ -128,7 +128,7 @@ public class UIManager : MonoBehaviour
                     // init
                     foreach (StatusSet item in statusSets.Values)
                     {
-                        Destroy(item.icon);
+                        UIManager.DestroyIconGO(item.icon);
                     }
                     statusSets.Clear();
                     UIManager.OnStatusListChange(statusListGO, target, statusSets, 5);
@@ -251,8 +251,10 @@ public class UIManager : MonoBehaviour
                 {
                     Debug.Log($"UIManager OnStatusListChange {status.statusName}");
                     Vector2 offset = GetIconOffset(i);
-                    GameObject icon = Instantiate(statusIconPrefab, statusList.transform.position, statusList.transform.rotation);
-                    icon.name = status.statusName;
+                    // GameObject icon = Instantiate(statusIconPrefab, statusList.transform.position, statusList.transform.rotation);
+                    GameObject icon = GetNewIconGO(); 
+                    // Object pool does not support custom GO name
+                    // icon.name = status.statusName; 
                     // set its parent to Status list or it won not appear
                     icon.transform.SetParent(statusList.transform);
                     RectTransform rt = icon.GetComponent<RectTransform>();
@@ -275,6 +277,15 @@ public class UIManager : MonoBehaviour
                 if (i == maxIcons) return;
             }
         }
+    }
+
+    public static GameObject GetNewIconGO()
+    {
+        return ObjectyManager.Instance.ObjectyPools["icon pool"].Spawn("status icon");
+    }
+    public static void DestroyIconGO(GameObject icon)
+    {
+        ObjectyManager.Instance.ObjectyPools["icon pool"].Despawn("status icon", icon);
     }
 
     public void OnStatusListChange()
@@ -312,7 +323,7 @@ public class UIManager : MonoBehaviour
             StatusSet s = set[j];
             Debug.Log($"UIManager UpdateStatusList: Removing {s.singleStatus.statusName}.");
             set.Remove(s.singleStatus.GetHashCode());
-            Destroy(s.icon);
+            UIManager.DestroyIconGO(s.icon);
         }
         int i = 0;
         foreach (StatusSet s in set.Values)

@@ -30,7 +30,16 @@ public class SingleStatus
     // ─── METAINFO ───────────────────────────────────────────────────────────────────
     //
     public string statusName, statusDescription;
-    public bool showIcon = true; // should we show icon on ui   
+    private bool _showIcon = true;
+    public bool showIcon
+    {
+        get
+        {
+            // dont show icon if expired
+            return _showIcon && !expired;
+        }
+        set { _showIcon = value; }
+    } // should we show icon on ui   
     public Sprite icon; // prefab
     // TODO: Effect variable
     protected BattleManager bm;
