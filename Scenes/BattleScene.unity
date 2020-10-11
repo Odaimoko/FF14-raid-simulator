@@ -2910,6 +2910,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   partyListGO: {fileID: 1351245488}
   statusListGO: {fileID: 610717846}
+  targetInfoGO: {fileID: 212312363}
 --- !u!95 &1257624464
 Animator:
   serializedVersion: 3

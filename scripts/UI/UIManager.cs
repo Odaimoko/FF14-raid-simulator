@@ -66,24 +66,131 @@ public class UIManager : MonoBehaviour
     public SinglePlayer controlledPlayer;
 
     public GameObject canvas;
+    //
+    // ─── PARTY LIST ─────────────────────────────────────────────────────────────────
+    //
+
+
     public GameObject partyListGO;
     public List<PartyListItem> partylistItems = new List<PartyListItem>();
+    //
+    // ─── SELF STATUS LIST ───────────────────────────────────────────────────────────
+    //
+
+
     public GameObject statusListGO;
     [SerializeField]
     public static GameObject statusIconPrefab;
-    public Dictionary<int, StatusSet> statusSets = new Dictionary<int, StatusSet>();
+    public Dictionary<int, StatusSet> selfStatusSets = new Dictionary<int, StatusSet>();
+    //
+    // ─── TARGET INFO ────────────────────────────────────────────────────────────────
+    //
+
+    public class TargetInfoClass
+    {
+        private TextMeshProUGUI bossName, hpPercent, moveName;
+        private SinglePlayer controlledPlayer;
+        private GameObject targetInfoGO, hpMask, castMask, castFrame, statusListGO;
+        public Dictionary<int, StatusSet> statusSets = new Dictionary<int, StatusSet>();
+        private bool prevShown;
+        public TargetInfoClass(GameObject targetInfoGO, SinglePlayer controlledPlayer)
+        {
+            prevShown = false;
+            this.controlledPlayer = controlledPlayer;
+
+            this.targetInfoGO = targetInfoGO;
+
+            GameObject hpFrame = targetInfoGO.transform.Find("hp frame").gameObject;
+            hpMask = hpFrame.transform.Find("hp mask").gameObject;
+            bossName = hpFrame.transform.Find("boss name").GetComponent<TextMeshProUGUI>();
+            hpPercent = hpFrame.transform.Find("hp percent").GetComponent<TextMeshProUGUI>();
+
+            statusListGO = targetInfoGO.transform.Find("boss status list").gameObject;
+
+            castFrame = targetInfoGO.transform.Find("cast frame").gameObject;
+            castMask = castFrame.transform.Find("cast mask").gameObject;
+            moveName = castFrame.transform.Find("move name").GetComponent<TextMeshProUGUI>();
+            Update();
+        }
+
+        public void Update(bool update = false)
+        {
+            if (this.controlledPlayer.target == null)
+            {
+                targetInfoGO.SetActive(false);
+            }
+            else
+            {
+                targetInfoGO.SetActive(true);
+                Entity target = controlledPlayer.target.GetComponent<Entity>();
+                // Status
+                if (!update)
+                {
+                    // init
+                    foreach (StatusSet item in statusSets.Values)
+                    {
+                        Destroy(item.icon);
+                    }
+                    statusSets.Clear();
+                    UIManager.OnStatusListChange(statusListGO, target, statusSets, 5);
+                }
+                else
+                {
+                    UIManager.UpdateStatusList(statusSets);
+                }
+                // HP
+                Debug.Log($"UIManager InitTargetInfo {target.name} ");
+
+                bossName.text = target.name;
+
+                RectTransform rect = hpMask.GetComponent<RectTransform>();
+                Vector3 scale = rect.localScale;
+                scale.x = (float)target.healthPoint / target.maxHP;
+                rect.localScale = scale;
+                float percent = (Mathf.CeilToInt(scale.x * 1000)) / 10;
+                Debug.Log($"UIManager InitTargetInfo: Set HP percent {percent} ");
+                hpPercent.text = percent.ToString() + "%"; // CastBar
+                if (target.casting)
+                {
+                    castFrame.SetActive(true);
+                    StatusGroup sg = target.castingStatus;
+                    Debug.Log($"TargetInfoClass Init: StatusGroup has {sg.statuses.Count} statuses.");
+                    SingleStatus s = sg.statuses[0];
+                    RectTransform castRect = castMask.GetComponent<RectTransform>();
+                    Vector3 castScale = castRect.localScale;
+                    castScale.x = (float)s.countdown / s.duration;
+                    castRect.localScale = castScale;
+                }
+                else
+                {
+                    castFrame.SetActive(false);
+                }
+            }
+        }
+        public void OnStatusListChange()
+        {
+
+            if (this.controlledPlayer.target == null)
+            {
+                UIManager.OnStatusListChange(statusListGO, this.controlledPlayer.target.GetComponent<Entity>(), statusSets, 5);
+
+            }
+        }
+    }
+    public GameObject targetInfoGO;
+    private TargetInfoClass targetInfo;
     void Start()
     {
         statusIconPrefab = Resources.Load<GameObject>("battle_status/Status_self");
         RegisterEntities();
         InitPartylist();
-        OnStatusListChange();
         InitTargetInfo();
+        OnStatusListChange();
     }
 
     void Update()
     {
-        UpdateStatusList(statusSets);
+        UpdateStatusList(selfStatusSets);
         UpdatePartyList();
         UpdateTargetInfo();
     }
@@ -128,11 +235,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public static void OnStatusListChange(GameObject statusList, SinglePlayer pl, Dictionary<int, StatusSet> sets, int maxIcons)
+    public static void OnStatusListChange(GameObject statusList, Entity en, Dictionary<int, StatusSet> sets, int maxIcons)
     {
         int i = 0;
-        Debug.Log($"UIManager OnStatusListChange Start. {pl.statusGroups.Count} Groups.");
-        foreach (StatusGroup statusGroup in pl.statusGroups)
+        Debug.Log($"UIManager OnStatusListChange Start. {en.statusGroups.Count} Groups.");
+        foreach (StatusGroup statusGroup in en.statusGroups)
         {
             foreach (SingleStatus status in statusGroup.statuses)
             {
@@ -171,11 +278,12 @@ public class UIManager : MonoBehaviour
 
     public void OnStatusListChange()
     {
-        OnStatusListChange(statusListGO, controlledPlayer, statusSets, 20);
+        OnStatusListChange(statusListGO, controlledPlayer, selfStatusSets, 20);
         foreach (PartyListItem item in partylistItems)
         {
             item.OnStatusListChange();
         }
+        targetInfo.OnStatusListChange();
     }
 
     public static void UpdateStatusList(Dictionary<int, StatusSet> set)
@@ -227,18 +335,11 @@ public class UIManager : MonoBehaviour
     // Fixed: Since player cannot choose target now.
     public void InitTargetInfo()
     {
-        GameObject target = controlledPlayer.target;
-        if (target != null)
-        {
-            Debug.Log($"UIManager InitTargetInfo {target} ", this.gameObject);
-
-        }
-        else
-            Debug.Log($"UIManager InitTargetInfo: Target is Null.", this.gameObject);
+        targetInfo = new TargetInfoClass(targetInfoGO, controlledPlayer);
     }
     public void UpdateTargetInfo()
     {
-
+        targetInfo.Update(true);
     }
 
     void RegisterEntities()

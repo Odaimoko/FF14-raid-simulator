@@ -17,12 +17,10 @@ public class EnemyCast : SingleStatus
     {
         base.NormalEffect();
         Entity e = target.GetComponent<Entity>();
-        e.casting = true;
     }
     protected override void ExpireEffect()
     {
         base.ExpireEffect();
         Entity e = target.GetComponent<Entity>();
-        e.casting = false;
-    }
+     }
 }

@@ -31,14 +31,10 @@ public abstract class Entity : MonoBehaviour, GotDamage
     }
 
     // if casting, boss wont move and AA
-    private bool _casting;
+    public StatusGroup castingStatus; // only contains one single status
     public bool casting
     {
-        get { return _casting; }
-        set
-        {
-            _casting = value;
-        }
+        get { return castingStatus!=null; }
     }
 
     public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
