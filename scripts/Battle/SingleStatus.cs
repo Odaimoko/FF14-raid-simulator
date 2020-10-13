@@ -77,6 +77,7 @@ public class SingleStatus
     protected virtual void ExpireEffect()
     {
         Debug.Log($"SingleStatus ({this.statusName}) Expire: From {from.name} to {target.name}", this.target);
+        // TODO: show remove status on target
     }
 
 
@@ -95,6 +96,7 @@ public class SingleStatus
     // called when the status is first attached to an entity
     public virtual void OnAttachedToEntity()
     {
+        // TODO: Show add status on target
         if (effectiveAtOnce)
         {
             bm.AddEvent(this);
@@ -111,5 +113,10 @@ public class SingleStatus
     public override int GetHashCode()
     {
         return (statusName + statusID).GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return (statusName + statusID);
     }
 }

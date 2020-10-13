@@ -35,11 +35,11 @@ public class Scenario : MonoBehaviour
     protected virtual void RegisterEntities()
     {
         // Find enemies and players in the scene
-        foreach (GameObject en in GameObject.FindGameObjectsWithTag("Enemy"))
+        foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.EnemyTag))
         {
             enemies.Add(en.GetComponent<Enemy>());
         }
-        foreach (GameObject en in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
         {
             players.Add(en.GetComponent<SinglePlayer>());
         }

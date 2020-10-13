@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Volpi.ObjectyPool;
 public abstract class Entity : MonoBehaviour, GotDamage
 {
     public bool inBattle = false; // has the battle started
@@ -14,7 +14,6 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     public abstract GameObject target { get; set; }
     [SerializeField]
-    protected float autoAtkInterval = 3f;
     public int maxHP = 10;
     [SerializeField]
     protected int currentHP;
@@ -38,6 +37,19 @@ public abstract class Entity : MonoBehaviour, GotDamage
     }
 
     public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
+    public GameObject damageInfoPrefab;
+
+    //
+    // ─── UI ─────────────────────────────────────────────────────────────────────────
+    //
+
+    public Canvas moveInfoCanvas;
+
+
+    private void Awake()
+    {
+        moveInfoCanvas = transform.parent.Find("move info canvas").GetComponent<Canvas>();
+    }
 
     protected virtual void Start()
     {
@@ -57,16 +69,30 @@ public abstract class Entity : MonoBehaviour, GotDamage
     {
         // TODO: Check Magic/Physical Vulnerability
         if (currentHP > dmg)
+        {
             currentHP -= dmg;
+        }
         else
         {
             currentHP = 0;
             OnDead();
         }
+        ShowDamangeNumber(dmg);
     }
+
+    private void ShowDamangeNumber(int amount)
+    {
+        Debug.Log($"Entity {gameObject.name} ShowDamangeNumber: {amount}");
+        // GameObject damageInfoGO = Instantiate(damageInfoPrefab, transform.position, transform.rotation);
+        GameObject damageInfoGO = ObjectyManager.Instance.ObjectyPools[Constants.UI.DamageInfoPoolName].Spawn(Constants.UI.DamageInfoPoolSpawningName);
+        DamageTextFollower damageTextFollower = damageInfoGO.GetComponent<DamageTextFollower>();
+        damageTextFollower.isDamageInfo = true;
+        damageTextFollower.Init(par: moveInfoCanvas.transform, dmg: amount);
+    }
+
     public virtual void GotHealed(int amount)
     {
-
+        ShowDamangeNumber(-amount);
     }
 
     public void AddStatusGroup(StatusGroup sg)
@@ -121,7 +147,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         while (!dead)
         {
             AA();
-            yield return new WaitForSeconds(autoAtkInterval);
+            yield return new WaitForSeconds(Constants.Battle.autoAtkInterval);
         }
     }
 

@@ -9,7 +9,7 @@ public class Slowdown : SingleStatus
     public Slowdown(GameObject from, GameObject target, float dur) :
         base(from, target, dur)
     {
-        controller = this.target.GetComponent<ControllerSystem>();
+        controller = this.target.transform.parent.GetComponent<ControllerSystem>();
         effectiveAtOnce = true;
         icon = Resources.Load<Sprite>("battle_status/status_slowdown");
         statusName = "Slowdown";

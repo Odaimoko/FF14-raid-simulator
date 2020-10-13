@@ -88,11 +88,11 @@ public class BattleManager : MonoBehaviour
     void RegisterEntities()
     {
         // Find enemies and players in the scene
-        foreach (GameObject en in GameObject.FindGameObjectsWithTag("Enemy"))
+        foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.EnemyTag))
         {
             enemies.Add(en.GetComponent<Enemy>());
         }
-        foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject pl in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
         {
             SinglePlayer sp = pl.GetComponent<SinglePlayer>();
             if (sp.controller.controllable)

@@ -50,7 +50,7 @@ public class Shiva_ex : Scenario
         Debug.Log("Shiva_ex: SlowDown!!!!!");
         foreach (SinglePlayer singlePlayer in players)
         { 
-            singlePlayer.AddStatusGroup(new SlowdownGroup(Shiva, singlePlayer.gameObject, 2f));
+            singlePlayer.AddStatusGroup(new SlowdownGroup(Shiva, singlePlayer.gameObject, 6f));
         }
     }
 

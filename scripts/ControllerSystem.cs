@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator), typeof(Rigidbody))]
 public class ControllerSystem : MonoBehaviour
 {
     // For keyboard and mouse, console and mobile
@@ -15,6 +14,7 @@ public class ControllerSystem : MonoBehaviour
     }
     //  sometimes the player cannot control themselves
     public bool controllable { get; set; } = true;
+    private SinglePlayer controlledPlayer;
 
     private float defaultMoveSpeed = 4f;
     // Accerlarate, or slowdown
@@ -26,8 +26,16 @@ public class ControllerSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerRB = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        foreach (GameObject pl in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
+        {
+            SinglePlayer sp = pl.GetComponent<SinglePlayer>();
+            if (sp.controller.controllable)
+            {
+                controlledPlayer = sp;
+            }
+        }
+        playerRB = controlledPlayer.GetComponent<Rigidbody>();
+        animator = controlledPlayer.GetComponent<Animator>();
     }
 
     void Update()
@@ -112,10 +120,10 @@ public class ControllerSystem : MonoBehaviour
         transform.Translate(worldTowards.normalized * moveSpeed * Time.deltaTime, Space.World);
         // rotate towards the velocity direction
         float towardsZAngle = Vector3.Angle(Vector3.forward, worldTowards);
-        // rotation in unity is clockwise
+        // rotation in unity is clockwise, based on controlled player
         if (worldTowards.x < 0) towardsZAngle = 360 - towardsZAngle;
-        float rotationY = transform.eulerAngles.y;
-        if (Mathf.Abs(towardsZAngle - transform.eulerAngles.y) > 2f)
+        float rotationY = controlledPlayer.transform.eulerAngles.y;
+        if (Mathf.Abs(towardsZAngle - controlledPlayer.transform.eulerAngles.y) > 2f)
         {
             float rotateDirection;
             if (towardsZAngle - rotationY > 180)
@@ -124,8 +132,8 @@ public class ControllerSystem : MonoBehaviour
                 rotateDirection = towardsZAngle - rotationY + 360;
             else
                 rotateDirection = towardsZAngle - rotationY;
-            transform.Rotate(
-                0, spinSpeed * rotateDirection, 0);
+            controlledPlayer.transform.Rotate(
+                 0, spinSpeed * rotateDirection, 0);
         }
     }
 

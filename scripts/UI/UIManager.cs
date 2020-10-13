@@ -271,7 +271,7 @@ public class UIManager : MonoBehaviour
                     // set countdown
                     GameObject cdGO = icon.transform.Find("countdown").gameObject;
                     if (showCDText)
-                    { 
+                    {
                         cdGO.SetActive(true);
                         TextMeshProUGUI cdText = cdGO.GetComponent<TextMeshProUGUI>();
                         cdText.text = Mathf.CeilToInt(status.countdown).ToString();
@@ -288,11 +288,11 @@ public class UIManager : MonoBehaviour
 
     public static GameObject GetNewIconGO()
     {
-        return ObjectyManager.Instance.ObjectyPools["icon pool"].Spawn("status icon");
+        return ObjectyManager.Instance.ObjectyPools[Constants.UI.IconPoolGOName].Spawn(Constants.UI.IconPoolSpawningName);
     }
     public static void DestroyIconGO(GameObject icon)
     {
-        ObjectyManager.Instance.ObjectyPools["icon pool"].Despawn("status icon", icon);
+        ObjectyManager.Instance.ObjectyPools[Constants.UI.IconPoolGOName].Despawn(Constants.UI.IconPoolSpawningName, icon);
     }
 
     public void OnStatusListChange()
@@ -356,6 +356,7 @@ public class UIManager : MonoBehaviour
     {
         targetInfo = new TargetInfoClass(targetInfoGO, controlledPlayer);
     }
+
     public void UpdateTargetInfo()
     {
         targetInfo.Update(true);
@@ -364,11 +365,11 @@ public class UIManager : MonoBehaviour
     void RegisterEntities()
     {
         // Find enemies and players in the scene
-        foreach (GameObject en in GameObject.FindGameObjectsWithTag("Enemy"))
+        foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.EnemyTag))
         {
             enemies.Add(en.GetComponent<Enemy>());
         }
-        foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject pl in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
         {
             SinglePlayer sp = pl.GetComponent<SinglePlayer>();
             if (sp.controller.controllable)

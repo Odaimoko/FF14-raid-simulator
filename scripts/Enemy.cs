@@ -74,7 +74,7 @@ public class Enemy : Entity
     public void RegisterEntities()
     {
         Debug.Log("Enemy RegisterEntities Started.", this.gameObject);
-        foreach (GameObject pl in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (GameObject pl in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
         {
             players.Add(pl.GetComponent<SinglePlayer>());
             Debug.Log($"Enemy RegisterEntities: Player Added: {pl}", this.gameObject);

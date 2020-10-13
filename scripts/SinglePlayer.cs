@@ -38,7 +38,7 @@ public class SinglePlayer : Entity, GotDamage
         }
     }
     private int manaPoints;
- 
+
     //
     // ─── STRAT ──────────────────────────────────────────────────────────────────────
     //
@@ -60,13 +60,11 @@ public class SinglePlayer : Entity, GotDamage
         }
     }
 
+
     private void Awake()
     {
         // controller should be init here so UI manager can find controller.
-        controller = GetComponent<ControllerSystem>();
-        // GameObject shiva = GameObject.Find("Shiva");
-        // AddStatusGroup(new SlowdownGroup(shiva, gameObject));
-
+        controller = transform.parent.GetComponent<ControllerSystem>();
     }
     protected override void Start()
     {
