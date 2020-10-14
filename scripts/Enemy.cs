@@ -16,6 +16,7 @@ public class Enemy : Entity
     //
     // ─── MOVEMENT ───────────────────────────────────────────────────────────────────
     //
+    private Transform parentTransform;
     [SerializeField]
     public float moveSpeed = .05f;
 
@@ -69,6 +70,7 @@ public class Enemy : Entity
         base.Start();
         currentHP = maxHP;
         targetCircleGO = transform.Find("target circle");
+        parentTransform = transform.parent;
     }
 
     public void RegisterEntities()
@@ -142,16 +144,10 @@ public class Enemy : Entity
         if (mt)
         {
             // if not null
-            Vector3 towards = mt.transform.position - gameObject.transform.position;
+            Vector3 towards = mt.transform.position - parentTransform.position;
             towards.y = 0;
-            if (towards.magnitude < Constants.Battle.minAtkDistance)
-                return;
-
-            towards = towards.normalized;
-            transform.Translate(towards * moveSpeed, Space.World);
             // Rotate Target Circle
             float angle = Vector3.Angle(Vector3.forward, towards);
-            // Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}. Angle {angle}", this.gameObject);
             if (towards.x > 0)
             {
                 angle = 360 - angle;
@@ -160,6 +156,13 @@ public class Enemy : Entity
             eulerAngle.z = angle;
             eulerAngle.y = 0;
             targetCircleGO.transform.eulerAngles = eulerAngle;
+            // move
+            if (towards.magnitude < Constants.Battle.minAtkDistance)
+                return;
+
+            towards = towards.normalized;
+            parentTransform.Translate(towards * moveSpeed, Space.World);
+            // Debug.Log($"Enemy Move: {this} Move Towards {mt}, Direction: {towards}. Angle {angle}", this.gameObject);
             // Debug.Log($"Tachie Circle  eulerAngle {eulerAngle}, {targetCircleGO.transform.eulerAngles}", this.gameObject);
         }
     }

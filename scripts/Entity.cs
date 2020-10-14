@@ -77,6 +77,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
             currentHP = 0;
             OnDead();
         }
+        // TODO: Show damage queue
         ShowDamangeNumber(dmg);
     }
 

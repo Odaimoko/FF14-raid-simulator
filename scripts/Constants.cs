@@ -27,7 +27,7 @@ public static class Constants
         public const string DamageInfoPoolName = "damage info pool";
         public const string DamageInfoPoolSpawningName = "move info";
         public const float DamageStartFade = 1.5f;
-        public const float DamageMovementSpeed = .5f;
+        public const float DamageMovementSpeed = .7f;
         public const float DamageFadeSpeed = 0.1f;
         public const float DamageFadeInterval = .1f;
         public const float DamageMovementYLimit = DamageStartFade + 1 / DamageFadeSpeed * DamageFadeInterval * DamageMovementSpeed;

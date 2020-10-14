@@ -21,7 +21,6 @@ public class ControllerSystem : MonoBehaviour
     public float moveSpeedMultiplier = 1f;
 
     private float spinSpeed = .4f;
-    private Rigidbody playerRB;
     private Vector2 touchStartPos = Vector2.zero, touchEndPos = Vector2.zero;
     // Start is called before the first frame update
     void Start()
@@ -34,7 +33,6 @@ public class ControllerSystem : MonoBehaviour
                 controlledPlayer = sp;
             }
         }
-        playerRB = controlledPlayer.GetComponent<Rigidbody>();
         animator = controlledPlayer.GetComponent<Animator>();
     }
 
