@@ -9,7 +9,7 @@ public class Cast : SingleStatus
     {
         effectiveAtOnce = true;
         showIcon = false;
-        statusName = "EnemyCast"; 
+        name = "EnemyCast"; 
     }
 
     protected override void NormalEffect()

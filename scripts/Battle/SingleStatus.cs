@@ -26,10 +26,12 @@ public class SingleStatus
     protected bool lostAfterDeath = true;
     // if this status has effect once attached to an entity
     protected bool effectiveAtOnce = true;
+
     //
     // ─── METAINFO ───────────────────────────────────────────────────────────────────
     //
-    public string statusName, statusDescription;
+    
+    public string name, statusDescription;
     private bool _showIcon = true;
     public bool showIcon
     {
@@ -65,18 +67,18 @@ public class SingleStatus
         if (countdown < 0 && !expired)
         {
             expired = true;
-            Debug.Log($"SingleStatus ({this.statusName}) Expired. Registering.");
+            Debug.Log($"SingleStatus ({this.name}) Expired. Registering.");
             RegisterEffect();
         }
     }
     protected virtual void NormalEffect()
     {
-        Debug.Log($"SingleStatus ({this.statusName}) Normal: From {from.name} to {target.name}", this.target);
+        Debug.Log($"SingleStatus ({this.name}) Normal: From {from.name} to {target.name}", this.target);
     }
 
     protected virtual void ExpireEffect()
     {
-        Debug.Log($"SingleStatus ({this.statusName}) Expire: From {from.name} to {target.name}", this.target);
+        Debug.Log($"SingleStatus ({this.name}) Expire: From {from.name} to {target.name}", this.target);
         // TODO: show remove status on target
     }
 
@@ -106,17 +108,17 @@ public class SingleStatus
     // Called per period (3 secs)
     public void RegisterEffect()
     {   
-        Debug.Log($"SingleStatus ({this  .statusName}) RegisterEffect.", this.target);
+        Debug.Log($"SingleStatus ({this  .name}) RegisterEffect.", this.target);
         bm.AddEvent(this);
     }
 
     public override int GetHashCode()
     {
-        return (statusName + statusID).GetHashCode();
+        return (name + statusID).GetHashCode();
     }
 
     public override string ToString()
     {
-        return (statusName + statusID);
+        return (name + statusID);
     }
 }

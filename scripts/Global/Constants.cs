@@ -49,21 +49,37 @@ public static class Constants
 
     public static class GameSystem
     {
+
+        public const string GMObjectName = "Global Manager GO";
         public enum SupportedBoss
         {
             Shiva_Unreal,
         }
 
-public static System.Type GetScenario(SupportedBoss boss)
-{
-    switch (boss)
-    {
-        case SupportedBoss.Shiva_Unreal:
-        default:
-            Debug.Log($"GameSystem GetScenario: {typeof(Shiva_ex)}");
-            return typeof(Shiva_ex);
-    }
-}
+        public static System.Type GetScenario(SupportedBoss boss)
+        {
+            switch (boss)
+            {
+                case SupportedBoss.Shiva_Unreal:
+                default:
+                    Debug.Log($"GameSystem GetScenario: {typeof(Shiva_ex)}");
+                    return typeof(Shiva_ex);
+            }
+        }
+
+
+        public static BattlePhase GetPhases(SupportedBoss boss)
+        {
+            switch (boss)
+            {
+                case SupportedBoss.Shiva_Unreal:
+                default:
+                    // TODO
+                    return new BattlePhase();
+            }
+        }
+
+
     }
 }
 

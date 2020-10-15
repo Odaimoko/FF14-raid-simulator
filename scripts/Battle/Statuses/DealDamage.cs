@@ -10,7 +10,7 @@ public class DealDamage : SingleStatus
     public DealDamage(GameObject from, GameObject target, int dmg, string name = "AutoAttack", float range = Constants.Battle.minAtkDistance) :
         base(from, target, .1f)
     {
-        this.statusName = name;
+        this.name = name;
         _damage = dmg;
         showIcon = false;
         effectiveAtOnce = false;

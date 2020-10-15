@@ -138,7 +138,7 @@ public class UIManager : MonoBehaviour
                     UIManager.UpdateStatusList(statusSets);
                 }
                 // HP
-                Debug.Log($"UIManager InitTargetInfo {target.name} ");
+                // Debug.Log($"UIManager InitTargetInfo {target.name} ");
 
                 bossName.text = target.name;
 
@@ -147,20 +147,20 @@ public class UIManager : MonoBehaviour
                 scale.x = (float)target.healthPoint / target.maxHP;
                 rect.localScale = scale;
                 float percent = (Mathf.CeilToInt(scale.x * 1000)) / 10;
-                Debug.Log($"UIManager InitTargetInfo: Set HP percent {percent} ");
+                // Debug.Log($"UIManager InitTargetInfo: Set HP percent {percent} ");
                 hpPercent.text = percent.ToString() + "%"; // CastBar
                 if (target.casting)
                 {
                     castFrame.SetActive(true);
                     CastGroup sg = target.castingStatus;
-                    Debug.Log($"TargetInfoClass Init: StatusGroup has {sg.statuses.Count} statuses.");
+                    // Debug.Log($"TargetInfoClass Init: StatusGroup has {sg.statuses.Count} statuses.");
                     SingleStatus s = sg.statuses[0];
                     RectTransform castRect = castMask.GetComponent<RectTransform>();
                     Vector3 castScale = castRect.localScale;
                     castScale.x = (float)s.countdown / s.duration;
                     castRect.localScale = castScale;
 
-                    moveName.text = sg.actual.statusName;
+                    moveName.text = sg.actual.name;
                 }
                 else
                 {
@@ -244,12 +244,12 @@ public class UIManager : MonoBehaviour
         {
             foreach (SingleStatus status in statusGroup.statuses)
             {
-                Debug.Log($"UIManager OnStatusListChange Has Key {status.statusName}/{status.GetHashCode()}: {sets.ContainsKey(status.GetHashCode())}");
+                Debug.Log($"UIManager OnStatusListChange Has Key {status.name}/{status.GetHashCode()}: {sets.ContainsKey(status.GetHashCode())}");
                 if (!status.showIcon)
                     continue;
                 if (!sets.ContainsKey(status.GetHashCode()))
                 {
-                    Debug.Log($"UIManager OnStatusListChange {status.statusName}");
+                    Debug.Log($"UIManager OnStatusListChange {status.name}");
                     Vector2 offset = GetIconOffset(i);
                     // GameObject icon = Instantiate(statusIconPrefab, statusList.transform.position, statusList.transform.rotation);
                     GameObject icon = GetNewIconGO();
@@ -313,7 +313,7 @@ public class UIManager : MonoBehaviour
         {
             if (s.singleStatus.expired)
             {
-                Debug.Log($"UIManager UpdateStatusList: {s.singleStatus.statusName} has expired.");
+                Debug.Log($"UIManager UpdateStatusList: {s.singleStatus.name} has expired.");
                 toRemove.Add(s.singleStatus.GetHashCode());
             }
             else
@@ -328,7 +328,7 @@ public class UIManager : MonoBehaviour
         foreach (int j in toRemove)
         {
             StatusSet s = set[j];
-            Debug.Log($"UIManager UpdateStatusList: Removing {s.singleStatus.statusName}.");
+            Debug.Log($"UIManager UpdateStatusList: Removing {s.singleStatus.name}.");
             set.Remove(s.singleStatus.GetHashCode());
             UIManager.DestroyIconGO(s.icon);
         }

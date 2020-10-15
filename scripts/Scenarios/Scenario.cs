@@ -9,7 +9,10 @@ public class Scenario : MonoBehaviour
     public AudioClip[] audioClips;
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
-    protected SinglePlayer controlledPlayer;  
+    protected List<BattlePhase> phases;
+    protected SinglePlayer controlledPlayer;
+    protected BattlePhase currentPhase;
+    protected Animator animator;
     // Start is called before the first frame update
     public virtual void Init()
     {
@@ -25,10 +28,6 @@ public class Scenario : MonoBehaviour
 
     }
 
-    public virtual void StartScenario(int phase = 0)
-    {
-
-    }
     public virtual void GenerateEntities()
     {
 
@@ -52,7 +51,6 @@ public class Scenario : MonoBehaviour
             players.Add(sp);
         }
     }
-
 
     protected virtual void SetAggro()
     {
@@ -104,8 +102,30 @@ public class Scenario : MonoBehaviour
         }
     }
 
-    public virtual void Stop()
+
+    public virtual void StartPhase(BattlePhase phase = null)
+    {
+        // TODO: init actor's statuses
+        //  Set animation   
+        // Assign actors to scenario animation clip
+    }
+
+    public void _StartPhase(BattlePhase phase = null)
+    {
+        if (phase != null)
+        {
+            Debug.Log($"Scenario {this.name} StartPhase: {phase.name}");
+            StartPhase(phase);
+        }
+        else
+        {
+            Debug.Log($"Scenario StartPhase: Phase is Null.");
+        }
+    }
+
+    public virtual void StopPhase()
     {
         // Stop current phase
+        Debug.Log($"Scenario Stop: {currentPhase.name}");
     }
 }

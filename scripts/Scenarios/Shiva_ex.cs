@@ -18,11 +18,7 @@ public class Shiva_ex : Scenario
     {
         base.Update();
     }
-
-    public override void StartScenario(int phase = 0)
-    {
-        base.StartScenario(phase);
-    }
+ 
 
     public override void GenerateEntities()
     {
@@ -38,12 +34,7 @@ public class Shiva_ex : Scenario
     {
         base.SetAggro();
     }
-
-    public override void Stop()
-    {
-        base.Stop();
-    }
-
+ 
     public void SlowDown()
     {
         Debug.Log("Shiva_ex: SlowDown!!!!!");

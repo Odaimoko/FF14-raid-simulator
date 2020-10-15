@@ -12,7 +12,7 @@ public class Slowdown : SingleStatus
         controller = this.target.transform.parent.GetComponent<ControllerSystem>();
         effectiveAtOnce = true;
         icon = Resources.Load<Sprite>("battle_status/status_slowdown");
-        statusName = "Slowdown";
+        name = "Slowdown";
         
     }
 

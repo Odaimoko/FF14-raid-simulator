@@ -23,7 +23,7 @@ public class CastGroup : StatusGroup
         if (timer.expired && !castFinished)
         {
             castFinished = true;
-            Debug.Log($"CastGroup {target.name} finish casting. Applying {actual.statusName} to {actual.target.name}");
+            Debug.Log($"CastGroup {target.name} finish casting. Applying {actual.name} to {actual.target.name}");
             target.GetComponent<Entity>().castingStatus = null;
             Add(_actual);
         }

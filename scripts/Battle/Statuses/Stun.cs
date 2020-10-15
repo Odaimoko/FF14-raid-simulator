@@ -7,7 +7,7 @@ public class Stun : SingleStatus
     public Stun(GameObject fr, GameObject target, float dur) : base(fr, target, dur)
     {
         effectiveAtOnce = true;
-        statusName = "Stun";
+        name = "Stun";
         icon = Resources.Load<Sprite>("battle_status/status_stun");
     }
 

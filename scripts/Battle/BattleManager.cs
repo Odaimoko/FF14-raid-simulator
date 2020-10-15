@@ -96,6 +96,7 @@ public class BattleManager : MonoBehaviour
     {
         scenario = GetComponent<Scenario>();
         scenario.Init(); // generate players/enemies, set up animation
+        scenario.StartPhase(gameManager.phase);
         StartCoroutine("RegisterStatusEffect");
         uIManager = GetComponent<UIManager>();
         RegisterEntities();

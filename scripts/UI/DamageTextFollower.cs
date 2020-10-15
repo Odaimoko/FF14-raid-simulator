@@ -81,7 +81,7 @@ public class DamageTextFollower : MonoBehaviour
             }
             else
                 statusText.text = "+";
-            statusText.text += status.statusName;
+            statusText.text += status.name;
         }
     }
 
