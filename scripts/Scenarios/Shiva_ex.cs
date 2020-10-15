@@ -6,7 +6,6 @@ public class Shiva_ex : Scenario
 {
     private GameObject Shiva;
     [SerializeField]
-    private SinglePlayer controlledPlayer;
     public override void Init()
     {
         base.Init();

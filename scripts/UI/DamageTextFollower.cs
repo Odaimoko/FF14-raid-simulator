@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Volpi.ObjectyPool;
 
 public class DamageTextFollower : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class DamageTextFollower : MonoBehaviour
         rect.anchorMax = Constants.UI.MiddleCenterAnchor;
         rect.anchorMin = Constants.UI.MiddleCenterAnchor;
         rect.anchoredPosition = Vector3.zero;
+        rect.localEulerAngles = Vector3.zero;
 
         if (isDamageInfo)
         {
@@ -110,6 +112,8 @@ public class DamageTextFollower : MonoBehaviour
             {
                 faded = true;
                 StopCoroutine("Fade");
+                ObjectyManager.Instance.ObjectyPools[Constants.UI.DamageInfoPoolName].Despawn(Constants.UI.DamageInfoPoolSpawningName, gameObject);
+
             }
             yield return new WaitForSeconds(Constants.UI.DamageFadeInterval);
         }

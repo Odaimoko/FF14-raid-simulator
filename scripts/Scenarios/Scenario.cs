@@ -9,6 +9,7 @@ public class Scenario : MonoBehaviour
     public AudioClip[] audioClips;
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
+    protected SinglePlayer controlledPlayer;  
     // Start is called before the first frame update
     public virtual void Init()
     {
@@ -34,14 +35,21 @@ public class Scenario : MonoBehaviour
     }
     protected virtual void RegisterEntities()
     {
-        // Find enemies and players in the scene
+        // Find enemies and players in the scene, should be called after entity generation
+        enemies.Clear();
+        players.Clear();
         foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.EnemyTag))
         {
             enemies.Add(en.GetComponent<Enemy>());
         }
-        foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
+        foreach (GameObject pl in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
         {
-            players.Add(en.GetComponent<SinglePlayer>());
+            SinglePlayer sp = pl.GetComponent<SinglePlayer>();
+            if (sp.controller.controllable)
+            {
+                controlledPlayer = sp;
+            }
+            players.Add(sp);
         }
     }
 

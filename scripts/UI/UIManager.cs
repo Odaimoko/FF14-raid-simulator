@@ -365,6 +365,9 @@ public class UIManager : MonoBehaviour
     void RegisterEntities()
     {
         // Find enemies and players in the scene
+        enemies.Clear();
+        players.Clear();
+        controlledPlayer = null;
         foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.EnemyTag))
         {
             enemies.Add(en.GetComponent<Enemy>());

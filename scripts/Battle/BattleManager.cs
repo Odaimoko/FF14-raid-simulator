@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using System;
+using System.Reflection;
+using System.Linq;
+
+
 public class BattleManager : MonoBehaviour
 {
+    //
+    // ─── GM ─────────────────────────────────────────────────────────────────────────
+    //
+
+    private GlobalGameManager gameManager;
     public enum BattleStatus
     {
         PreBattle,
@@ -63,14 +74,30 @@ public class BattleManager : MonoBehaviour
     //
 
     private UIManager uIManager;
-
+    private void Awake()
+    {
+        gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
+        Type t = Constants.GameSystem.GetScenario(gameManager.boss);
+        var methods = typeof(GameObject).GetMethods().Where(m => m.Name == "AddComponent");
+        Debug.Log($"What type is methods {methods.GetType()}");
+        foreach (MethodInfo methodInfo in methods)
+        {
+            if (methodInfo.IsGenericMethod)
+            {
+                MethodInfo method = methodInfo;
+                MethodInfo generic = method.MakeGenericMethod(t);
+                generic.Invoke(gameObject, null);
+                break;
+            }
+        } 
+    }
     // Start is called before the first frame update
     void Start()
     {
+        scenario = GetComponent<Scenario>();
+        scenario.Init(); // generate players/enemies, set up animation
         StartCoroutine("RegisterStatusEffect");
         uIManager = GetComponent<UIManager>();
-        scenario = GetComponent<Scenario>();
-        scenario.Init();
         RegisterEntities();
     }
 
@@ -87,6 +114,9 @@ public class BattleManager : MonoBehaviour
 
     void RegisterEntities()
     {
+        enemies.Clear();
+        players.Clear();
+        controlledPlayer = null;
         // Find enemies and players in the scene
         foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.EnemyTag))
         {
@@ -217,12 +247,12 @@ public class BattleManager : MonoBehaviour
         if (battleStatus == BattleStatus.PlayerWin)
         {
             Debug.Log("BM OnBattleEnd: PlayerWin.");
-            t.text="PLAYER WIN";
+            t.text = "PLAYER WIN";
         }
         else
         {
             Debug.Log("BM OnBattleEnd: PlayerLose.");
-            t.text="PLAYER LOSE";
+            t.text = "PLAYER LOSE";
         }
     }
 

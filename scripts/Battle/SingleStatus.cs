@@ -105,8 +105,8 @@ public class SingleStatus
 
     // Called per period (3 secs)
     public void RegisterEffect()
-    {
-        Debug.Log($"SingleStatus ({this.statusName}) RegisterEffect.", this.target);
+    {   
+        Debug.Log($"SingleStatus ({this  .statusName}) RegisterEffect.", this.target);
         bm.AddEvent(this);
     }
 
