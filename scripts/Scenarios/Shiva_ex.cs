@@ -18,7 +18,6 @@ public class Shiva_ex : Scenario
     {
         base.Update();
     }
- 
 
     public override void GenerateEntities()
     {
@@ -34,12 +33,12 @@ public class Shiva_ex : Scenario
     {
         base.SetAggro();
     }
- 
+
     public void SlowDown()
     {
         Debug.Log("Shiva_ex: SlowDown!!!!!");
         foreach (SinglePlayer singlePlayer in players)
-        { 
+        {
             singlePlayer.AddStatusGroup(new SlowdownGroup(Shiva, singlePlayer.gameObject, 6f));
         }
     }

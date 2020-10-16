@@ -77,7 +77,7 @@ public class BattleManager : MonoBehaviour
     private void Awake()
     {
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
-        Type t = Constants.GameSystem.GetScenario(gameManager.boss);
+        Type t = Constants.GameSystem.GetScenarioType(gameManager.boss);
         var methods = typeof(GameObject).GetMethods().Where(m => m.Name == "AddComponent");
         Debug.Log($"What type is methods {methods.GetType()}");
         foreach (MethodInfo methodInfo in methods)

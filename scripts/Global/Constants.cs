@@ -56,7 +56,7 @@ public static class Constants
             Shiva_Unreal,
         }
 
-        public static System.Type GetScenario(SupportedBoss boss)
+        public static System.Type GetScenarioType(SupportedBoss boss)
         {
             switch (boss)
             {
@@ -79,6 +79,12 @@ public static class Constants
             }
         }
 
+        public static Sprite GetStratPosIconSprite(SinglePlayer.StratPosition position)
+        { 
+            string s = $"job_icon/{position.ToString()}_icon";
+            Sprite sprite = Resources.Load<Sprite>(s);
+            return sprite;
+        }
 
     }
 }
