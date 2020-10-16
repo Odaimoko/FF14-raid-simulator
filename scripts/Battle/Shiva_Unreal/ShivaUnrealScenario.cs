@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shiva_ex : Scenario
+public class ShivaUnrealScenario : Scenario
 {
     private GameObject Shiva;
     [SerializeField]
+ 
     public override void Init()
     {
         base.Init();

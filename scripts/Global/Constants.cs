@@ -50,37 +50,46 @@ public static class Constants
     public static class GameSystem
     {
 
+        private static string menuTachiePrefix = "menu";
+        public class ScenarioDictStruct
+        {
+            public SupportedBoss boss;
+            public System.Type scenarioType;
+            public List<Strategy> strats;
+            public string tachieFileName, headFileName;
+            public Dictionary<SupportedLang, string> bossNameMultiLanguage;
+            public ScenarioDictStruct(SupportedBoss boss, System.Type type, List<Strategy> s, Dictionary<SupportedLang, string> namePairs)
+            {
+                this.boss = boss;
+                scenarioType = type;
+                strats = s;
+                tachieFileName = $"{menuTachiePrefix}/{boss.ToString()}_paint";
+                headFileName = $"{menuTachiePrefix}/{boss.ToString()}_head_paint";
+                Debug.Log($"ScenarioDictStruct: {tachieFileName}, {headFileName}");
+                bossNameMultiLanguage = namePairs;
+            }
+        }
+
         public const string GMObjectName = "Global Manager GO";
-        public enum SupportedBoss
-        {
-            Shiva_Unreal,
-        }
 
-        public static System.Type GetScenarioType(SupportedBoss boss)
+        public static Dictionary<SupportedBoss, ScenarioDictStruct> boss2meta = new Dictionary<SupportedBoss, ScenarioDictStruct>()
         {
-            switch (boss)
-            {
-                case SupportedBoss.Shiva_Unreal:
-                default:
-                    Debug.Log($"GameSystem GetScenario: {typeof(Shiva_ex)}");
-                    return typeof(Shiva_ex);
-            }
-        }
+           { SupportedBoss.Shiva_Unreal, new ScenarioDictStruct(
+               SupportedBoss.Shiva_Unreal,
+           typeof(ShivaUnrealScenario),
+           new List<Strategy>(){
+               new ShivaUnrealZiyanStrat()
+           },
+           new Dictionary<SupportedLang,string>(){
+               {SupportedLang.CHN, "幻希瓦"}
+           })
+           },
+        };
 
 
-        public static BattlePhase GetPhases(SupportedBoss boss)
-        {
-            switch (boss)
-            {
-                case SupportedBoss.Shiva_Unreal:
-                default:
-                    // TODO
-                    return new BattlePhase();
-            }
-        }
 
         public static Sprite GetStratPosIconSprite(SinglePlayer.StratPosition position)
-        { 
+        {
             string s = $"job_icon/{position.ToString()}_icon";
             Sprite sprite = Resources.Load<Sprite>(s);
             return sprite;
