@@ -25,14 +25,8 @@ public class ControllerSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (GameObject pl in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
-        {
-            SinglePlayer sp = pl.GetComponent<SinglePlayer>();
-            if (sp.controller.controllable)
-            {
-                controlledPlayer = sp;
-            }
-        }
+        //  Just control this player's animation 
+        controlledPlayer =  gameObject.transform.GetChild(0).GetComponent<SinglePlayer>();
         animator = controlledPlayer.GetComponent<Animator>();
     }
 

@@ -111,13 +111,13 @@ public class Enemy : Entity
     }
 
     private GameObject GetFirstAggroPlayer()
-    {
+    {       
         int hi_aggro = 0;
         if (cachedMT == null || !cachedMT.GetComponent<SinglePlayer>().dead)
         {
             // if mt is not dead
             foreach (SinglePlayer p in players)
-            {
+            { 
                 Debug.Log($"GetFirstAggroPlayer: Enemy Aggro: Check if {p} is MT. Aggro: {aggro[p.gameObject]}. Position: {p.stratPosition}", this.gameObject);
                 if (!p.dead)
                 {

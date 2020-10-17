@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Scenario : MonoBehaviour
 {
@@ -14,14 +16,11 @@ public class Scenario : MonoBehaviour
     protected BattlePhase currentPhase;
     protected Animator animator;
     private GlobalGameManager gameManager;
-
+    public Dictionary<GameObject, int> aggro= new Dictionary<GameObject, int>();
     public virtual void Init()
     {
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
-
-        // Init Enemy and Player
         GenerateEntities();
-        RegisterEntities();
         SetAggro();
     }
 
@@ -37,7 +36,7 @@ public class Scenario : MonoBehaviour
         // Init Controlled Player 
         GameObject playerPrefab = Resources.Load<GameObject>(Constants.Battle.PlayerPrefabPath);
         for (int i = 0; i < Constants.Battle.NumPlayers; i++)
-        { 
+        {
             GameObject pObj = Instantiate(playerPrefab, new Vector3(3, 1, -4), Quaternion.identity);
             // Debug.Log($"Scenario GenerateEntities: Generate Player {i} in Scene {pObj.scene.name}.");
             pObj.GetComponent<ControllerSystem>().mainCam = battleCam;
@@ -45,36 +44,29 @@ public class Scenario : MonoBehaviour
             p.stratPosition = (SinglePlayer.StratPosition)i;
             p.gameObject.name = Constants.Battle.PlayerGOPrefix + p.stratPosition.ToString();
             pObj.name = $"{Constants.Battle.PlayerGOPrefix} parent {p.stratPosition.ToString()}";
+            // make the canvas face the camera
+            p.moveInfoCanvas.worldCamera = battleCam;
+            // Set Position text
+            Transform stratPosTextGO = p.moveInfoCanvas.transform.Find("strat pos text");
+            TextMeshProUGUI text = stratPosTextGO.GetComponent<TextMeshProUGUI>();
+            text.text = p.stratPosition.ToString();
+            text.color = Constants.Battle.GetPosColor(p.stratPosition);
+            SceneManager.MoveGameObjectToScene(pObj, SceneManager.GetSceneByName("Battle"));
             if (p.stratPosition == gameManager.playerPos)
+            {
                 p.controllable = true;
+                controlledPlayer = p;
+            }
             else
                 p.controllable = false;
+            players.Add(p);
         }
     }
-    protected virtual void RegisterEntities()
-    {
-        // Find enemies and players in the scene, should be called after entity generation
-        enemies.Clear();
-        players.Clear();
-        foreach (GameObject en in GameObject.FindGameObjectsWithTag(Constants.BM.EnemyTag))
-        {
-            enemies.Add(en.GetComponent<Enemy>());
-        }
-        foreach (GameObject pl in GameObject.FindGameObjectsWithTag(Constants.BM.PlayerTag))
-        {
-            SinglePlayer sp = pl.GetComponent<SinglePlayer>();
-            if (sp.controller.controllable)
-            {
-                controlledPlayer = sp;
-            }
-            players.Add(sp);
-        }
-    }
+
 
     protected virtual void SetAggro()
     {
         Debug.Log("Scenario Set Aggro.", this.gameObject);
-        Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
         foreach (SinglePlayer p in players)
         {
             int agg = 0;
@@ -100,7 +92,6 @@ public class Scenario : MonoBehaviour
                 case SinglePlayer.StratPosition.H2:
                     agg = 30000;
                     break;
-
                 default:
                     agg = 0;
                     break;
@@ -113,11 +104,6 @@ public class Scenario : MonoBehaviour
             {
                 aggro[p.gameObject] = agg;
             }
-        }
-        foreach (Enemy e in enemies)
-        {
-            Debug.Log($"Scenario: Init Aggro {e}.");
-            e.aggro = new Dictionary<GameObject, int>(aggro);
         }
     }
 

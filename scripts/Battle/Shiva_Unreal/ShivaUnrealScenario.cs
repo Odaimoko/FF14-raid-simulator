@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class ShivaUnrealScenario : Scenario
 {
     private GameObject Shiva;
@@ -14,6 +14,11 @@ public class ShivaUnrealScenario : Scenario
         {
             singlePlayer.target = Shiva;
         }
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.aggro = new Dictionary<GameObject, int>(aggro);
+        }
+
     }
 
     // Update is called once per frame
@@ -29,18 +34,10 @@ public class ShivaUnrealScenario : Scenario
         GameObject enemyPrefab = Resources.Load<GameObject>(Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal].modelPrefabPath);
         GameObject ShivaParent = Instantiate(enemyPrefab, new Vector3(0, .1f, 6.4f), Quaternion.identity);
         Shiva = ShivaParent.transform.Find("Shiva").gameObject;
+        SceneManager.MoveGameObjectToScene(ShivaParent, SceneManager.GetSceneByName("Battle"));
+        enemies.Add(Shiva.GetComponent<Enemy>());
     }
 
-    protected override void RegisterEntities()
-    {
-        base.RegisterEntities();
-    }
-
-    protected override void SetAggro()
-    {
-        base.SetAggro();
-
-    }
 
     public void SlowDown()
     {

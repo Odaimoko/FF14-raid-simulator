@@ -51,7 +51,8 @@ public class GlobalGameManager : MonoBehaviour
                 loadOperation = null;
                 Scene nextScene = SceneManager.GetSceneByName(nextSceneToLoad);
                 Debug.Log($"GGM Update: Set {nextScene.name} as Active");
-                SceneManager.SetActiveScene(nextScene);  
+                SceneManager.SetActiveScene(nextScene);
+                Debug.Log($"GGM Update: Active Scene: {SceneManager.GetActiveScene().name}"); // will be global manager scene
             }
         }
     }

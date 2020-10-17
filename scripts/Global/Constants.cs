@@ -41,12 +41,26 @@ public static class Constants
     {
         public const string PlayerPrefabPath = "battle_misc/player prefab";
         public const string PlayerGOPrefix = "Player";
-        public const int NumPlayers = 8;  
+        public const int NumPlayers = 8;
         public const float InBattleDistance = 10f;
         public const float MinAtkDistance = 3f;
         public const float AutoAtkInterval = 3f;
         public const float RaidWideDistance = 80f;
         public const float StatusRegisterInterval = 3f;
+        public static Color32 GetPosColor(SinglePlayer.StratPosition pos)
+        {
+            switch (pos)
+            {
+                case SinglePlayer.StratPosition.MT:
+                case SinglePlayer.StratPosition.ST:
+                    return new Color32(100, 100, 255, 255);
+                case SinglePlayer.StratPosition.H1:
+                case SinglePlayer.StratPosition.H2:
+                    return new Color32(100, 255, 100, 255);
+                default:
+                    return new Color32(255, 100, 100, 255);
+            }
+        }
     }
 
 

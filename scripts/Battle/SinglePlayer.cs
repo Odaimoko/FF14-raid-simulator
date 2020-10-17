@@ -24,11 +24,11 @@ public class SinglePlayer : Entity, GotDamage
         {
             if (_target)
             {
-                Debug.Log($"SinglePlayer ({this.name}) Get Target {_target.name}", gameObject);
+                // Debug.Log($"SinglePlayer ({this.name}) Get Target {_target.name}", gameObject);
             }
             else
             {
-                Debug.Log($"SinglePlayer ({this.name}) Has No Target.", gameObject);
+                // Debug.Log($"SinglePlayer ({this.name}) Has No Target.", gameObject);
             }
             return _target;
         }
