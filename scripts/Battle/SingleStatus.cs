@@ -43,7 +43,6 @@ public class SingleStatus
         set { _showIcon = value; }
     } // should we show icon on ui   
     public Sprite icon; // prefab
-    // TODO: Effect variable
     protected BattleManager bm;
 
 
@@ -98,7 +97,7 @@ public class SingleStatus
     // called when the status is first attached to an entity
     public virtual void OnAttachedToEntity()
     {
-        // TODO: Show add status on target
+        // TODO: Show status added  on target
         if (effectiveAtOnce)
         {
             bm.AddEvent(this);

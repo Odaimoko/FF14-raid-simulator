@@ -67,7 +67,6 @@ public class BattleManager : MonoBehaviour
     // ─── BUFF DEBUFF MANAGEMENT ──────────────────────────────────────────────────────
     //
 
-    private float checkEvery = 3f;
 
     //
     // ─── UI ─────────────────────────────────────────────────────────────────────────
@@ -76,6 +75,18 @@ public class BattleManager : MonoBehaviour
     private UIManager uIManager;
     private void Awake()
     {
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        // TODO init a lot of things
+        // TODO correctly link objects to animation.  
+        GameObject gm = GameObject.Find(Constants.GameSystem.GMObjectName);
+        if (gm == null)
+        {
+            Debug.Log($"BM Awake: No GM object found, stop initializing.");
+            return;
+        }
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
         Type t = Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal].scenarioType;
         var methods = typeof(GameObject).GetMethods().Where(m => m.Name == "AddComponent");
@@ -89,11 +100,7 @@ public class BattleManager : MonoBehaviour
                 generic.Invoke(gameObject, null);
                 break;
             }
-        } 
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
+        }
         scenario = GetComponent<Scenario>();
         scenario.Init(); // generate players/enemies, set up animation
         scenario.StartPhase(gameManager.phase);
@@ -200,7 +207,7 @@ public class BattleManager : MonoBehaviour
             {
                 p.RegisterEffect();
             }
-            yield return new WaitForSeconds(checkEvery);
+            yield return new WaitForSeconds(Constants.Battle.StatusRegisterInterval);
         }
     }
 

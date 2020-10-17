@@ -102,7 +102,7 @@ public class Enemy : Entity
         foreach (SinglePlayer p in players)
         {
             if (!p.dead)
-                if ((this.gameObject.transform.position - p.gameObject.transform.position).magnitude < Constants.Battle.inBattleDistance)
+                if ((this.gameObject.transform.position - p.gameObject.transform.position).magnitude < Constants.Battle.InBattleDistance)
                 {
                     return true;
                 }
@@ -158,7 +158,7 @@ public class Enemy : Entity
             eulerAngle.y = 0;
             targetCircleGO.transform.eulerAngles = eulerAngle;
             // move
-            if (towards.magnitude < Constants.Battle.minAtkDistance)
+            if (towards.magnitude < Constants.Battle.MinAtkDistance)
                 return;
 
             towards = towards.normalized;

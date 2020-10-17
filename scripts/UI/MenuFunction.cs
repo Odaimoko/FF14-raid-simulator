@@ -10,26 +10,19 @@ public class MenuFunction : MonoBehaviour
 {
     private GlobalGameManager gameManager;
 
+    public Canvas uiCanvas;
     // Start is called before the first frame update
     public TMP_Dropdown bossDropdown, posDropdown, stratDropdown, phaseDropdown;
+    public Animator canvasAnimator;
+
+    private Image tachieImage;
     void Start()
     {
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
+        tachieImage = GameObject.Find("boss tachie").GetComponent<Image>();
         InitDropdown();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void OnBossDropdownChosen()
-    {
-        // show boss tachie
-        // change dropdown options
-
-    }
 
     void InitDropdown()
     {
@@ -40,6 +33,13 @@ public class MenuFunction : MonoBehaviour
         // Strategies
         InitStratDropdown();
         // Phases
+        InitPhaseDropdown();
+    }
+
+    public void OnBossChange(int bossCode)
+    {
+        ChangeBossTachie(bossCode);
+        InitStratDropdown();
         InitPhaseDropdown();
     }
 
@@ -72,8 +72,8 @@ public class MenuFunction : MonoBehaviour
         for (int i = 0; i < posDropdown.options.Count; i++)
         {
             TMP_Dropdown.OptionData option = posDropdown.options[i];
-            Sprite sprite = Constants.GameSystem.GetStratPosIconSprite((SinglePlayer.StratPosition)i);
-            option.image = sprite;
+            // Sprite sprite = Constants.GameSystem.GetStratPosIconSprite((SinglePlayer.StratPosition)i);
+            // option.image = sprite;
         }
     }
 
@@ -112,9 +112,27 @@ public class MenuFunction : MonoBehaviour
         phaseDropdown.AddOptions(phaseNames);
     }
 
-    public void LoadBattleScene()
+    public void FadeOutUI()
     {
-        SceneManager.LoadScene("Battle", LoadSceneMode.Additive);
+        Debug.Log($"MenuFunction FadeOutUI");
+        CanvasGroup uiCanvasGroup = uiCanvas.GetComponent<CanvasGroup>();
+        uiCanvasGroup.interactable = false;
+        canvasAnimator.SetTrigger("FadeOut");
     }
 
+    public void LoadBattleScene()
+    {
+        gameManager.LoadScene(gameObject.scene, "Battle");
+
+    }
+
+    private void ChangeBossTachie(int bossCode)
+    {
+        // show boss tachie
+        // change dropdown options
+        SupportedBoss boss = (SupportedBoss)bossCode;
+        tachieImage.sprite = Resources.Load<Sprite>(Constants.GameSystem.boss2meta[boss].tachieFileName);
+        tachieImage.SetNativeSize();
+        tachieImage.transform.localScale = Constants.GameSystem.boss2meta[boss].tachieLocalScale;
+    }
 }

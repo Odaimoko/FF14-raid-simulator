@@ -12,15 +12,24 @@ public class UIManager : MonoBehaviour
         public GameObject partyListItem;
         public GameObject statuslist;
         public Dictionary<int, StatusSet> statusSets = new Dictionary<int, StatusSet>();
-        public GameObject hpGauge, hpFiller, hpValue, hpShield;
+        public TextMeshProUGUI hpValue;
+        public RectTransform hpFiller;
+        public Image jobIcon;
+        public GameObject hpGauge, hpShield;
         public PartyListItem(GameObject self, SinglePlayer p)
         {
             player = p;
             partyListItem = self;
 
+            jobIcon = partyListItem.transform.Find("job icon").gameObject.GetComponent<Image>();
+            if (player != null)
+            {
+                jobIcon.sprite =  Constants.GameSystem.GetSpriteByStratPos(player.stratPosition);
+            }
+
             hpGauge = partyListItem.transform.Find("hp gauge").gameObject;
-            hpFiller = hpGauge.transform.Find("filler").gameObject;
-            hpValue = hpGauge.transform.Find("value").gameObject;
+            hpFiller = hpGauge.transform.Find("filler").gameObject.GetComponent<RectTransform>();
+            hpValue = hpGauge.transform.Find("value").gameObject.GetComponent<TextMeshProUGUI>();
             hpShield = hpGauge.transform.Find("shield").gameObject;
             statuslist = partyListItem.transform.Find("status").gameObject;
         }
@@ -32,12 +41,10 @@ public class UIManager : MonoBehaviour
                 // Debug.Log($"PartyListItem Update {update}: {player.stratPosition}");
                 // HP
                 // TODO: SHIELD
-                TextMeshProUGUI t = hpValue.GetComponent<TextMeshProUGUI>();
-                t.text = player.healthPoint.ToString();
-                RectTransform rect = hpFiller.GetComponent<RectTransform>();
-                Vector3 scale = rect.localScale;
+                hpValue.text = player.healthPoint.ToString();
+                Vector3 scale = hpFiller.localScale;
                 scale.x = (float)player.healthPoint / player.maxHP;
-                rect.localScale = scale;
+                hpFiller.localScale = scale;
                 // Status
                 if (update)
                     UpdateStatusList();
@@ -221,7 +228,7 @@ public class UIManager : MonoBehaviour
             text.text = ((SinglePlayer.StratPosition)i).ToString();
             // other info
             GameObject partylistitem = t.gameObject;
-            SinglePlayer pl = FindPlayerByStratPos(i);
+            SinglePlayer pl = FindPlayerByStratPos(i); // can be null
             PartyListItem item = new PartyListItem(partylistitem, pl);
             item.Update(false);
             partylistItems.Add(item);

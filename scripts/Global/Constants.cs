@@ -39,11 +39,11 @@ public static class Constants
 
     public static class Battle
     {
-        public const float inBattleDistance = 10f;
-        public const float minAtkDistance = 3f;
-        public const float autoAtkInterval = 3f;
-        public const float raidWideDistance = 80f;
-
+        public const float InBattleDistance = 10f;
+        public const float MinAtkDistance = 3f;
+        public const float AutoAtkInterval = 3f;
+        public const float RaidWideDistance = 80f;
+        public const float StatusRegisterInterval = 3f;
     }
 
 
@@ -56,9 +56,12 @@ public static class Constants
             public SupportedBoss boss;
             public System.Type scenarioType;
             public List<Strategy> strats;
-            public string tachieFileName, headFileName;
+            public string tachieFileName;
+            public string headFileName;
             public Dictionary<SupportedLang, string> bossNameMultiLanguage;
-            public ScenarioDictStruct(SupportedBoss boss, System.Type type, List<Strategy> s, Dictionary<SupportedLang, string> namePairs)
+
+            public Vector3 tachieLocalScale;
+            public ScenarioDictStruct(SupportedBoss boss, System.Type type, List<Strategy> s, Dictionary<SupportedLang, string> namePairs, Vector3 tachieLocalScale)
             {
                 this.boss = boss;
                 scenarioType = type;
@@ -67,6 +70,7 @@ public static class Constants
                 headFileName = $"{menuTachiePrefix}/{boss.ToString()}_head_paint";
                 Debug.Log($"ScenarioDictStruct: {tachieFileName}, {headFileName}");
                 bossNameMultiLanguage = namePairs;
+                this.tachieLocalScale = tachieLocalScale;
             }
         }
 
@@ -82,13 +86,25 @@ public static class Constants
            },
            new Dictionary<SupportedLang,string>(){
                {SupportedLang.CHN, "幻希瓦"}
-           })
+           },
+           Vector3.one)
+           },
+           { SupportedBoss.Titan_Unreal, new ScenarioDictStruct(
+               SupportedBoss.Titan_Unreal,
+           typeof(TitanUnrealScenario),
+           new List<Strategy>(){
+               new TitanUnrealZiyanStrat()
+           },
+           new Dictionary<SupportedLang,string>(){
+               {SupportedLang.CHN, "幻泰坦"}
+           },
+           Vector3.one*.7f)
            },
         };
 
 
 
-        public static Sprite GetStratPosIconSprite(SinglePlayer.StratPosition position)
+        public static Sprite GetSpriteByStratPos(SinglePlayer.StratPosition position)
         {
             string s = $"job_icon/{position.ToString()}_icon";
             Sprite sprite = Resources.Load<Sprite>(s);

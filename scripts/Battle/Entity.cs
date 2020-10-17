@@ -148,7 +148,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         while (!dead)
         {
             AA();
-            yield return new WaitForSeconds(Constants.Battle.autoAtkInterval);
+            yield return new WaitForSeconds(Constants.Battle.AutoAtkInterval);
         }
     }
 

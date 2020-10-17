@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShivaUnrealScenario : Scenario
+public class TitanUnrealScenario : Scenario
 {
-    private GameObject Shiva;
+    private GameObject Titan;
     [SerializeField]
  
     public override void Init()
     {
         base.Init();
-        Shiva = GameObject.Find("Shiva");
-        controlledPlayer.target = Shiva;
+        Titan = GameObject.Find("Titan");
+        controlledPlayer.target = Titan;
     }
 
     // Update is called once per frame
@@ -37,17 +37,17 @@ public class ShivaUnrealScenario : Scenario
 
     public void SlowDown()
     {
-        Debug.Log("Shiva_ex: SlowDown!!!!!");
+        Debug.Log("Titan_ex: SlowDown!!!!!");
         foreach (SinglePlayer singlePlayer in players)
         {
-            singlePlayer.AddStatusGroup(new SlowdownGroup(Shiva, singlePlayer.gameObject, 6f));
+            singlePlayer.AddStatusGroup(new SlowdownGroup(Titan, singlePlayer.gameObject, 6f));
         }
     }
 
     public void Absolute_Zero()
     {
-        Debug.Log("Shiva_ex: Casting Absolute Zero...");
-        Shiva.GetComponent<Enemy>().AddStatusGroup(new CastGroup(Shiva, Shiva, 4f,
-         new DealDamage(Shiva, players[0].gameObject, 100, "Absolute Zero", Constants.Battle.RaidWideDistance)));
+        Debug.Log("Titan_ex: Casting Absolute Zero...");
+        Titan.GetComponent<Enemy>().AddStatusGroup(new CastGroup(Titan, Titan, 4f,
+         new DealDamage(Titan, players[0].gameObject, 100, "Absolute Zero", Constants.Battle.RaidWideDistance)));
     }
 }
