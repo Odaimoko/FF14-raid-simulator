@@ -6,12 +6,14 @@ public class ShivaUnrealScenario : Scenario
 {
     private GameObject Shiva;
     [SerializeField]
- 
+
     public override void Init()
     {
         base.Init();
-        Shiva = GameObject.Find("Shiva");
-        controlledPlayer.target = Shiva;
+        foreach (SinglePlayer singlePlayer in players)
+        {
+            singlePlayer.target = Shiva;
+        }
     }
 
     // Update is called once per frame
@@ -23,6 +25,10 @@ public class ShivaUnrealScenario : Scenario
     public override void GenerateEntities()
     {
         base.GenerateEntities();
+        // gen enemies
+        GameObject enemyPrefab = Resources.Load<GameObject>(Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal].modelPrefabPath);
+        GameObject ShivaParent = Instantiate(enemyPrefab, new Vector3(0, .1f, 6.4f), Quaternion.identity);
+        Shiva = ShivaParent.transform.Find("Shiva").gameObject;
     }
 
     protected override void RegisterEntities()
@@ -33,6 +39,7 @@ public class ShivaUnrealScenario : Scenario
     protected override void SetAggro()
     {
         base.SetAggro();
+
     }
 
     public void SlowDown()

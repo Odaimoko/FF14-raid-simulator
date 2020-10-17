@@ -39,6 +39,9 @@ public static class Constants
 
     public static class Battle
     {
+        public const string PlayerPrefabPath = "battle_misc/player prefab";
+        public const string PlayerGOPrefix = "Player";
+        public const int NumPlayers = 8;  
         public const float InBattleDistance = 10f;
         public const float MinAtkDistance = 3f;
         public const float AutoAtkInterval = 3f;
@@ -59,7 +62,7 @@ public static class Constants
             public string tachieFileName;
             public string headFileName;
             public Dictionary<SupportedLang, string> bossNameMultiLanguage;
-
+            public string modelPrefabPath;
             public Vector3 tachieLocalScale;
             public ScenarioDictStruct(SupportedBoss boss, System.Type type, List<Strategy> s, Dictionary<SupportedLang, string> namePairs, Vector3 tachieLocalScale)
             {
@@ -71,6 +74,7 @@ public static class Constants
                 Debug.Log($"ScenarioDictStruct: {tachieFileName}, {headFileName}");
                 bossNameMultiLanguage = namePairs;
                 this.tachieLocalScale = tachieLocalScale;
+                modelPrefabPath = $"battle_misc/{boss.ToString()}_prefab";
             }
         }
 

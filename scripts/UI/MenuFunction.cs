@@ -120,16 +120,34 @@ public class MenuFunction : MonoBehaviour
         canvasAnimator.SetTrigger("FadeOut");
     }
 
+    public void OnBossButtonPressed()
+    {
+        // save info
+        Debug.Log($"MenuFunction OnBossButtonPressed.");
+        SupportedBoss boss = (SupportedBoss)bossDropdown.value;
+        gameManager.strategy = Constants.GameSystem.boss2meta[boss].strats[stratDropdown.value];
+        Debug.Log($"MenuFunction OnBossButtonPressed: Strat {gameManager.strategy.name}");
+        string phaseDescription = phaseDropdown.options[phaseDropdown.value].text;
+        Debug.Log($"MenuFunction OnBossButtonPressed: Phase {phaseDescription}");
+        string[] parts = phaseDescription.Split('：');
+        gameManager.phase = System.Int32.Parse(parts[0].Substring(1));
+        Debug.Log($"MenuFunction OnBossButtonPressed: Phase {gameManager.phase}");
+        Debug.Log($"MenuFunction OnBossButtonPressed: Position {posDropdown.value}");
+        gameManager.playerPos = (SinglePlayer.StratPosition)posDropdown.value;
+        FadeOutUI();
+    }
+
     public void LoadBattleScene()
     {
+        Debug.Log($"MenuFunction LoadBattleScene.");
         gameManager.LoadScene(gameObject.scene, "Battle");
-
     }
 
     private void ChangeBossTachie(int bossCode)
     {
         // show boss tachie
         // change dropdown options
+        Debug.Log($"MenuFunction ChangeBossTachie: To {(SupportedBoss)bossCode}");
         SupportedBoss boss = (SupportedBoss)bossCode;
         tachieImage.sprite = Resources.Load<Sprite>(Constants.GameSystem.boss2meta[boss].tachieFileName);
         tachieImage.SetNativeSize();

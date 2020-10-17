@@ -14,11 +14,11 @@ public class Scenario : MonoBehaviour
     protected BattlePhase currentPhase;
     protected Animator animator;
     private GlobalGameManager gameManager;
-    // Start is called before the first frame update
+
     public virtual void Init()
     {
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
-        
+
         // Init Enemy and Player
         GenerateEntities();
         RegisterEntities();
@@ -33,8 +33,23 @@ public class Scenario : MonoBehaviour
 
     public virtual void GenerateEntities()
     {
+        Camera battleCam = GameObject.Find("battle main camera").GetComponent<Camera>();
         // Init Controlled Player 
-
+        GameObject playerPrefab = Resources.Load<GameObject>(Constants.Battle.PlayerPrefabPath);
+        for (int i = 0; i < Constants.Battle.NumPlayers; i++)
+        { 
+            GameObject pObj = Instantiate(playerPrefab, new Vector3(3, 1, -4), Quaternion.identity);
+            // Debug.Log($"Scenario GenerateEntities: Generate Player {i} in Scene {pObj.scene.name}.");
+            pObj.GetComponent<ControllerSystem>().mainCam = battleCam;
+            SinglePlayer p = pObj.transform.Find("Player 0").GetComponent<SinglePlayer>();
+            p.stratPosition = (SinglePlayer.StratPosition)i;
+            p.gameObject.name = Constants.Battle.PlayerGOPrefix + p.stratPosition.ToString();
+            pObj.name = $"{Constants.Battle.PlayerGOPrefix} parent {p.stratPosition.ToString()}";
+            if (p.stratPosition == gameManager.playerPos)
+                p.controllable = true;
+            else
+                p.controllable = false;
+        }
     }
     protected virtual void RegisterEntities()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TitanUnrealZiyanStrat : Strategy
 {
-    public TitanUnrealZiyanStrat():base()
+    public TitanUnrealZiyanStrat() : base()
     {
     }
 

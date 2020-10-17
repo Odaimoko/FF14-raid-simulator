@@ -99,7 +99,7 @@ public class BattleManager : MonoBehaviour
                 MethodInfo generic = method.MakeGenericMethod(t);
                 generic.Invoke(gameObject, null);
                 break;
-            }
+            } 
         }
         scenario = GetComponent<Scenario>();
         scenario.Init(); // generate players/enemies, set up animation
