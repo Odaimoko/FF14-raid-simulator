@@ -179,7 +179,7 @@ public class UIManager : MonoBehaviour
         public void OnStatusListChange()
         {
 
-            if (this.controlledPlayer.target == null)
+            if (this.controlledPlayer.target != null)
             {
                 UIManager.OnStatusListChange(statusListGO, this.controlledPlayer.target.GetComponent<Entity>(), statusSets, 5);
             }

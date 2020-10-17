@@ -13,9 +13,12 @@ public class Scenario : MonoBehaviour
     protected SinglePlayer controlledPlayer;
     protected BattlePhase currentPhase;
     protected Animator animator;
+    private GlobalGameManager gameManager;
     // Start is called before the first frame update
     public virtual void Init()
     {
+        gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
+        
         // Init Enemy and Player
         GenerateEntities();
         RegisterEntities();
@@ -30,6 +33,7 @@ public class Scenario : MonoBehaviour
 
     public virtual void GenerateEntities()
     {
+        // Init Controlled Player 
 
     }
     protected virtual void RegisterEntities()

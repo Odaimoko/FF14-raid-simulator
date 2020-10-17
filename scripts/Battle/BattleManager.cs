@@ -79,8 +79,9 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // TODO init a lot of things
-        // TODO correctly link objects to animation.  
+        // init a lot of things
+
+        // Init scenario
         GameObject gm = GameObject.Find(Constants.GameSystem.GMObjectName);
         if (gm == null)
         {
@@ -90,7 +91,6 @@ public class BattleManager : MonoBehaviour
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
         Type t = Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal].scenarioType;
         var methods = typeof(GameObject).GetMethods().Where(m => m.Name == "AddComponent");
-        Debug.Log($"What type is methods {methods.GetType()}");
         foreach (MethodInfo methodInfo in methods)
         {
             if (methodInfo.IsGenericMethod)
@@ -103,7 +103,10 @@ public class BattleManager : MonoBehaviour
         }
         scenario = GetComponent<Scenario>();
         scenario.Init(); // generate players/enemies, set up animation
-        scenario.StartPhase(gameManager.phase);
+        // TODO Init animation
+        //  correctly link objects to animation.  
+        // Only StartPhase When in Battle
+        // scenario.StartPhase(gameManager.phase);
         StartCoroutine("RegisterStatusEffect");
         uIManager = GetComponent<UIManager>();
         RegisterEntities();
