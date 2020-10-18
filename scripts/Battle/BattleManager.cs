@@ -99,7 +99,7 @@ public class BattleManager : MonoBehaviour
                 MethodInfo generic = method.MakeGenericMethod(t);
                 generic.Invoke(gameObject, null);
                 break;
-            } 
+            }
         }
         scenario = GetComponent<Scenario>();
         scenario.Init(); // generate players/enemies, set up animation
@@ -155,28 +155,9 @@ public class BattleManager : MonoBehaviour
 
     public void AddStatusIconToUI(StatusGroup status)
     {
-        // Check the target is enemy or player.
         // only called when a status is shown at the first time
-        GameObject target = status.target;
-        if (target.GetComponent<SinglePlayer>())
-        {
-            // A player
-            Debug.Log($"BM AddStatusIconToUI: Adding {status.target.GetComponent<SinglePlayer>().stratPosition}. Controlled: {controlledPlayer.stratPosition}.");
-            if (target.GetComponent<SinglePlayer>().stratPosition == controlledPlayer.stratPosition)
-            {
-                Debug.Log($"BM AddStatusIconToUI: Add {status} to Self.");
-                uIManager.OnStatusListChange();
-            }
-            else
-            {
-                Debug.Log($"BM AddStatusIconToUI: Add {status} to PartyList.");
-                // TODO: Update status info in Party list
-            }
-        }
-        else if (target.GetComponent<Enemy>())
-        {
-            // TODO: Enemy Status icon update
-        }
+        Debug.Log($"BM AddStatusIconToUI: Add {status} .");
+        uIManager.OnStatusListChange();
     }
 
     public void AddEvent(SingleStatus status)

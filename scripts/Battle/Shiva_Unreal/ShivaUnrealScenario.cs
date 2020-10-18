@@ -25,6 +25,11 @@ public class ShivaUnrealScenario : Scenario
     protected override void Update()
     {
         base.Update();
+        if (!playersArrived[4])
+        {
+            Debug.Log($"ShivaUnrealScenario Update: Move {players[4].name} to Desti. {playersArrived[4]}.");
+            playersArrived[4] = MovePlayerToDestination(players[4], new Vector3(-5, 0, 6));
+        }
     }
 
     public override void GenerateEntities()

@@ -72,19 +72,16 @@ public class UIManager : MonoBehaviour
     public List<SinglePlayer> players = new List<SinglePlayer>();
     public SinglePlayer controlledPlayer;
 
-    public GameObject canvas;
     //
     // ─── PARTY LIST ─────────────────────────────────────────────────────────────────
     //
-
-
     public GameObject partyListGO;
     public List<PartyListItem> partylistItems = new List<PartyListItem>();
+
+
     //
     // ─── SELF STATUS LIST ───────────────────────────────────────────────────────────
     //
-
-
     public GameObject statusListGO;
     [SerializeField]
     public static GameObject statusIconPrefab;
@@ -145,7 +142,7 @@ public class UIManager : MonoBehaviour
                     UIManager.UpdateStatusList(statusSets);
                 }
                 // HP
-                // Debug.Log($"UIManager InitTargetInfo {target.name} ");
+                // Debug.Log($"UIM InitTargetInfo {target.name} ");
 
                 bossName.text = target.name;
 
@@ -154,7 +151,7 @@ public class UIManager : MonoBehaviour
                 scale.x = (float)target.healthPoint / target.maxHP;
                 rect.localScale = scale;
                 float percent = (Mathf.CeilToInt(scale.x * 1000)) / 10;
-                // Debug.Log($"UIManager InitTargetInfo: Set HP percent {percent} ");
+                // Debug.Log($"UIM InitTargetInfo: Set HP percent {percent} ");
                 hpPercent.text = percent.ToString() + "%"; // CastBar
                 if (target.casting)
                 {
@@ -208,7 +205,7 @@ public class UIManager : MonoBehaviour
         // partylistItems[i] is according to the order in default
         // change the position of the item, not the assignment
         int controlled_player = (int)controlledPlayer.stratPosition;
-        Debug.Log($"UIManager InitPartylist: Finding {Constants.UI.PartyListItemPrefix + controlled_player}...");
+        Debug.Log($"UIM InitPartylist: Finding {Constants.UI.PartyListItemPrefix + controlled_player}...");
         // Position
         int pos = 0;
         for (int i = 0; i < numPlayers; i++)
@@ -219,7 +216,7 @@ public class UIManager : MonoBehaviour
             else pos = i;
 
             float offset = Constants.UI.PartyListYStart - pos * Constants.UI.PartyListYInterval;
-            Debug.Log($"UIManager InitPartylist: player {i}, should be at pos {pos}, offset {offset}");
+            Debug.Log($"UIM InitPartylist: player {i}, should be at pos {pos}, offset {offset}");
             RectTransform t = partyListGO.transform.Find(Constants.UI.PartyListItemPrefix + i).GetComponent<RectTransform>();
             // Set position on Canvas
             t.anchoredPosition = new Vector2(t.anchoredPosition.x, offset);
@@ -246,17 +243,17 @@ public class UIManager : MonoBehaviour
     public static void OnStatusListChange(GameObject statusList, Entity en, Dictionary<int, StatusSet> sets, int maxIcons, bool showCDText = true)
     {
         int i = 0;
-        Debug.Log($"UIManager OnStatusListChange Start. {en.statusGroups.Count} Groups.");
+        Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has {en.statusGroups.Count} Groups.");
         foreach (StatusGroup statusGroup in en.statusGroups)
         {
             foreach (SingleStatus status in statusGroup.statuses)
             {
-                Debug.Log($"UIManager OnStatusListChange Has Key {status.name}/{status.GetHashCode()}: {sets.ContainsKey(status.GetHashCode())}");
+                Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has Key {status.name}/{status.GetHashCode()}: {sets.ContainsKey(status.GetHashCode())}");
                 if (!status.showIcon)
                     continue;
                 if (!sets.ContainsKey(status.GetHashCode()))
                 {
-                    Debug.Log($"UIManager OnStatusListChange {status.name}");
+                    Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name}'s {status.name}");
                     Vector2 offset = GetIconOffset(i);
                     // GameObject icon = Instantiate(statusIconPrefab, statusList.transform.position, statusList.transform.rotation);
                     GameObject icon = GetNewIconGO();
@@ -270,7 +267,7 @@ public class UIManager : MonoBehaviour
                     // set icon
                     Image image = icon.GetComponent<Image>();
                     image.sprite = status.icon;
-                    Debug.Log($"UIManager OnStatusListChange: Set icon {status.icon} to {image}");
+                    // Debug.Log($"UIM OnStatusListChange: Set icon {status.icon} to {image}");
                     // set scale
                     Vector3 scale = rt.localScale;
                     scale.y = scale.x = Constants.UI.StatusIconScale;
@@ -320,7 +317,7 @@ public class UIManager : MonoBehaviour
         {
             if (s.singleStatus.expired)
             {
-                Debug.Log($"UIManager UpdateStatusList: {s.singleStatus.name} has expired.");
+                Debug.Log($"UIM UpdateStatusList: {s.singleStatus.name} has expired.");
                 toRemove.Add(s.singleStatus.GetHashCode());
             }
             else
@@ -335,7 +332,7 @@ public class UIManager : MonoBehaviour
         foreach (int j in toRemove)
         {
             StatusSet s = set[j];
-            Debug.Log($"UIManager UpdateStatusList: Removing {s.singleStatus.name}.");
+            Debug.Log($"UIM UpdateStatusList: Removing {s.singleStatus.name}.");
             set.Remove(s.singleStatus.GetHashCode());
             UIManager.DestroyIconGO(s.icon);
         }
@@ -388,8 +385,8 @@ public class UIManager : MonoBehaviour
             }
             players.Add(sp);
         }
-        Debug.Log("UIManager register enemy " + enemies.Count, this.gameObject);
-        Debug.Log("UIManager register players " + players.Count, this.gameObject);
+        Debug.Log("UIM register enemy " + enemies.Count, this.gameObject);
+        Debug.Log("UIM register players " + players.Count, this.gameObject);
     }
 
     SinglePlayer FindPlayerByStratPos(int i)

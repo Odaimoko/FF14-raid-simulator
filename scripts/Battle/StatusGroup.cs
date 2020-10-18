@@ -23,6 +23,22 @@ public class StatusGroup
             return isExpire;
         }
     }
+    public bool showIcon
+    {
+        get
+        {
+
+            bool shouldShow = true;
+            foreach (SingleStatus s in statuses)
+            {
+                if (!s.showIcon)
+                {
+                    return false;
+                }
+            }
+            return shouldShow;
+        }
+    }
     public string name;
 
 

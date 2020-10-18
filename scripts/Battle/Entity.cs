@@ -100,7 +100,8 @@ public abstract class Entity : MonoBehaviour, GotDamage
     {
         statusGroups.Add(sg);
         BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM.Tag).GetComponent<BattleManager>();
-        bm.AddStatusIconToUI(sg);
+        if (sg.showIcon)
+            bm.AddStatusIconToUI(sg);
         Debug.Log($"Entity {this.name} added {sg.ToString()}, has {statusGroups.Count} statuses.");
     }
 
@@ -168,7 +169,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
                 return;
             }
             // TODO: Damage calculation
-            int damage = 10; // How much damage will be dealt. Calculated by the target and this object's statistics
+            int damage = 100; // How much damage will be dealt. Calculated by the target and this object's statistics
             Debug.Log($"Entity AutoAttack Prepares: From {this.name} to {target.name}");
             AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, damage));
         }

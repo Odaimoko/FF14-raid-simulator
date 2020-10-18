@@ -47,6 +47,7 @@ public static class Constants
         public const float AutoAtkInterval = 3f;
         public const float RaidWideDistance = 80f;
         public const float StatusRegisterInterval = 3f;
+        public const float DestinationThreshold = .1f; 
         public static Color32 GetPosColor(SinglePlayer.StratPosition pos)
         {
             switch (pos)

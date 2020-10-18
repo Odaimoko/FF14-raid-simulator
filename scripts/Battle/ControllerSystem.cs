@@ -26,7 +26,7 @@ public class ControllerSystem : MonoBehaviour
     void Start()
     {
         //  Just control this player's animation 
-        controlledPlayer =  gameObject.transform.GetChild(0).GetComponent<SinglePlayer>();
+        controlledPlayer = gameObject.transform.GetChild(0).GetComponent<SinglePlayer>();
         animator = controlledPlayer.GetComponent<Animator>();
     }
 
@@ -36,11 +36,7 @@ public class ControllerSystem : MonoBehaviour
 
     public void Control()
     {
-        if (!controllable)
-        {
-            ChangeAnimation(false);
-        }
-        else
+        if (controllable)
         {
 
             Vector3 inputVec = GetInputVector();
@@ -126,6 +122,26 @@ public class ControllerSystem : MonoBehaviour
                 rotateDirection = towardsZAngle - rotationY;
             controlledPlayer.transform.Rotate(
                  0, spinSpeed * rotateDirection, 0);
+        }
+    }
+
+    // return if arrived at the destination
+    public bool MoveToPoint(Vector3 destination)
+    {
+        Vector3 towards = destination - transform.position;
+        towards.y = 0;
+        if (towards.magnitude < Constants.Battle.DestinationThreshold)
+        {
+            Debug.Log($"ConSys MoveToPoint: {gameObject.name} Arrived at {destination}.");
+            ChangeAnimation(false);
+            return true;
+        }
+        else
+        {
+            towards = towards.normalized;
+            MoveByWorldVector(towards);
+            ChangeAnimation(true);
+            return false;
         }
     }
 

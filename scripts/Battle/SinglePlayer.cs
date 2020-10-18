@@ -87,7 +87,7 @@ public class SinglePlayer : Entity, GotDamage
 
     public void RegisterEntities()
     {
-        enemies.Clear(); 
+        enemies.Clear();
         foreach (GameObject en in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             enemies.Add(en.GetComponent<Enemy>());
@@ -100,6 +100,12 @@ public class SinglePlayer : Entity, GotDamage
         {
             enemy.AddStatusGroup(new DealDamageGroup(gameObject, enemy.gameObject, 4));
         }
+    }
+    public override void OnDead()
+    {
+        base.OnDead();
+        controller.ChangeAnimation(false);
+
     }
 
 }

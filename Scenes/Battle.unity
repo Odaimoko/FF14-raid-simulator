@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 16356837}
   - component: {fileID: 16356836}
-  - component: {fileID: 16356835}
   m_Layer: 0
   m_Name: battle main camera
   m_TagString: MainCamera
@@ -141,14 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &16356835
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 16356834}
-  m_Enabled: 1
 --- !u!20 &16356836
 Camera:
   m_ObjectHideFlags: 0
@@ -1984,6 +1975,7 @@ GameObject:
   - component: {fileID: 1257624460}
   - component: {fileID: 1257624463}
   - component: {fileID: 1257624464}
+  - component: {fileID: 1257624462}
   m_Layer: 0
   m_Name: Battle Manager
   m_TagString: BattleManager
@@ -2022,6 +2014,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1257624462
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257624459}
+  m_Enabled: 1
 --- !u!114 &1257624463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2049,7 +2049,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257624459}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1435011de418d514a99cbcb6020513dc, type: 2}
   m_CullingMode: 0

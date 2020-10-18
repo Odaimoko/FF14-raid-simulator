@@ -16,18 +16,23 @@ public class Scenario : MonoBehaviour
     protected BattlePhase currentPhase;
     protected Animator animator;
     private GlobalGameManager gameManager;
-    public Dictionary<GameObject, int> aggro= new Dictionary<GameObject, int>();
+    public Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
+    protected List<bool> playersArrived = new List<bool>();
+
     public virtual void Init()
     {
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
         GenerateEntities();
         SetAggro();
+        for (int i = 0; i < Constants.Battle.NumPlayers; i++)
+        {
+            playersArrived.Add(false);
+        }
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-
     }
 
     public virtual void GenerateEntities()
@@ -107,6 +112,16 @@ public class Scenario : MonoBehaviour
         }
     }
 
+    protected bool MovePlayerToDestination(SinglePlayer player, Vector3 destination)
+    {
+        if (player.dead)
+        {
+            Debug.Log($"Scenario MovePlayerToDestination: {player.name} dead, cannot move it.");
+            return true; // arrived at heaven
+        }
+        return players[4].controller.MoveToPoint(destination);
+
+    }
 
     public virtual void StartPhase(BattlePhase phase = null)
     {
@@ -133,4 +148,6 @@ public class Scenario : MonoBehaviour
         // Stop current phase
         Debug.Log($"Scenario Stop: {currentPhase.name}");
     }
+
+
 }
