@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShivaUnrealZiyanStrat : Strategy
 {
-    public ShivaUnrealZiyanStrat():base()
+    public ShivaUnrealZiyanStrat() : base()
     {
     }
 
@@ -18,9 +18,9 @@ public class ShivaUnrealZiyanStrat : Strategy
     protected override void InitPhases()
     {
         base.InitPhases();
-        supportedPhases.Add(new BattlePhase("", false));
-        supportedPhases.Add(new BattlePhase("剑与杖", true));
-        supportedPhases.Add(new BattlePhase("小怪", false));
-        supportedPhases.Add(new BattlePhase("剑、杖和弓", true));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Shiva_Unreal, "", false));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Shiva_Unreal, "剑与杖", true));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Shiva_Unreal, "小怪", false));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Shiva_Unreal, "剑、杖和弓", true));
     }
 }

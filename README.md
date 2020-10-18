@@ -98,7 +98,7 @@ UI Manager：绘制 UI。 主要是获取场景里敌人和玩家的信息。
 
 每帧检查：状态如果到期了，从字典里去掉，并且Destroy。
 
-TODO：可以优化为可重复使用的Object Pool而不是每次都Instantiate+Destroy。
+- [x] TODO：可以优化为可重复使用的Object Pool而不是每次都Instantiate+Destroy。
 
 <img src="D:\D\unity prj\Lesson5\Assets\assets\image-20201009185651827.png" alt="image-20201009185651827" style="zoom:50%;" />
 

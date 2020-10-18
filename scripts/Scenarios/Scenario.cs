@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 public class Scenario : MonoBehaviour
 {
     // How a battle goes
-    public AudioSource audioSource;
-    public AudioClip[] audioClips;
+    protected AudioSource audioSource;
     public List<Enemy> enemies = new List<Enemy>();
     public List<SinglePlayer> players = new List<SinglePlayer>();
     protected List<BattlePhase> phases;
@@ -28,11 +27,13 @@ public class Scenario : MonoBehaviour
         {
             playersArrived.Add(false);
         }
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+
     }
 
     public virtual void GenerateEntities()
@@ -128,6 +129,7 @@ public class Scenario : MonoBehaviour
         // TODO: init actor's statuses
         //  Set animation   
         // Assign actors to scenario animation clip
+        // play music
     }
 
     public void _StartPhase(BattlePhase phase = null)

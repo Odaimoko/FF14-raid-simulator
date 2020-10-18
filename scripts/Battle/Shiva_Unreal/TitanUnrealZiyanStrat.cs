@@ -18,9 +18,9 @@ public class TitanUnrealZiyanStrat : Strategy
     protected override void InitPhases()
     {
         base.InitPhases();
-        supportedPhases.Add(new BattlePhase("在？", false));
-        supportedPhases.Add(new BattlePhase("啊？", true));
-        supportedPhases.Add(new BattlePhase("吧？", false));
-        supportedPhases.Add(new BattlePhase("从？", true));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Titan_Unreal, "在？", false));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Titan_Unreal, "啊？", true));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Titan_Unreal, "吧？", false));
+        supportedPhases.Add(new BattlePhase(SupportedBoss.Titan_Unreal, "从？", true));
     }
 }

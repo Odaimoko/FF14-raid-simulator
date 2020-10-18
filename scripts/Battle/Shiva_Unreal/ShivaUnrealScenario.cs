@@ -6,7 +6,8 @@ public class ShivaUnrealScenario : Scenario
 {
     private GameObject Shiva;
     [SerializeField]
-
+    private string P1MusicPath = "music/祖堅正慶 - 雪上の足跡 ～蛮神シヴァ前哨戦～";
+    private string P3MusicPath = "music/祖堅正慶 - 忘却の彼方 ～蛮神シヴァ討滅戦～";
     public override void Init()
     {
         base.Init();
@@ -18,7 +19,8 @@ public class ShivaUnrealScenario : Scenario
         {
             enemy.aggro = new Dictionary<GameObject, int>(aggro);
         }
-
+        audioSource.clip = Resources.Load<AudioClip>(P1MusicPath);
+        audioSource.Play();
     }
 
     // Update is called once per frame
