@@ -58,7 +58,11 @@ public class ShivaUnrealScenario : Scenario
     public void Absolute_Zero()
     {
         Debug.Log("Shiva_ex: Casting Absolute Zero...");
-        Shiva.GetComponent<Enemy>().AddStatusGroup(new CastGroup(Shiva, Shiva, 4f,
-         new DealDamage(Shiva, players[0].gameObject, 100, "Absolute Zero", Constants.Battle.RaidWideDistance)));
+
+        foreach (SinglePlayer singlePlayer in players)
+        {
+            Shiva.GetComponent<Enemy>().AddStatusGroup(new CastGroup(Shiva, Shiva, 4f,
+            new DealDamage(Shiva, singlePlayer.gameObject, 100, "Absolute Zero", Constants.Battle.RaidWideDistance)));
+        }
     }
 }

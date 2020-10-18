@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneToLoad: 
-  strat: 
   boss: 0
   playerPos: 0
+  phase: 0
   lang: 0

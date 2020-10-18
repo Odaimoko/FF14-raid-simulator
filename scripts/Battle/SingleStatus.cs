@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Volpi.ObjectyPool;
 public class SingleStatus
 {
     protected static int globalStatusID = 0;
@@ -30,7 +30,7 @@ public class SingleStatus
     //
     // ─── METAINFO ───────────────────────────────────────────────────────────────────
     //
-    
+
     public string name, statusDescription;
     private bool _showIcon = true;
     public bool showIcon
@@ -38,7 +38,7 @@ public class SingleStatus
         get
         {
             // dont show icon if expired
-            return _showIcon && !expired;
+            return _showIcon;
         }
         set { _showIcon = value; }
     } // should we show icon on ui   
@@ -70,6 +70,7 @@ public class SingleStatus
             RegisterEffect();
         }
     }
+
     protected virtual void NormalEffect()
     {
         Debug.Log($"SingleStatus ({this.name}) Normal: From {from.name} to {target.name}", this.target);
@@ -79,6 +80,8 @@ public class SingleStatus
     {
         Debug.Log($"SingleStatus ({this.name}) Expire: From {from.name} to {target.name}", this.target);
         // TODO: show remove status on target
+        if (showIcon)
+            showEffect();
     }
 
 
@@ -98,16 +101,27 @@ public class SingleStatus
     public virtual void OnAttachedToEntity()
     {
         // TODO: Show status added  on target
+        if (showIcon)
+            showEffect();
         if (effectiveAtOnce)
         {
             bm.AddEvent(this);
         }
     }
 
+    void showEffect()
+    {
+        Debug.Log($"SingleStatus showEffect: On {target.name}");
+        GameObject damageInfoGO = ObjectyManager.Instance.ObjectyPools[Constants.UI.DamageInfoPoolName].Spawn(Constants.UI.DamageInfoPoolSpawningName);
+        DamageTextFollower damageTextFollower = damageInfoGO.GetComponent<DamageTextFollower>();
+        damageTextFollower.isDamageInfo = false;
+        damageTextFollower.Init(par: target.GetComponent<Entity>().moveInfoCanvas.transform, status: this);
+    }
+
     // Called per period (3 secs)
     public void RegisterEffect()
-    {   
-        Debug.Log($"SingleStatus ({this  .name}) RegisterEffect.", this.target);
+    {
+        Debug.Log($"SingleStatus ({this.name}) RegisterEffect.", this.target);
         bm.AddEvent(this);
     }
 

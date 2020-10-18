@@ -66,7 +66,7 @@ public class DamageTextFollower : MonoBehaviour
                 dmgText.color = Constants.UI.HealingColor;
             }
             dmgText.text += Mathf.Abs(dmg);
-        }
+        }  
         else
         {
             statusGO.SetActive(true);
@@ -74,13 +74,14 @@ public class DamageTextFollower : MonoBehaviour
             RectTransform rt = icon.GetComponent<RectTransform>();
             Image image = icon.GetComponent<Image>();
             image.sprite = status.icon;
-            TextMeshProUGUI statusText = damageGO.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI statusText = description.GetComponent<TextMeshProUGUI>();
             if (status.expired)
             {
-                statusText.text = "-";
+                statusText.text = "－";
             }
             else
-                statusText.text = "+";
+                statusText.text = "＋";
+            // statusText.color = new Color32(255, 255, 255, 255);
             statusText.text += status.name;
         }
     }

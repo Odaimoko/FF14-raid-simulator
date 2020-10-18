@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
             jobIcon = partyListItem.transform.Find("job icon").gameObject.GetComponent<Image>();
             if (player != null)
             {
-                jobIcon.sprite =  Constants.GameSystem.GetSpriteByStratPos(player.stratPosition);
+                jobIcon.sprite = Constants.GameSystem.GetSpriteByStratPos(player.stratPosition);
             }
 
             hpGauge = partyListItem.transform.Find("hp gauge").gameObject;
@@ -249,7 +249,7 @@ public class UIManager : MonoBehaviour
             foreach (SingleStatus status in statusGroup.statuses)
             {
                 Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has Key {status.name}/{status.GetHashCode()}: {sets.ContainsKey(status.GetHashCode())}");
-                if (!status.showIcon)
+                if (!status.showIcon || status.expired)
                     continue;
                 if (!sets.ContainsKey(status.GetHashCode()))
                 {

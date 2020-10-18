@@ -53,8 +53,8 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     protected virtual void Start()
     {
-        StartCoroutine(AutoAttack());
-        StartCoroutine(CheckStatusExpiration());
+        StartCoroutine("AutoAttack");
+        StartCoroutine("CheckStatusExpiration");
     }
 
     protected virtual void Update()
@@ -80,6 +80,19 @@ public abstract class Entity : MonoBehaviour, GotDamage
         // TODO: Show damage queue
         ShowDamangeNumber(dmg);
     }
+    
+    public virtual void GotHealed(int amount)
+    {
+        if (currentHP+amount<maxHP)
+        {
+            currentHP += amount;
+        }
+        else
+        {
+            currentHP = maxHP;
+        }
+        ShowDamangeNumber(-amount);
+    }
 
     private void ShowDamangeNumber(int amount)
     {
@@ -91,10 +104,6 @@ public abstract class Entity : MonoBehaviour, GotDamage
         damageTextFollower.Init(par: moveInfoCanvas.transform, dmg: amount);
     }
 
-    public virtual void GotHealed(int amount)
-    {
-        ShowDamangeNumber(-amount);
-    }
 
     public void AddStatusGroup(StatusGroup sg)
     {
@@ -150,7 +159,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         {
             AA();
             yield return new WaitForSeconds(Constants.Battle.AutoAtkInterval);
-        }
+        } 
     }
 
     protected void AA()
@@ -181,7 +190,8 @@ public abstract class Entity : MonoBehaviour, GotDamage
     public virtual void OnDead()
     {
         Debug.Log($"Entity OnDead: {this.name}.");
-        target = null;
+        // target = null;
+        StopAllCoroutines();
         dead = true;
     }
 }
