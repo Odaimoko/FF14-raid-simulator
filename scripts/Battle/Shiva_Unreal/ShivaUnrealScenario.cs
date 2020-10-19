@@ -18,6 +18,7 @@ public class ShivaUnrealScenario : Scenario
     private int hashIsSword = Animator.StringToHash("isSword");
     private int hashNext = Animator.StringToHash("Next");
     private int hashSecondPhaseInP3 = Animator.StringToHash("SecondPhaseInP3");
+    private int hashInP3 = Animator.StringToHash("InP3");
 
     private int hash_Shiva_Unreal_3_Wand = Animator.StringToHash("Base Layer.Shiva_Unreal_3_Wand");
     private int hash_Shiva_Unreal_3_Ring_Bow = Animator.StringToHash("Base Layer.Shiva_Unreal_3_Ring_Bow");
@@ -65,6 +66,10 @@ public class ShivaUnrealScenario : Scenario
         //     Debug.Log($"ShivaUnrealScenario Update: Move {players[4].name} to Desti. {playersArrived[4]}.");
         //     playersArrived[4] = MovePlayerToDestination(players[4], new Vector3(-5, 0, 6));
         // } 
+        if (scenarioAnimator.GetBool(hashInP3))
+        {
+            CheckShivaHP();
+        }
     }
 
     public override void GenerateEntities()
@@ -104,7 +109,6 @@ public class ShivaUnrealScenario : Scenario
     {
         Debug.Log($"Next Triggered.");
         scenarioAnimator.SetTrigger(hashNext);
-
     }
 
     public void SetRandomSword()
@@ -145,5 +149,29 @@ public class ShivaUnrealScenario : Scenario
             // TODO reset timing
             SetRandomSword();
         }
+        scenarioAnimator.SetBool(hashInP3, true);
+    }
+
+    public void Shiva_Unreal_3_Ring_Bow_Next()
+    {
+        Debug.Log("Shiva_Unreal_3_Ring_Bow_Next");
+        TriggerNext();
+    }
+
+    public void Shiva_Unreal_3_Next()
+    {
+        Debug.Log("Shiva_Unreal_3_Next");
+        if (scenarioAnimator.GetBool(hashSecondPhaseInP3))
+        {
+            Debug.Log("hashSecondPhaseInP3 the second phase has ended.");
+            scenarioAnimator.SetBool(hashSecondPhaseInP3, false);
+        }
+        else
+        {
+            Debug.Log("hashSecondPhaseInP3 the first phase has ended.");
+            scenarioAnimator.SetBool(hashSecondPhaseInP3, true);
+
+        }
+        TriggerNext();
     }
 }

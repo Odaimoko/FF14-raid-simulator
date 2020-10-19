@@ -162,7 +162,7 @@ public class BattleManager : MonoBehaviour
 
     public void AddEvent(SingleStatus status)
     {
-        Debug.Log($"BM AddEvent: {status}");
+        // Debug.Log($"BM AddEvent: {status}");
         eventQueue.Add(status);
     }
 
