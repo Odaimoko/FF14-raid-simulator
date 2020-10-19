@@ -68,7 +68,6 @@ public class Enemy : Entity
     protected override void Start()
     {
         base.Start();
-        currentHP = maxHP;
         targetCircleGO = transform.Find("target circle");
         parentTransform = transform.parent;
     }

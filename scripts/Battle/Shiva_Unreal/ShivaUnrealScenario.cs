@@ -18,7 +18,8 @@ public class ShivaUnrealScenario : Scenario
     private int hashIsSword = Animator.StringToHash("isSword");
     private int hashNext = Animator.StringToHash("Next");
     private int hashSecondPhaseInP3 = Animator.StringToHash("SecondPhaseInP3");
-    private int hashInP3 = Animator.StringToHash("InP3");
+    private int hashPhase = Animator.StringToHash("Phase");
+    private int hashAddsTime = Animator.StringToHash("AddsTime");
 
     private int hash_Shiva_Unreal_3_Wand = Animator.StringToHash("Base Layer.Shiva_Unreal_3_Wand");
     private int hash_Shiva_Unreal_3_Ring_Bow = Animator.StringToHash("Base Layer.Shiva_Unreal_3_Ring_Bow");
@@ -54,7 +55,7 @@ public class ShivaUnrealScenario : Scenario
         audioSource.Play();
         scenarioAnimator = GetComponent<Animator>();
         scenarioAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(infoStruct.animControllerPath);
-
+        Shiva.healthPoint = 30000;
     }
 
     // Update is called once per frame
@@ -66,9 +67,16 @@ public class ShivaUnrealScenario : Scenario
         //     Debug.Log($"ShivaUnrealScenario Update: Move {players[4].name} to Desti. {playersArrived[4]}.");
         //     playersArrived[4] = MovePlayerToDestination(players[4], new Vector3(-5, 0, 6));
         // } 
-        if (scenarioAnimator.GetBool(hashInP3))
+        switch (scenarioAnimator.GetInteger(hashPhase))
         {
-            CheckShivaHP();
+            case 2:
+                CheckShivaHP();
+                float addsTime = scenarioAnimator.GetFloat(hashAddsTime);
+                scenarioAnimator.SetFloat(hashAddsTime, addsTime + Time.deltaTime);
+                break;
+            case 3:
+                CheckShivaHP();
+                break;
         }
     }
 
@@ -139,6 +147,16 @@ public class ShivaUnrealScenario : Scenario
 
     public void Shiva_Unreal_2_Adds_Enter()
     {
+        // Spawn Adds
+        // Init Adds time counter
+        scenarioAnimator.SetInteger(hashPhase, 2);
+        scenarioAnimator.SetFloat(hashAddsTime, 10f);
+
+
+    }
+
+    public void Shiva_Unreal_Diamond_Dust_Enter()
+    {
 
     }
 
@@ -149,7 +167,7 @@ public class ShivaUnrealScenario : Scenario
             // TODO reset timing
             SetRandomSword();
         }
-        scenarioAnimator.SetBool(hashInP3, true);
+        scenarioAnimator.SetInteger(hashPhase, 3);
     }
 
     public void Shiva_Unreal_3_Ring_Bow_Next()

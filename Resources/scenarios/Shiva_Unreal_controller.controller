@@ -187,7 +187,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 3
     m_ConditionEvent: AddsTime
-    m_EventTreshold: 60
+    m_EventTreshold: 20
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1953266334756681925}
   m_Solo: 0
@@ -428,7 +428,7 @@ AnimatorStateMachine:
     m_Position: {x: -150, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2918814215873180848}
-    m_Position: {x: 50, y: 670, z: 0}
+    m_Position: {x: -10, y: 620, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8579238661859330197}
     m_Position: {x: 660, y: 370, z: 0}
@@ -449,13 +449,13 @@ AnimatorStateMachine:
     m_Position: {x: 70, y: 420, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1889247209811450405}
-    m_Position: {x: 220, y: 800, z: 0}
+    m_Position: {x: 140, y: 760, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6067017789687544440}
-    m_Position: {x: 440, y: 570, z: 0}
+    m_Position: {x: 360, y: 570, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1953266334756681925}
-    m_Position: {x: 530, y: 700, z: 0}
+    m_Position: {x: 450, y: 680, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4651294666558860289}
     m_Position: {x: 690, y: 490, z: 0}
@@ -958,8 +958,8 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: InP3
-    m_Type: 4
+  - m_Name: Phase
+    m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -1149,7 +1149,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.15054947
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 1
@@ -1674,7 +1674,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: AddsTime
-    m_EventTreshold: 60
+    m_EventTreshold: 20
   - m_ConditionMode: 4
     m_ConditionEvent: AddsNumber
     m_EventTreshold: 1
@@ -1731,7 +1731,7 @@ AnimatorStateTransition:
     m_EventTreshold: 1
   - m_ConditionMode: 3
     m_ConditionEvent: AddsTime
-    m_EventTreshold: 60
+    m_EventTreshold: 20
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6067017789687544440}
   m_Solo: 0
