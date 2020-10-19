@@ -13,7 +13,7 @@ public class Scenario : MonoBehaviour
     protected List<BattlePhase> phases;
     protected SinglePlayer controlledPlayer;
     protected BattlePhase currentPhase;
-    protected Animator animator;
+    protected Animator scenarioAnimator;
     private GlobalGameManager gameManager;
     public Dictionary<GameObject, int> aggro = new Dictionary<GameObject, int>();
     protected List<bool> playersArrived = new List<bool>();
@@ -151,5 +151,8 @@ public class Scenario : MonoBehaviour
         Debug.Log($"Scenario Stop: {currentPhase.name}");
     }
 
-
+    public void ToNextState(){
+        Debug.Log("Scenario ToNextState");
+        scenarioAnimator.SetTrigger("Next");
+    }
 }

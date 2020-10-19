@@ -47,7 +47,7 @@ public static class Constants
         public const float AutoAtkInterval = 3f;
         public const float RaidWideDistance = 80f;
         public const float StatusRegisterInterval = 3f;
-        public const float DestinationThreshold = .1f; 
+        public const float DestinationThreshold = .1f;
         public static Color32 GetPosColor(SinglePlayer.StratPosition pos)
         {
             switch (pos)
@@ -77,8 +77,9 @@ public static class Constants
             public string tachieFileName;
             public string headFileName;
             public Dictionary<SupportedLang, string> bossNameMultiLanguage;
-            public string modelPrefabPath;
+            public string modelPrefabPath, animControllerPath;
             public Vector3 tachieLocalScale;
+
             public ScenarioDictStruct(SupportedBoss boss, System.Type type, List<Strategy> s, Dictionary<SupportedLang, string> namePairs, Vector3 tachieLocalScale)
             {
                 this.boss = boss;
@@ -86,10 +87,11 @@ public static class Constants
                 strats = s;
                 tachieFileName = $"{menuTachiePrefix}/{boss.ToString()}_paint";
                 headFileName = $"{menuTachiePrefix}/{boss.ToString()}_head_paint";
-                Debug.Log($"ScenarioDictStruct: {tachieFileName}, {headFileName}");
+                // Debug.Log($"ScenarioDictStruct: {tachieFileName}, {headFileName}");
                 bossNameMultiLanguage = namePairs;
                 this.tachieLocalScale = tachieLocalScale;
                 modelPrefabPath = $"battle_misc/{boss.ToString()}_prefab";
+                animControllerPath = $"scenarios/{boss.ToString()}_controller";
             }
         }
 

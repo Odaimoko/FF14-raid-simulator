@@ -261,6 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 648002414}
+  - component: {fileID: 648002415}
   m_Layer: 0
   m_Name: Primary Group
   m_TagString: Untagged
@@ -284,6 +285,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!320 &648002415
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648002413}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: c7100e0b57a807349964aba5836b9a36, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -3213295851879205010, guid: c7100e0b57a807349964aba5836b9a36, type: 2}
+    value: {fileID: 926313577}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &664832761
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,8 +543,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u6CF0\u59C6\u666E\u7F57\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 72deb664e131f2b419483180d1091d5f, type: 2}
-  m_sharedMaterial: {fileID: 3642117680676688735, guid: 72deb664e131f2b419483180d1091d5f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4b83934b45c6c124698c3321973f10a7, type: 2}
+  m_sharedMaterial: {fileID: 9197026591883819009, guid: 4b83934b45c6c124698c3321973f10a7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -707,28 +727,7 @@ Transform:
   m_Father: {fileID: 648002414}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!320 &926313577
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926313572}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 546862fe3e4ebed42850946ac60c4c54, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: -6024639656827140783, guid: 546862fe3e4ebed42850946ac60c4c54, type: 2}
-    value: {fileID: 926313578}
-  - key: {fileID: 8095074259082719602, guid: 546862fe3e4ebed42850946ac60c4c54, type: 2}
-    value: {fileID: 142065963}
-  m_ExposedReferences:
-    m_References: []
---- !u!95 &926313578
+--- !u!95 &926313577
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -747,6 +746,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &926313578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926313572}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a640fa3e86f28478d4da9fd5bca15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1139693226
 GameObject:
   m_ObjectHideFlags: 0

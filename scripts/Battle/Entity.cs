@@ -16,8 +16,8 @@ public abstract class Entity : MonoBehaviour, GotDamage
     [SerializeField]
     public int maxHP = 10;
     [SerializeField]
-    protected int currentHP;
-    public int healthPoint
+    protected float currentHP;
+    public float healthPoint
     {
         get
         {

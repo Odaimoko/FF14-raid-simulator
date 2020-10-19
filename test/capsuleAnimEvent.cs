@@ -18,10 +18,10 @@ public class capsuleAnimEvent : MonoBehaviour
         {
             animator.SetBool("Y_lt_half", true);
         }
-    }
+    }  
 
     void hi_(int mgs)
     {
-        Debug.Log(mgs);
+        Debug.Log(mgs, this.gameObject);
     }
 }

@@ -339,6 +339,14 @@ PrefabInstance:
       propertyPath: moveInfoCanvas
       value: 
       objectReference: {fileID: 6448418069001932647}
+    - target: {fileID: 6448418068862575208, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
+      propertyPath: maxHP
+      value: 1203
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448418068862575208, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
+      propertyPath: currentHP
+      value: 1131.58
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
 --- !u!4 &6445258285431371520 stripped

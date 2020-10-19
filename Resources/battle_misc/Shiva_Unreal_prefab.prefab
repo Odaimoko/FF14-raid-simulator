@@ -129,8 +129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBattle: 0
   dead: 0
-  maxHP: 112532
-  currentHP: 112532
+  maxHP: 71255
+  currentHP: 68321
   damageInfoPrefab: {fileID: 7225114342177412539, guid: be042e7542f7d464cb2fb4bf37e8a6cb, type: 3}
   moveInfoCanvas: {fileID: 1537540151588170705}
   players: []
