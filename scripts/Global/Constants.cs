@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class Constants
 {
+
     public static class BM
     {
         public static string Tag = "BattleManager";
@@ -13,6 +14,8 @@ public static class Constants
 
     public static class UI
     {
+        public const string StatusPrefabDir = "battle_status";
+
         public const string IconPoolGOName = "icon pool";
         public const string IconPoolSpawningName = "status icon";
         public static float StatusListXInterval = 17;
@@ -61,6 +64,17 @@ public static class Constants
                 default:
                     return new Color32(255, 100, 100, 255);
             }
+        }
+
+        public enum DamageType
+        {
+            Blant, // Auto attack
+            Magical,
+            Physical,
+            Ice,
+            Fire,
+            Slash,
+            Hit,
         }
     }
 

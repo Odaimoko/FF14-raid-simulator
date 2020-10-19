@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DealDamage : SingleStatus
 {
+    public Constants.Battle.DamageType damageType = Constants.Battle.DamageType.Blant;
     private int _damage;
     private float _range;
     public DealDamage(GameObject from, GameObject target, int dmg, string name = "AutoAttack", float range = Constants.Battle.MinAtkDistance) :
@@ -14,7 +15,7 @@ public class DealDamage : SingleStatus
         _damage = dmg;
         showIcon = false;
         effectiveAtOnce = false;
-        this._range=range;
+        this._range = range;
     }
 
     protected override void NormalEffect()

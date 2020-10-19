@@ -10,10 +10,9 @@ public class Slowdown : SingleStatus
         base(from, target, dur)
     {
         controller = this.target.transform.parent.GetComponent<ControllerSystem>();
-        effectiveAtOnce = true;
-        icon = Resources.Load<Sprite>("battle_status/status_slowdown");
+        icon = LoadStatusSprite("status_slowdown");
         name = "Slowdown";
-        
+
     }
 
     protected override void NormalEffect()

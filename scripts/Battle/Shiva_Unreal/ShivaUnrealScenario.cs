@@ -55,18 +55,13 @@ public class ShivaUnrealScenario : Scenario
         audioSource.Play();
         scenarioAnimator = GetComponent<Animator>();
         scenarioAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(infoStruct.animControllerPath);
-        Shiva.healthPoint = 30000;
+        Shiva.healthPoint = 60000;
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-        // if (!playersArrived[4])
-        // {
-        //     Debug.Log($"ShivaUnrealScenario Update: Move {players[4].name} to Desti. {playersArrived[4]}.");
-        //     playersArrived[4] = MovePlayerToDestination(players[4], new Vector3(-5, 0, 6));
-        // } 
         switch (scenarioAnimator.GetInteger(hashPhase))
         {
             case 2:
@@ -93,13 +88,14 @@ public class ShivaUnrealScenario : Scenario
 
 
 
-    public void SlowDown()
+    public void Slowdown()
     {
         Debug.Log("Shiva_ex: SlowDown!!!!!");
-        foreach (SinglePlayer singlePlayer in players)
-        {
-            singlePlayer.AddStatusGroup(new SlowdownGroup(Shiva.gameObject, singlePlayer.gameObject, 6f));
-        }
+        controlledPlayer.AddStatusGroup(new SlowdownGroup(Shiva.gameObject, controlledPlayer.gameObject, 6f));
+        // foreach (SinglePlayer singlePlayer in players)
+        // {
+        //     singlePlayer.AddStatusGroup(new SlowdownGroup(Shiva.gameObject, singlePlayer.gameObject, 6f));
+        // }
     }
 
     public void Absolute_Zero()
@@ -112,6 +108,12 @@ public class ShivaUnrealScenario : Scenario
             new DealDamage(Shiva.gameObject, singlePlayer.gameObject, 100, "Absolute Zero", Constants.Battle.RaidWideDistance)));
         }
     }
+
+    //
+    // ─── STATEMACHINE CHANGE ────────────────────────────────────────────────────────
+    //
+
+        
 
     public void TriggerNext()
     {
@@ -159,15 +161,20 @@ public class ShivaUnrealScenario : Scenario
     {
 
     }
-
-    public void Shiva_Unreal_3_Ring_Bow_Enter()
+    public void Shiva_Unreal_3_Start_Enter()
     {
         if (!scenarioAnimator.GetBool(hashSecondPhaseInP3))
         {
             // TODO reset timing
             SetRandomSword();
         }
+        audioSource.clip = Resources.Load<AudioClip>(P3MusicPath);
+        audioSource.Play();
         scenarioAnimator.SetInteger(hashPhase, 3);
+    }
+
+    public void Shiva_Unreal_3_Ring_Bow_Enter()
+    {
     }
 
     public void Shiva_Unreal_3_Ring_Bow_Next()

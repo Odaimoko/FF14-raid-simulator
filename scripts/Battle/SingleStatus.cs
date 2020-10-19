@@ -9,13 +9,7 @@ public class SingleStatus
     public enum EffectType
     {
         EffectOverTime,
-        EffectOnExpiration, // Take effect when the count down reaches 0
         LongLasting, // no countdown
-    }
-    public enum BuffType
-    {
-        Buff,
-        Debuff
     }
     // Status on Player or Enemy
     public GameObject from, target; //From whom this status comes
@@ -26,7 +20,7 @@ public class SingleStatus
     protected bool lostAfterDeath = true;
     // if this status has effect once attached to an entity
     protected bool effectiveAtOnce = true;
-
+    public EffectType statusEffectType = EffectType.EffectOverTime;
     //
     // ─── METAINFO ───────────────────────────────────────────────────────────────────
     //
@@ -56,18 +50,29 @@ public class SingleStatus
         globalStatusID++;
     }
 
+    public static Sprite LoadStatusSprite(string str){
+        return Resources.Load<Sprite>($"{Constants.UI.StatusPrefabDir}/{str}");
+    }
+
     public void Update()
     {
-        if (countdown >= 0)
+        switch (statusEffectType)
         {
-            countdown -= Time.deltaTime;
-            // Debug.Log($"SingleStatus ({this}) Countdown: {countdown}");
-        }
-        if (countdown < 0 && !expired)
-        {
-            expired = true;
-            Debug.Log($"SingleStatus ({this.name}) Expired. Registering.");
-            RegisterEffect();
+            case EffectType.LongLasting:
+                break; // dont deal with expiration
+            default:
+                if (countdown >= 0)
+                {
+                    countdown -= Time.deltaTime;
+                    // Debug.Log($"SingleStatus ({this}) Countdown: {countdown}");
+                }
+                if (countdown < 0 && !expired)
+                {
+                    expired = true;
+                    Debug.Log($"SingleStatus ({this.name}) Expired. Registering.");
+                    RegisterEffect();
+                }
+                break;
         }
     }
 

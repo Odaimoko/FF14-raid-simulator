@@ -244,7 +244,7 @@ public class UIManager : MonoBehaviour
     {
         int i = 0;
         Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has {en.statusGroups.Count} Groups.");
-        foreach (StatusGroup statusGroup in en.statusGroups)
+        foreach (StatusGroup statusGroup in en.statusGroups.Values)
         {
             foreach (SingleStatus status in statusGroup.statuses)
             {
