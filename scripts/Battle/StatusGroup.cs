@@ -56,6 +56,10 @@ public class StatusGroup
         }
     }
 
+    public virtual void MergeStatus(StatusGroup another){
+        // TODO: Merge two status group
+    }
+
     public void Add(SingleStatus s)
     {
         // Assume s' from and target is properly set

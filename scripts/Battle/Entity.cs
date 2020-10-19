@@ -28,6 +28,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
             currentHP = value;
         }
     }
+    public int basicDamage { get; set; } = 100;
 
     // if casting, boss wont move and AA
     public CastGroup castingStatus; // only contains one single status
@@ -36,7 +37,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         get { return castingStatus != null; }
     }
 
-    public HashSet<StatusGroup> statusGroups = new HashSet<StatusGroup>();
+    public Dictionary<int, StatusGroup> statusGroups = new Dictionary<int, StatusGroup>();
     public GameObject damageInfoPrefab;
 
     //
@@ -59,7 +60,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     protected virtual void Update()
     {
-        foreach (StatusGroup statusGroup in statusGroups)
+        foreach (StatusGroup statusGroup in statusGroups.Values)
         {
             statusGroup.Update();
         }
@@ -80,10 +81,10 @@ public abstract class Entity : MonoBehaviour, GotDamage
         // TODO: Show damage queue
         ShowDamangeNumber(dmg);
     }
-    
+
     public virtual void GotHealed(int amount)
     {
-        if (currentHP+amount<maxHP)
+        if (currentHP + amount < maxHP)
         {
             currentHP += amount;
         }
@@ -107,7 +108,13 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     public void AddStatusGroup(StatusGroup sg)
     {
-        statusGroups.Add(sg);
+        if (statusGroups.ContainsKey(sg.GetHashCode()))
+        {
+            statusGroups[sg.GetHashCode()].MergeStatus(sg);
+        }
+        else
+            statusGroups.Add(sg.GetHashCode(), sg);
+
         BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM.Tag).GetComponent<BattleManager>();
         if (sg.showIcon)
             bm.AddStatusIconToUI(sg);
@@ -117,7 +124,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
     public void RemoveStatusGroup(StatusGroup sg)
     {
         Debug.Log($"Entity {this.name} removes {sg.ToString()}, has {statusGroups.Count} statuses.");
-        statusGroups.Remove(sg);
+        statusGroups.Remove(sg.GetHashCode());
     }
 
     public void RegisterEffect()
@@ -126,7 +133,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         {
 
             Debug.Log($"Entity ({this.name}) RegisterEffect", this.gameObject);
-            foreach (StatusGroup statusGroup in statusGroups)
+            foreach (StatusGroup statusGroup in statusGroups.Values)
             {
                 statusGroup.RegisterEffect();
             }
@@ -141,7 +148,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         {
 
             List<StatusGroup> toremove = new List<StatusGroup>();
-            foreach (StatusGroup statusGroup in statusGroups)
+            foreach (StatusGroup statusGroup in statusGroups.Values)
             {
                 if (statusGroup.expired) toremove.Add(statusGroup);
             }
@@ -159,7 +166,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         {
             AA();
             yield return new WaitForSeconds(Constants.Battle.AutoAtkInterval);
-        } 
+        }
     }
 
     protected void AA()
@@ -178,9 +185,8 @@ public abstract class Entity : MonoBehaviour, GotDamage
                 return;
             }
             // TODO: Damage calculation
-            int damage = 100; // How much damage will be dealt. Calculated by the target and this object's statistics
             Debug.Log($"Entity AutoAttack Prepares: From {this.name} to {target.name}");
-            AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, damage));
+            AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, basicDamage));
         }
         else
         {
