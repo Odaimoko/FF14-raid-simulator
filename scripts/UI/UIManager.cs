@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
                 // Debug.Log($"PartyListItem Update {update}: {player.stratPosition}");
                 // HP
                 // TODO: SHIELD
-                hpValue.text = player.healthPoint.ToString();
+                hpValue.text = ((int)player.healthPoint).ToString();
                 Vector3 scale = hpFiller.localScale;
                 scale.x = (float)player.healthPoint / player.maxHP;
                 hpFiller.localScale = scale;
@@ -84,7 +84,6 @@ public class UIManager : MonoBehaviour
     //
     public GameObject statusListGO;
     [SerializeField]
-    public static GameObject statusIconPrefab;
     public Dictionary<int, StatusSet> selfStatusSets = new Dictionary<int, StatusSet>();
     //
     // ─── TARGET INFO ────────────────────────────────────────────────────────────────
@@ -175,7 +174,6 @@ public class UIManager : MonoBehaviour
 
         public void OnStatusListChange()
         {
-
             if (this.controlledPlayer.target != null)
             {
                 UIManager.OnStatusListChange(statusListGO, this.controlledPlayer.target.GetComponent<Entity>(), statusSets, 5);
@@ -186,12 +184,12 @@ public class UIManager : MonoBehaviour
     private TargetInfoClass targetInfo;
     void Start()
     {
-        statusIconPrefab = Resources.Load<GameObject>("battle_status/Status_self");
         RegisterEntities();
         InitPartylist();
         InitTargetInfo();
         OnStatusListChange();
     }
+
 
     void Update()
     {
@@ -205,7 +203,7 @@ public class UIManager : MonoBehaviour
         // partylistItems[i] is according to the order in default
         // change the position of the item, not the assignment
         int controlled_player = (int)controlledPlayer.stratPosition;
-        Debug.Log($"UIM InitPartylist: Finding {Constants.UI.PartyListItemPrefix + controlled_player}...");
+        // Debug.Log($"UIM InitPartylist: Finding {Constants.UI.PartyListItemPrefix + controlled_player}...");
         // Position
         int pos = 0;
         for (int i = 0; i < numPlayers; i++)
@@ -216,7 +214,7 @@ public class UIManager : MonoBehaviour
             else pos = i;
 
             float offset = Constants.UI.PartyListYStart - pos * Constants.UI.PartyListYInterval;
-            Debug.Log($"UIM InitPartylist: player {i}, should be at pos {pos}, offset {offset}");
+            // Debug.Log($"UIM InitPartylist: player {i}, should be at pos {pos}, offset {offset}");
             RectTransform t = partyListGO.transform.Find(Constants.UI.PartyListItemPrefix + i).GetComponent<RectTransform>();
             // Set position on Canvas
             t.anchoredPosition = new Vector2(t.anchoredPosition.x, offset);
@@ -255,7 +253,6 @@ public class UIManager : MonoBehaviour
                 {
                     Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name}'s {status.name}");
                     Vector2 offset = GetIconOffset(i);
-                    // GameObject icon = Instantiate(statusIconPrefab, statusList.transform.position, statusList.transform.rotation);
                     GameObject icon = GetNewIconGO();
                     // Object pool does not support custom GO name
                     // icon.name = status.statusName; 
@@ -274,7 +271,7 @@ public class UIManager : MonoBehaviour
                     rt.localScale = scale;
                     // set countdown
                     GameObject cdGO = icon.transform.Find("countdown").gameObject;
-                    if (showCDText)
+                    if (showCDText && status.statusEffectType != SingleStatus.EffectType.LongLasting)
                     {
                         cdGO.SetActive(true);
                         TextMeshProUGUI cdText = cdGO.GetComponent<TextMeshProUGUI>();
@@ -315,6 +312,7 @@ public class UIManager : MonoBehaviour
         List<int> toRemove = new List<int>();
         foreach (StatusSet s in set.Values)
         {
+            // dont show icon if expired
             if (s.singleStatus.expired)
             {
                 Debug.Log($"UIM UpdateStatusList: {s.singleStatus.name} has expired.");
@@ -332,7 +330,6 @@ public class UIManager : MonoBehaviour
         foreach (int j in toRemove)
         {
             StatusSet s = set[j];
-            Debug.Log($"UIM UpdateStatusList: Removing {s.singleStatus.name}.");
             set.Remove(s.singleStatus.GetHashCode());
             UIManager.DestroyIconGO(s.icon);
         }

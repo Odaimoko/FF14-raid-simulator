@@ -39,6 +39,12 @@ public class ShivaUnrealScenario : Scenario
 
     private Constants.GameSystem.ScenarioDictStruct infoStruct;
 
+    //
+    // ─── BATTLE INFO ─────────────────────────────────────────────────
+    //
+
+    private ShivaStanceGroup stanceGroup;
+
     public override void Init()
     {
         base.Init();
@@ -56,6 +62,7 @@ public class ShivaUnrealScenario : Scenario
         scenarioAnimator = GetComponent<Animator>();
         scenarioAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(infoStruct.animControllerPath);
         Shiva.healthPoint = 60000;
+        stanceGroup = new ShivaStanceGroup(Shiva.gameObject, Shiva.gameObject);
     }
 
     // Update is called once per frame
@@ -113,7 +120,7 @@ public class ShivaUnrealScenario : Scenario
     // ─── STATEMACHINE CHANGE ────────────────────────────────────────────────────────
     //
 
-        
+
 
     public void TriggerNext()
     {
@@ -139,6 +146,30 @@ public class ShivaUnrealScenario : Scenario
         float hpPercent = Shiva.healthPoint / Shiva.maxHP;
         // Debug.Log($"CheckShivaHP: {hpPercent}");
         scenarioAnimator.SetFloat(hashShivaHP, hpPercent);
+    }
+
+    public void Shiva_Unreal_0_AutoAtk_Enter()
+    {
+        Shiva.AddStatusGroup(stanceGroup);
+        stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.None);
+    }
+
+    public void Shiva_Unreal_1_Sword_sp_Enter()
+    {
+        Debug.Log("Shiva_Unreal_1_Sword_sp_Enter");
+        stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.Sword);
+    }
+
+    public void Shiva_Unreal_1_Wand_sp_Enter()
+    {
+        Debug.Log("Shiva_Unreal_1_Wand_sp_Enter");
+        stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.Wand);
+
+    }
+    public void Shiva_Unreal_1_Normal_Enter()
+    {
+        Debug.Log("Shiva_Unreal_1_Normal_Enter");
+        stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.None);
     }
 
     public void Shiva_Unreal_1_Next()

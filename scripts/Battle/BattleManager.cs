@@ -75,6 +75,7 @@ public class BattleManager : MonoBehaviour
     private UIManager uIManager;
     private void Awake()
     {
+        uIManager = GetComponent<UIManager>();
     }
     // Start is called before the first frame update
     void Start()
@@ -108,8 +109,7 @@ public class BattleManager : MonoBehaviour
         // Only StartPhase When in Battle
         // scenario.StartPhase(gameManager.phase);
         StartCoroutine("RegisterStatusEffect");
-        uIManager = GetComponent<UIManager>();
-        RegisterEntities();
+        RegisterEntities();   
     }
 
     // Update is called once per frame
@@ -153,10 +153,9 @@ public class BattleManager : MonoBehaviour
             p.RegisterEntities();
     }
 
-    public void AddStatusIconToUI(StatusGroup status)
+    public void AddStatusIconToUI()
     {
         // only called when a status is shown at the first time
-        Debug.Log($"BM AddStatusIconToUI: Add {status} .");
         uIManager.OnStatusListChange();
     }
 

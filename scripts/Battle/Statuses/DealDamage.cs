@@ -6,9 +6,9 @@ using UnityEngine;
 public class DealDamage : SingleStatus
 {
     public Constants.Battle.DamageType damageType = Constants.Battle.DamageType.Blant;
-    private int _damage;
+    private float _damage;
     private float _range;
-    public DealDamage(GameObject from, GameObject target, int dmg, string name = "AutoAttack", float range = Constants.Battle.MinAtkDistance) :
+    public DealDamage(GameObject from, GameObject target, float dmg, string name = "AutoAttack", float range = Constants.Battle.MinAtkDistance) :
         base(from, target, .1f)
     {
         this.name = name;

@@ -21,7 +21,7 @@ public class DamageTextFollower : MonoBehaviour
 
     public void Init(Transform par, int dmg = -1, SingleStatus status = null)
     {
-        Debug.Log($"DamageTextFollower Init: {gameObject.name}. Damage: {dmg}. Status: {status}");
+        // Debug.Log($"DamageTextFollower Init: {gameObject.name}. Damage: {dmg}. Status: {status}");
         // RectTransform rect = GetComponent<RectTransform>();
 
         //
@@ -29,7 +29,7 @@ public class DamageTextFollower : MonoBehaviour
         //
         damageGO = transform.Find("damage text").gameObject;
         statusGO = transform.Find("status attach").gameObject;
-        Debug.Log($"DamageTextFollower Start: {damageGO.name}. ");
+        // Debug.Log($"DamageTextFollower Start: {damageGO.name}. ");
         icon = statusGO.transform.Find("icon").gameObject;
         description = statusGO.transform.Find("description").gameObject;
         //
@@ -50,7 +50,7 @@ public class DamageTextFollower : MonoBehaviour
         if (isDamageInfo)
         {
             // Set damage text  
-            Debug.Log($"DamageTextFollower Init: damageGO: {damageGO}. statusGO: {statusGO}.");
+            // Debug.Log($"DamageTextFollower Init: damageGO: {damageGO}. statusGO: {statusGO}.");
             damageGO.SetActive(true);
             statusGO.SetActive(false);
             TextMeshProUGUI dmgText = damageGO.GetComponent<TextMeshProUGUI>();
@@ -122,7 +122,7 @@ public class DamageTextFollower : MonoBehaviour
 
     public void ResetStatus()
     {
-        Debug.Log($"DamageTextFollower Reset: {gameObject.name}.");
+        // Debug.Log($"DamageTextFollower Reset: {gameObject.name}.");
         movementY = Vector3.zero;
         Transform rect = GetComponent<Transform>();
         rect.position = Vector3.zero;

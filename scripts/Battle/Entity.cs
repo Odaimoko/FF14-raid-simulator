@@ -28,7 +28,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
             currentHP = value;
         }
     }
-    public int basicDamage { get; set; } = 100;
+    public float basicDamage { get; set; } = 100;
 
     // if casting, boss wont move and AA
     public CastGroup castingStatus; // only contains one single status
@@ -66,7 +66,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         }
     }
 
-    public virtual void GotDamage(int dmg)
+    public virtual void GotDamage(float dmg)
     {
         // TODO: Check Magic/Physical Vulnerability
         if (currentHP > dmg)
@@ -79,10 +79,10 @@ public abstract class Entity : MonoBehaviour, GotDamage
             OnDead();
         }
         // TODO: Show damage queue
-        ShowDamangeNumber(dmg);
+        ShowDamangeNumber((int)dmg);
     }
 
-    public virtual void GotHealed(int amount)
+    public virtual void GotHealed(float amount)
     {
         if (currentHP + amount < maxHP)
         {
@@ -92,7 +92,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
         {
             currentHP = maxHP;
         }
-        ShowDamangeNumber(-amount);
+        ShowDamangeNumber(-(int)amount);
     }
 
     private void ShowDamangeNumber(int amount)
@@ -113,12 +113,14 @@ public abstract class Entity : MonoBehaviour, GotDamage
             statusGroups[sg.GetHashCode()].MergeStatus(sg);
         }
         else
+        {
             statusGroups.Add(sg.GetHashCode(), sg);
 
-        BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM.Tag).GetComponent<BattleManager>();
-        if (sg.showIcon)
-            bm.AddStatusIconToUI(sg);
-        Debug.Log($"Entity {this.name} added {sg.ToString()}, has {statusGroups.Count} statuses.");
+            BattleManager bm = GameObject.FindGameObjectWithTag(Constants.BM.Tag).GetComponent<BattleManager>();
+            if (sg.showIcon)
+                bm.AddStatusIconToUI();
+            Debug.Log($"Entity {this.name} added {sg.ToString()}, has {statusGroups.Count} statuses.");
+        }
     }
 
     public void RemoveStatusGroup(StatusGroup sg)

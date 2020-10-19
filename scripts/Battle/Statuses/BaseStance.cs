@@ -9,6 +9,7 @@ public class BaseStance : SingleStatus
         base(from, target, 1000)
     {
         statusEffectType = EffectType.LongLasting;
+        effectiveAtOnce = false;
     }
 
 }

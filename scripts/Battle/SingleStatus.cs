@@ -16,7 +16,7 @@ public class SingleStatus
     protected float startTime = 0;
     public float duration { get; protected set; } // how long it will last
     public float countdown { get; protected set; } // remaining time
-    public bool expired { get; protected set; } = false;
+    public bool expired { get; set; } = false;
     protected bool lostAfterDeath = true;
     // if this status has effect once attached to an entity
     protected bool effectiveAtOnce = true;
@@ -31,7 +31,6 @@ public class SingleStatus
     {
         get
         {
-            // dont show icon if expired
             return _showIcon;
         }
         set { _showIcon = value; }
@@ -50,7 +49,8 @@ public class SingleStatus
         globalStatusID++;
     }
 
-    public static Sprite LoadStatusSprite(string str){
+    public static Sprite LoadStatusSprite(string str)
+    {
         return Resources.Load<Sprite>($"{Constants.UI.StatusPrefabDir}/{str}");
     }
 
@@ -84,9 +84,9 @@ public class SingleStatus
     protected virtual void ExpireEffect()
     {
         Debug.Log($"SingleStatus ({this.name}) Expire: From {from.name} to {target.name}", this.target);
-        // TODO: show remove status on target
+        //  show remove status on target
         if (showIcon)
-            showEffect();
+            showEffectIndicator();
     }
 
 
@@ -105,18 +105,18 @@ public class SingleStatus
     // called when the status is first attached to an entity
     public virtual void OnAttachedToEntity()
     {
-        // TODO: Show status added  on target
+        //  Show status added  on target
         if (showIcon)
-            showEffect();
+            showEffectIndicator();
         if (effectiveAtOnce)
         {
             bm.AddEvent(this);
         }
     }
 
-    void showEffect()
+    void showEffectIndicator()
     {
-        Debug.Log($"SingleStatus showEffect: On {target.name}");
+        Debug.Log($"SingleStatus showEffect: {name} On {target.name}");
         GameObject damageInfoGO = ObjectyManager.Instance.ObjectyPools[Constants.UI.DamageInfoPoolName].Spawn(Constants.UI.DamageInfoPoolSpawningName);
         DamageTextFollower damageTextFollower = damageInfoGO.GetComponent<DamageTextFollower>();
         damageTextFollower.isDamageInfo = false;

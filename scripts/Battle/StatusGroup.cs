@@ -8,7 +8,7 @@ public class StatusGroup
     // Shoul dbe attached to every player or enemy
     public List<SingleStatus> statuses = new List<SingleStatus>(); // Should be overridden, with a fixed size?
     public GameObject from, target;
-    public bool expired
+    public virtual bool expired
     {
         get
         {
@@ -57,15 +57,13 @@ public class StatusGroup
     }
 
     public virtual void MergeStatus(StatusGroup another){
-        // TODO: Merge two status group
+        // TODO: Merge two status group with the same effect
     }
 
     public void Add(SingleStatus s)
     {
         // Assume s' from and target is properly set
-        statuses.Add(s);
-        // this will not have effect since the default behaviour 
-        // is not to take effect on attach
+        statuses.Add(s); 
         s.OnAttachedToEntity();
     }
 
