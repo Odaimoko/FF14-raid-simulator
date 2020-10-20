@@ -7,10 +7,10 @@ public class ShivaStanceGroup : StatusGroup
 {
     public enum StanceEnum
     {
-        Bow,
+        None,
         Sword,
         Wand,
-        None
+        Bow,
     }
     private bool castFinished = false;
     private SingleStatus timer, _actual;

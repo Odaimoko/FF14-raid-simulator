@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class ShivaUnrealScenario : Scenario
 {
-    private Enemy Shiva;
+    private ShivaUnreal_Shiva Shiva;
     [SerializeField]
     private string P1MusicPath = "music/祖堅正慶 - 雪上の足跡 ～蛮神シヴァ前哨戦～";
     private string P3MusicPath = "music/祖堅正慶 - 忘却の彼方 ～蛮神シヴァ討滅戦～";
@@ -88,12 +88,10 @@ public class ShivaUnrealScenario : Scenario
         // gen enemies
         GameObject enemyPrefab = Resources.Load<GameObject>(Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal].modelPrefabPath);
         GameObject ShivaParent = Instantiate(enemyPrefab, new Vector3(0, .1f, 6.4f), Quaternion.identity);
-        Shiva = ShivaParent.transform.Find("Shiva").GetComponent<Enemy>();
+        Shiva = ShivaParent.transform.Find("Shiva").GetComponent<ShivaUnreal_Shiva>();
         SceneManager.MoveGameObjectToScene(ShivaParent, SceneManager.GetSceneByName("Battle"));
         enemies.Add(Shiva);
     }
-
-
 
     public void Slowdown()
     {
@@ -158,18 +156,21 @@ public class ShivaUnrealScenario : Scenario
     {
         Debug.Log("Shiva_Unreal_1_Sword_sp_Enter");
         stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.Sword);
+        Shiva.ChangeStance((int)ShivaStanceGroup.StanceEnum.Sword);
     }
 
     public void Shiva_Unreal_1_Wand_sp_Enter()
     {
         Debug.Log("Shiva_Unreal_1_Wand_sp_Enter");
         stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.Wand);
+        Shiva.ChangeStance((int)ShivaStanceGroup.StanceEnum.Wand);
 
     }
     public void Shiva_Unreal_1_Normal_Enter()
     {
         Debug.Log("Shiva_Unreal_1_Normal_Enter");
         stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.None);
+        Shiva.ChangeStance((int)ShivaStanceGroup.StanceEnum.None);
     }
 
     public void Shiva_Unreal_1_Next()
