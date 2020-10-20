@@ -233,7 +233,6 @@ public class ShivaUnrealScenario : Scenario
         Debug.Log("Shiva_Unreal_1_Sword_sp_Enter");
         stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.Sword);
         Shiva.ChangeStance((int)ShivaStanceGroup.StanceEnum.Sword);
-        new WaitForSeconds(3);
         Debug.Log("Shiva_Unreal_1_Sword_sp_Enter 2");
     }
 

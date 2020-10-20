@@ -38,7 +38,8 @@ public class UIManager : MonoBehaviour
         {
             if (player)
             {
-                // Debug.Log($"PartyListItem Update {update}: {player.stratPosition}");
+                // if (DebugSwitch.UIManager)
+                //     Debug.Log($"PartyListItem Update {update}: {player.stratPosition}");
                 // HP
                 // TODO: SHIELD
                 hpValue.text = ((int)player.healthPoint).ToString();
@@ -53,7 +54,8 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                // Debug.Log($"PartyListItem Update {update}: {partyListItem.name}. No Player Attached.");
+                // if (DebugSwitch.UIManager)
+                //     Debug.Log($"PartyListItem Update {update}: {partyListItem.name}. No Player Attached.");
             }
         }
 
@@ -141,7 +143,8 @@ public class UIManager : MonoBehaviour
                     UIManager.UpdateStatusList(statusSets);
                 }
                 // HP
-                // Debug.Log($"UIM InitTargetInfo {target.name} ");
+                if (DebugSwitch.UIManager)
+                    Debug.Log($"UIM InitTargetInfo {target.name} ");
 
                 bossName.text = target.name;
 
@@ -150,13 +153,15 @@ public class UIManager : MonoBehaviour
                 scale.x = (float)target.healthPoint / target.maxHP;
                 rect.localScale = scale;
                 float percent = (Mathf.CeilToInt(scale.x * 1000)) / 10;
-                // Debug.Log($"UIM InitTargetInfo: Set HP percent {percent} ");
+                if (DebugSwitch.UIManager)
+                    Debug.Log($"UIM InitTargetInfo: Set HP percent {percent} ");
                 hpPercent.text = percent.ToString() + "%"; // CastBar
                 if (target.casting && target.castingStatus.showInCastFrame)
                 {
                     castFrame.SetActive(true);
                     CastGroup sg = target.castingStatus;
-                    // Debug.Log($"TargetInfoClass Init: StatusGroup has {sg.statuses.Count} statuses.");
+                    if (DebugSwitch.UIManager)
+                        Debug.Log($"TargetInfoClass Init: StatusGroup has {sg.statuses.Count} statuses.");
                     SingleStatus s = sg.statuses[0];
                     RectTransform castRect = castMask.GetComponent<RectTransform>();
                     Vector3 castScale = castRect.localScale;
@@ -203,7 +208,8 @@ public class UIManager : MonoBehaviour
         // partylistItems[i] is according to the order in default
         // change the position of the item, not the assignment
         int controlled_player = (int)controlledPlayer.stratPosition;
-        // Debug.Log($"UIM InitPartylist: Finding {Constants.UI.PartyListItemPrefix + controlled_player}...");
+        if (DebugSwitch.UIManager)
+            Debug.Log($"UIM InitPartylist: Finding {Constants.UI.PartyListItemPrefix + controlled_player}...");
         // Position
         int pos = 0;
         for (int i = 0; i < numPlayers; i++)
@@ -214,7 +220,8 @@ public class UIManager : MonoBehaviour
             else pos = i;
 
             float offset = Constants.UI.PartyListYStart - pos * Constants.UI.PartyListYInterval;
-            // Debug.Log($"UIM InitPartylist: player {i}, should be at pos {pos}, offset {offset}");
+            if (DebugSwitch.UIManager)
+                Debug.Log($"UIM InitPartylist: player {i}, should be at pos {pos}, offset {offset}");
             RectTransform t = partyListGO.transform.Find(Constants.UI.PartyListItemPrefix + i).GetComponent<RectTransform>();
             // Set position on Canvas
             t.anchoredPosition = new Vector2(t.anchoredPosition.x, offset);
@@ -241,17 +248,20 @@ public class UIManager : MonoBehaviour
     public static void OnStatusListChange(GameObject statusList, Entity en, Dictionary<int, StatusSet> sets, int maxIcons, bool showCDText = true)
     {
         int i = 0;
-        Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has {en.statusGroups.Count} Groups.");
+        if (DebugSwitch.UIManager)
+            Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has {en.statusGroups.Count} Groups.");
         foreach (StatusGroup statusGroup in en.statusGroups.Values)
         {
             foreach (SingleStatus status in statusGroup.statuses)
             {
-                Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has Key {status.name}/{status.GetHashCode()}: {sets.ContainsKey(status.GetHashCode())}");
+                if (DebugSwitch.UIManager)
+                    Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name} Has Key {status.name}/{status.GetHashCode()}: {sets.ContainsKey(status.GetHashCode())}");
                 if (!status.showIcon || status.expired)
                     continue;
                 if (!sets.ContainsKey(status.GetHashCode()))
                 {
-                    Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name}'s {status.name}");
+                    if (DebugSwitch.UIManager)
+                        Debug.Log($"UIM OnStatusListChange: {statusList.transform.parent.name}'s {status.name}");
                     Vector2 offset = GetIconOffset(i);
                     GameObject icon = GetNewIconGO();
                     // Object pool does not support custom GO name
@@ -264,7 +274,8 @@ public class UIManager : MonoBehaviour
                     // set icon
                     Image image = icon.GetComponent<Image>();
                     image.sprite = status.icon;
-                    // Debug.Log($"UIM OnStatusListChange: Set icon {status.icon} to {image}");
+                    if (DebugSwitch.UIManager)
+                        Debug.Log($"UIM OnStatusListChange: Set icon {status.icon} to {image}");
                     // set scale
                     Vector3 scale = rt.localScale;
                     scale.y = scale.x = Constants.UI.StatusIconScale;
@@ -315,7 +326,8 @@ public class UIManager : MonoBehaviour
             // dont show icon if expired
             if (s.singleStatus.expired)
             {
-                Debug.Log($"UIM UpdateStatusList: {s.singleStatus.name} has expired.");
+                if (DebugSwitch.UIManager)
+                    Debug.Log($"UIM UpdateStatusList: {s.singleStatus.name} has expired.");
                 toRemove.Add(s.singleStatus.GetHashCode());
             }
             else
@@ -382,8 +394,10 @@ public class UIManager : MonoBehaviour
             }
             players.Add(sp);
         }
-        Debug.Log("UIM register enemy " + enemies.Count, this.gameObject);
-        Debug.Log("UIM register players " + players.Count, this.gameObject);
+        if (DebugSwitch.UIManager)
+            Debug.Log("UIM register enemy " + enemies.Count, this.gameObject);
+        if (DebugSwitch.UIManager)
+            Debug.Log("UIM register players " + players.Count, this.gameObject);
     }
 
     SinglePlayer FindPlayerByStratPos(int i)

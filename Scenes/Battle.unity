@@ -306,6 +306,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7045059068095769068, guid: 1edfad14ca8d4e64c8447c026079ce97, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1edfad14ca8d4e64c8447c026079ce97, type: 3}
 --- !u!1 &212312363
@@ -3892,10 +3896,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1537540151588170705, guid: 2f6232e546c16934fb3fa59168687118, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 16356836}
     - target: {fileID: 1537540152536185342, guid: 2f6232e546c16934fb3fa59168687118, type: 3}
       propertyPath: m_Name
       value: Shiva prefab
@@ -3906,7 +3906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1537540152536185343, guid: 2f6232e546c16934fb3fa59168687118, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.89
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 1537540152536185343, guid: 2f6232e546c16934fb3fa59168687118, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3914,7 +3914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1537540152536185343, guid: 2f6232e546c16934fb3fa59168687118, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.42
+      value: -0.14
       objectReference: {fileID: 0}
     - target: {fileID: 1537540152536185343, guid: 2f6232e546c16934fb3fa59168687118, type: 3}
       propertyPath: m_LocalRotation.x

@@ -9,7 +9,7 @@ public class ShivaUnreal_Shiva : Enemy
     //
     // ─── ANIM ───────────────────────────────────────────────────────────────────────
     //
- 
+
     private string changeAnimPath = "scenarios/ShivaUnreal/Shiva_Stance_Change";
     private AnimationClip changeStanceClip;
     private int hashChange = Animator.StringToHash("Change");
@@ -30,7 +30,7 @@ public class ShivaUnreal_Shiva : Enemy
         }
     }
 
-    
+
     protected override void AA()
     {
         // TODO Change damage and effect according to stance

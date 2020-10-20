@@ -15,7 +15,10 @@ public class CastGroup : StatusGroup
     public CastGroup(GameObject from, GameObject target, float time, SingleStatus actual = null, bool show = true, bool stop = true) :
         base(from, target)
     {
-        name = "EnemyCast";
+        if (actual != null)
+            name = actual.name;
+        else
+            name = "EnemyCast";
         timer = new Cast(from, target, time);
         Add(timer);
         _actual = actual;
