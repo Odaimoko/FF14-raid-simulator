@@ -48,7 +48,7 @@ public class ShivaUnrealScenario : Scenario
     public override void Init()
     {
         base.Init();
-        infoStruct = Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal];
+        infoStruct = Constants.GameSystem.boss2meta[SupportedBoss.ShivaUnreal];
         foreach (SinglePlayer singlePlayer in players)
         {
             singlePlayer.target = Shiva.gameObject;
@@ -86,7 +86,7 @@ public class ShivaUnrealScenario : Scenario
     {
         base.GenerateEntities();
         // gen enemies
-        GameObject enemyPrefab = Resources.Load<GameObject>(Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal].modelPrefabPath);
+        GameObject enemyPrefab = Resources.Load<GameObject>(Constants.GameSystem.boss2meta[SupportedBoss.ShivaUnreal].modelPrefabPath);
         GameObject ShivaParent = Instantiate(enemyPrefab, new Vector3(0, .1f, 6.4f), Quaternion.identity);
         Shiva = ShivaParent.transform.Find("Shiva").GetComponent<ShivaUnreal_Shiva>();
         SceneManager.MoveGameObjectToScene(ShivaParent, SceneManager.GetSceneByName("Battle"));

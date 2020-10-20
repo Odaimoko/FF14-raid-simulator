@@ -6,21 +6,31 @@ public class ShivaUnreal_Shiva : Enemy
 {
     Animator animator;
     SpriteRenderer tachieSpriteRenderer;
+    //
+    // ─── ANIM ───────────────────────────────────────────────────────────────────────
+    //
+ 
+    private string changeAnimPath = "scenarios/ShivaUnreal/Shiva_Stance_Change";
+    private AnimationClip changeStanceClip;
     private int hashChange = Animator.StringToHash("Change");
     private int hashTargetStance = Animator.StringToHash("TargetStance");
     List<Sprite> sprites = new List<Sprite>();
     private int currentStance;
+
     protected override void Start()
     {
         base.Start();
         animator = GetComponent<Animator>();
         tachieSpriteRenderer = transform.Find("tachie").GetComponent<SpriteRenderer>();
+        changeStanceClip = Resources.Load<AnimationClip>(changeAnimPath);
         foreach (string s in System.Enum.GetNames(typeof(ShivaStanceGroup.StanceEnum)))
         {
             Debug.Log($"ShivaUnreal_Shiva: Load Sprite enemy_tachie/ShivaUnreal_{s}");
             sprites.Add(Resources.Load<Sprite>($"enemy_tachie/ShivaUnreal_{s}"));
         }
     }
+
+    
     protected override void AA()
     {
         // TODO Change damage and effect according to stance
@@ -38,6 +48,7 @@ public class ShivaUnreal_Shiva : Enemy
         currentStance = stanceCode;
         animator.SetTrigger(hashChange);
         animator.SetInteger(hashTargetStance, stanceCode);
+        AddStatusGroup(new CastGroup(gameObject, gameObject, changeStanceClip.length, null, false));
     }
 
     //
@@ -54,8 +65,11 @@ public class ShivaUnreal_Shiva : Enemy
     public void IceBrand()
     {
         // 冰印剑
-        Move_IceBrand iceBrand = new Move_IceBrand(gameObject, gameObject);
-        AddStatusGroup(new CastGroup(gameObject, gameObject, 4, iceBrand, false));
+        // TODO: FX 
+        Debug.Log("ShivaUnreal_Shiva IceBrand");
+        // duration is animation time
+        Move_IceBrand iceBrand = new Move_IceBrand(gameObject, gameObject, 4);
+        AddStatusGroup(new CastGroup(gameObject, gameObject, 0.1f, iceBrand, false));
     }
 
     public void HeavenlyStrike()

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Move_IceBrand : SingleStatus
 {
-    public Move_IceBrand(GameObject from, GameObject target) :
-        base(from, target, 4)
+    public Move_IceBrand(GameObject from, GameObject target, float dur) :
+        base(from, target, dur)
     {
         name = "冰印剑";
         effectiveAtOnce = true;
@@ -17,6 +17,7 @@ public class Move_IceBrand : SingleStatus
     {
         if (effectTimes == 0)
         {
+            // TODO: Sharing AOE
             base.NormalEffect();
             // eT will increase in base class
             Enemy en = target.GetComponent<Enemy>();

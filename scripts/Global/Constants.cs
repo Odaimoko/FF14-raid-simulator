@@ -105,7 +105,8 @@ public static class Constants
                 bossNameMultiLanguage = namePairs;
                 this.tachieLocalScale = tachieLocalScale;
                 modelPrefabPath = $"battle_misc/{boss.ToString()}_prefab";
-                animControllerPath = $"scenarios/{boss.ToString()}_controller";
+                animControllerPath = $"scenarios/{boss.ToString()}/scenarioController";
+                Debug.Log($"ScenarioDictStruct: {animControllerPath}");
             }
         }
 
@@ -113,8 +114,8 @@ public static class Constants
 
         public static Dictionary<SupportedBoss, ScenarioDictStruct> boss2meta = new Dictionary<SupportedBoss, ScenarioDictStruct>()
         {
-           { SupportedBoss.Shiva_Unreal, new ScenarioDictStruct(
-               SupportedBoss.Shiva_Unreal,
+           { SupportedBoss.ShivaUnreal, new ScenarioDictStruct(
+               SupportedBoss.ShivaUnreal,
            typeof(ShivaUnrealScenario),
            new List<Strategy>(){
                new ShivaUnrealZiyanStrat()
@@ -124,8 +125,8 @@ public static class Constants
            },
            Vector3.one)
            },
-           { SupportedBoss.Titan_Unreal, new ScenarioDictStruct(
-               SupportedBoss.Titan_Unreal,
+           { SupportedBoss.TitanUnreal, new ScenarioDictStruct(
+               SupportedBoss.TitanUnreal,
            typeof(TitanUnrealScenario),
            new List<Strategy>(){
                new TitanUnrealZiyanStrat()

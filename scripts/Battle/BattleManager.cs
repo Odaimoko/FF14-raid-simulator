@@ -86,11 +86,11 @@ public class BattleManager : MonoBehaviour
         GameObject gm = GameObject.Find(Constants.GameSystem.GMObjectName);
         if (gm == null)
         {
-            Debug.Log($"BM Awake: No GM object found, stop initializing.");
+            Debug.Log($"BM Start: No GM object found, stop initializing.");
             return;
         }
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
-        Type t = Constants.GameSystem.boss2meta[SupportedBoss.Shiva_Unreal].scenarioType;
+        Type t = Constants.GameSystem.boss2meta[SupportedBoss.ShivaUnreal].scenarioType;
         var methods = typeof(GameObject).GetMethods().Where(m => m.Name == "AddComponent");
         foreach (MethodInfo methodInfo in methods)
         {
@@ -109,7 +109,7 @@ public class BattleManager : MonoBehaviour
         // Only StartPhase When in Battle
         // scenario.StartPhase(gameManager.phase);
         StartCoroutine("RegisterStatusEffect");
-        RegisterEntities();   
+        RegisterEntities();
     }
 
     // Update is called once per frame

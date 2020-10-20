@@ -20,8 +20,10 @@ public class Scenario : MonoBehaviour
 
     public virtual void Init()
     {
+        Debug.Log("Scenario Init");
         gameManager = GameObject.Find("Global Manager GO").GetComponent<GlobalGameManager>();
         GenerateEntities();
+        Debug.Log("Scenario Init Finished.");
         SetAggro();
         for (int i = 0; i < Constants.Battle.NumPlayers; i++)
         {
@@ -38,6 +40,7 @@ public class Scenario : MonoBehaviour
 
     public virtual void GenerateEntities()
     {
+        Debug.Log("Scenario GenerateEntities Start");
         Camera battleCam = GameObject.Find("battle main camera").GetComponent<Camera>();
         // Init Controlled Player 
         GameObject playerPrefab = Resources.Load<GameObject>(Constants.Battle.PlayerPrefabPath);

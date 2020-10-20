@@ -981,7 +981,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shiva_Unreal_controller
+  m_Name: scenarioController
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: End

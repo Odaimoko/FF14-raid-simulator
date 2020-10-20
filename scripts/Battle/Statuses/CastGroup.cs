@@ -12,7 +12,7 @@ public class CastGroup : StatusGroup
     private bool castFinished = false;
     private SingleStatus timer, _actual;
     public SingleStatus actual { get => _actual; }
-    public CastGroup(GameObject from, GameObject target, float time, SingleStatus actual, bool show = true, bool stop = true) :
+    public CastGroup(GameObject from, GameObject target, float time, SingleStatus actual = null, bool show = true, bool stop = true) :
         base(from, target)
     {
         name = "EnemyCast";
@@ -29,10 +29,13 @@ public class CastGroup : StatusGroup
         base.Update();
         if (timer.expired && !castFinished)
         {
-            castFinished = true;
-            Debug.Log($"CastGroup {target.name} finish casting. Applying {actual.name} to {actual.target.name}");
             target.GetComponent<Entity>().castingStatus = null;
-            Add(_actual);
+            if (_actual != null)
+            {
+                castFinished = true;
+                Debug.Log($"CastGroup {target.name} finish casting. Applying {actual.name} to {actual.target.name}");
+                Add(_actual);
+            }
         }
     }
 }

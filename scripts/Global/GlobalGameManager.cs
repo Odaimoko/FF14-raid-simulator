@@ -7,7 +7,7 @@ public class GlobalGameManager : MonoBehaviour
 {
     public string nextSceneToLoad;
     // set by menu
-    public SupportedBoss boss = SupportedBoss.Shiva_Unreal;
+    public SupportedBoss boss = SupportedBoss.ShivaUnreal;
     public SinglePlayer.StratPosition playerPos;
     public Strategy strategy;
     public int phase;
