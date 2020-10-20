@@ -1889,7 +1889,7 @@ AnimatorState:
   m_PrefabAsset: {fileID: 0}
   m_Name: Shiva_Unreal_0
   m_Speed: 1
-  m_CycleOffset: 0
+  m_CycleOffset: 0.36
   m_Transitions:
   - {fileID: 9091394225779816977}
   m_StateMachineBehaviours: []

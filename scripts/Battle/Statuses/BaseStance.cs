@@ -6,7 +6,7 @@ using UnityEngine;
 public class BaseStance : SingleStatus
 {
     public BaseStance(GameObject from, GameObject target) :
-        base(from, target, 1000)
+        base(from, target, 1)
     {
         statusEffectType = EffectType.LongLasting;
         effectiveAtOnce = false;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitVulnerable : DamageVulnerable 
+public class HitVulnerable : ReceiverDamageChanger 
 {
     private int _numStacks;
     public HitVulnerable(GameObject fr, GameObject target, float dur, float multi, int maxStacks) : base(fr, target, dur, multi, maxStacks)

@@ -12,15 +12,4 @@ public class Cast : SingleStatus
         name = "EnemyCast"; 
     }
 
-    protected override void NormalEffect()
-    {
-        base.NormalEffect();
-        Entity e = target.GetComponent<Entity>();
-
-    }
-    protected override void ExpireEffect()
-    {
-        base.ExpireEffect();
-        
-    }
 }

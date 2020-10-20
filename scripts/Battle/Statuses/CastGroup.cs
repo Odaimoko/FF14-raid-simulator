@@ -17,6 +17,7 @@ public class CastGroup : StatusGroup
         _actual = actual;
         target.GetComponent<Entity>().castingStatus = this;
     }
+    
     public override void Update()
     {
         base.Update();

@@ -51,8 +51,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.25
-    functionName: Slowdown
+  - time: 0
+    functionName: Shiva_Unreal_0_AutoAtk_Enter
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

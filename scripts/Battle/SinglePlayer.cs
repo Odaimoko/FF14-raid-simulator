@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ControllerSystem))]
-public class SinglePlayer : Entity, GotDamage
+public class SinglePlayer : Entity
 {
     public List<Enemy> enemies = new List<Enemy>();
 

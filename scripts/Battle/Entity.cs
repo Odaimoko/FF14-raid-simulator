@@ -68,7 +68,6 @@ public abstract class Entity : MonoBehaviour, GotDamage
 
     public virtual void GotDamage(float dmg)
     {
-        // TODO: Check Magic/Physical Vulnerability
         if (currentHP > dmg)
         {
             currentHP -= dmg;
@@ -133,7 +132,6 @@ public abstract class Entity : MonoBehaviour, GotDamage
     {
         if (!dead)
         {
-
             Debug.Log($"Entity ({this.name}) RegisterEffect", this.gameObject);
             foreach (StatusGroup statusGroup in statusGroups.Values)
             {
@@ -148,7 +146,6 @@ public abstract class Entity : MonoBehaviour, GotDamage
         // Lazy remove
         while (true)
         {
-
             List<StatusGroup> toremove = new List<StatusGroup>();
             foreach (StatusGroup statusGroup in statusGroups.Values)
             {
@@ -166,35 +163,42 @@ public abstract class Entity : MonoBehaviour, GotDamage
     {
         while (!dead)
         {
-            AA();
+            if (casting)
+            {
+                Debug.Log($"Entity {this.name} AutoAttack: Casting.");
+
+            }
+            else
+            {
+                if (target != null)
+                {
+                    if (target.GetComponent<Entity>().dead)
+                    {
+                        Debug.Log($"Entity AutoAttack: Target {target.name} already dead. Set {this.name}'s target to NULL.");
+                        target = null;
+                    }
+                    else
+                    {
+                        AA();
+                    }
+                }
+                else
+                {
+                    Debug.Log($"Entity AutoAttack: {this} Has No Target.");
+                }
+
+            }
             yield return new WaitForSeconds(Constants.Battle.AutoAtkInterval);
         }
     }
 
-    protected void AA()
-    {
-        if (casting)
-        {
-            Debug.Log($"Entity {this.name} AutoAttack: Casting.");
-            return;
-        }
-        if (target != null)
-        {
-            if (target.GetComponent<Entity>().dead)
-            {
-                Debug.Log($"Entity AutoAttack: Target {target.name} already dead. Set {this.name}'s target to NULL.");
-                target = null;
-                return;
-            }
-            // TODO: Damage calculation
-            Debug.Log($"Entity AutoAttack Prepares: From {this.name} to {target.name}");
-            AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, basicDamage));
-        }
-        else
-        {
-            Debug.Log($"Entity AutoAttack: {this} Has No Target.");
-        }
+    protected virtual void AA()
+    { 
+        Debug.Log($"Entity AutoAttack Prepares: From {this.name} to {target.name}");
+        AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, basicDamage));
+
     }
+
     public virtual void OnDead()
     {
         Debug.Log($"Entity OnDead: {this.name}.");
@@ -202,4 +206,5 @@ public abstract class Entity : MonoBehaviour, GotDamage
         StopAllCoroutines();
         dead = true;
     }
+
 }

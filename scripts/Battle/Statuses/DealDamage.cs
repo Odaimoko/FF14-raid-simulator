@@ -27,6 +27,7 @@ public class DealDamage : SingleStatus
     protected override void ExpireEffect()
     {
         base.ExpireEffect();
+        // TODO: Damage Calculation
 
         Vector3 towards = target.transform.position - from.transform.position;
         towards.y = 0;

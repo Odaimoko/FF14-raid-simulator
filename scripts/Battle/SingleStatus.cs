@@ -114,7 +114,7 @@ public class SingleStatus
         }
     }
 
-    void showEffectIndicator()
+    public void showEffectIndicator()
     {
         Debug.Log($"SingleStatus showEffect: {name} On {target.name}");
         GameObject damageInfoGO = ObjectyManager.Instance.ObjectyPools[Constants.UI.DamageInfoPoolName].Spawn(Constants.UI.DamageInfoPoolSpawningName);

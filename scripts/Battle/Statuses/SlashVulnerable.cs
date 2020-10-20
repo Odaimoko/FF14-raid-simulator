@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlashVulnerable : DamageVulnerable
+public class SlashVulnerable : ReceiverDamageChanger
 {
     private int _numStacks;
     public SlashVulnerable(GameObject fr, GameObject target, float dur, float multi, int maxStacks) : base(fr, target, dur, multi,maxStacks)

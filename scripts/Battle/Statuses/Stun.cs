@@ -6,7 +6,7 @@ public class Stun : SingleStatus
 {
     public Stun(GameObject fr, GameObject target, float dur) : base(fr, target, dur)
     {
-        name = "Stun";
+        name = "眩晕";
         icon = LoadStatusSprite("status_stun");
     }
 

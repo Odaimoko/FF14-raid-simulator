@@ -51,6 +51,13 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0
+    functionName: Shiva_Unreal_1_Wand_sp_Enter
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 2.9833333
     functionName: Shiva_Unreal_1_Next
     data: 

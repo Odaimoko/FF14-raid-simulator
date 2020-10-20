@@ -38,6 +38,11 @@ public class ShivaStanceGroup : StatusGroup
             SingleStatus prev = statuses[0];
             prev.expired = true; //  remove from ui status list 
             Debug.Log($"ShivaStanceGroup ChangeStance: From {prev.name} to {newStance}");
+            if (prev.showIcon)
+            {
+                // expiring effect
+                prev.showEffectIndicator();
+            }
         }
         else
         {
