@@ -152,7 +152,7 @@ public class UIManager : MonoBehaviour
                 float percent = (Mathf.CeilToInt(scale.x * 1000)) / 10;
                 // Debug.Log($"UIM InitTargetInfo: Set HP percent {percent} ");
                 hpPercent.text = percent.ToString() + "%"; // CastBar
-                if (target.casting)
+                if (target.casting && target.castingStatus.showInCastFrame)
                 {
                     castFrame.SetActive(true);
                     CastGroup sg = target.castingStatus;

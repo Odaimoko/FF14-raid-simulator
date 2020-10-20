@@ -26,7 +26,7 @@ public class Enemy : Entity
     // ─── BATTLE ─────────────────────────────────────────────────────────────────────
     //
 
-    public bool targetable = true;
+    public bool targetable = true, movable = true;
     private bool isBoss; // is boss or regular
     public EntityBattleStatus battleStatus
     {
@@ -91,7 +91,7 @@ public class Enemy : Entity
 
     void FixedUpdate()
     {
-        if (!dead)
+        if (!dead && movable)
             MovePerFrame();
     }
 

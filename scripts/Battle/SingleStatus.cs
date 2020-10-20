@@ -14,6 +14,7 @@ public class SingleStatus
     // Status on Player or Enemy
     public GameObject from, target; //From whom this status comes
     protected float startTime = 0;
+    protected int effectTimes = 0;
     public float duration { get; protected set; } // how long it will last
     public float countdown { get; protected set; } // remaining time
     public bool expired { get; set; } = false;
@@ -78,6 +79,7 @@ public class SingleStatus
 
     protected virtual void NormalEffect()
     {
+        effectTimes += 1;
         Debug.Log($"SingleStatus ({this.name}) Normal: From {from.name} to {target.name}", this.target);
     }
 

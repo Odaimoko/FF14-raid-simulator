@@ -39,5 +39,103 @@ public class ShivaUnreal_Shiva : Enemy
         animator.SetTrigger(hashChange);
         animator.SetInteger(hashTargetStance, stanceCode);
     }
+
+    //
+    // ─── MOVES ──────────────────────────────────────────────────────────────────────
+    //
+
+    //
+    // ────────────────────────────────────────────────── II ──────────
+    //   :::::: S W O R D : :  :   :    :     :        :          :
+    // ────────────────────────────────────────────────────────────
+    //
+
+
+    public void IceBrand()
+    {
+        // 冰印剑
+        Move_IceBrand iceBrand = new Move_IceBrand(gameObject, gameObject);
+        AddStatusGroup(new CastGroup(gameObject, gameObject, 4, iceBrand, false));
+    }
+
+    public void HeavenlyStrike()
+    {
+        // 天降一击 
+    }
+
+    public void Whiteout()
+    {
+        // 白化视界
+    }
+
+    public void GlacierBash()
+    {
+        // 冰河怒击
+    }
+
+    //
+    // ──────────────────────────────────────────────── II ──────────
+    //   :::::: N O N E : :  :   :    :     :        :          :
+    // ──────────────────────────────────────────────────────────
+    //
+
+    public void DreamsOfIce()
+    {
+        // 寒冰的幻想
+    }
+
+    public void IcicleImpact(int type)
+    {
+        // 连环
+    }
+
+    public void DiamondDust()
+    {
+        // 钻石星尘
+    }
+
+    //
+    // ──────────────────────────────────────────────── II ──────────
+    //   :::::: W A N D : :  :   :    :     :        :          :
+    // ──────────────────────────────────────────────────────────
+    //
+
+    public void HailStorm()
+    {
+        // 冰圈点名
+    }
+
+
+    public void Absolute_Zero()
+    {
+        // 绝对零度
+        Debug.Log("Shiva_ex: Casting Absolute Zero...");
+
+        foreach (SinglePlayer singlePlayer in players)
+        {
+            AddStatusGroup(new CastGroup(gameObject, gameObject, 4f,
+            new DealDamage(gameObject, singlePlayer.gameObject, 100, "Absolute Zero", Constants.Battle.RaidWideDistance)));
+        }
+    }
+    //
+    // ────────────────────────────────────────────── II ──────────
+    //   :::::: B O W : :  :   :    :     :        :          :
+    // ────────────────────────────────────────────────────────
+    //
+
+    public void GlassDance()
+    {
+        // 冰雪乱舞
+    }
+
+    public void Avalanche()
+    {
+        // 雪崩击退
+    }
+
+    public void Permafrost()
+    {
+        // 永久冻土 + Frostbite 
+    }
 }
 

@@ -34,7 +34,11 @@ public abstract class Entity : MonoBehaviour, GotDamage
     public CastGroup castingStatus; // only contains one single status
     public bool casting
     {
-        get { return castingStatus != null; }
+        get
+        {
+            if (castingStatus != null && castingStatus.stopMoving) return true;
+            else return false;
+        }
     }
 
     public Dictionary<int, StatusGroup> statusGroups = new Dictionary<int, StatusGroup>();
@@ -193,7 +197,7 @@ public abstract class Entity : MonoBehaviour, GotDamage
     }
 
     protected virtual void AA()
-    { 
+    {
         Debug.Log($"Entity AutoAttack Prepares: From {this.name} to {target.name}");
         AddStatusGroup(new DealDamageGroup(gameObject, target.gameObject, basicDamage));
 

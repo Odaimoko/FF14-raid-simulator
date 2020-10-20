@@ -93,6 +93,12 @@ public class ShivaUnrealScenario : Scenario
         enemies.Add(Shiva);
     }
 
+    //
+    // ─── MOVES ──────────────────────────────────────────────────────────────────────
+    //
+
+
+
     public void Slowdown()
     {
         Debug.Log("Shiva_ex: SlowDown!!!!!");
@@ -103,15 +109,85 @@ public class ShivaUnrealScenario : Scenario
         // }
     }
 
+
+
+    public void IceBrand()
+    {
+        // 冰印剑
+        Shiva.IceBrand();
+    }
+
+    public void HeavenlyStrike()
+    {
+        // 天降一击 
+    }
+
+    public void Whiteout()
+    {
+        // 白化视界
+    }
+
+    public void GlacierBash()
+    {
+        // 冰河怒击
+    }
+
+    //
+    // ──────────────────────────────────────────────── II ──────────
+    //   :::::: N O N E : :  :   :    :     :        :          :
+    // ──────────────────────────────────────────────────────────
+    //
+
+    public void DreamsOfIce()
+    {
+        // 寒冰的幻想
+    }
+
+    public void IcicleImpact(int type)
+    {
+        // 连环
+    }
+
+    public void DiamondDust()
+    {
+        // 钻石星尘
+    }
+
+    //
+    // ──────────────────────────────────────────────── II ──────────
+    //   :::::: W A N D : :  :   :    :     :        :          :
+    // ──────────────────────────────────────────────────────────
+    //
+
+    public void HailStorm()
+    {
+        // 冰圈点名
+    }
+
+
     public void Absolute_Zero()
     {
-        Debug.Log("Shiva_ex: Casting Absolute Zero...");
+        // 绝对零度
+    }
+    //
+    // ────────────────────────────────────────────── II ──────────
+    //   :::::: B O W : :  :   :    :     :        :          :
+    // ────────────────────────────────────────────────────────
+    //
 
-        foreach (SinglePlayer singlePlayer in players)
-        {
-            Shiva.GetComponent<Enemy>().AddStatusGroup(new CastGroup(Shiva.gameObject, Shiva.gameObject, 4f,
-            new DealDamage(Shiva.gameObject, singlePlayer.gameObject, 100, "Absolute Zero", Constants.Battle.RaidWideDistance)));
-        }
+    public void GlassDance()
+    {
+        // 冰雪乱舞
+    }
+
+    public void Avalanche()
+    {
+        // 雪崩击退
+    }
+
+    public void Permafrost()
+    {
+        // 永久冻土 + Frostbite 
     }
 
     //
@@ -157,6 +233,8 @@ public class ShivaUnrealScenario : Scenario
         Debug.Log("Shiva_Unreal_1_Sword_sp_Enter");
         stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.Sword);
         Shiva.ChangeStance((int)ShivaStanceGroup.StanceEnum.Sword);
+        new WaitForSeconds(3);
+        Debug.Log("Shiva_Unreal_1_Sword_sp_Enter 2");
     }
 
     public void Shiva_Unreal_1_Wand_sp_Enter()
@@ -164,7 +242,6 @@ public class ShivaUnrealScenario : Scenario
         Debug.Log("Shiva_Unreal_1_Wand_sp_Enter");
         stanceGroup.ChangeStance(ShivaStanceGroup.StanceEnum.Wand);
         Shiva.ChangeStance((int)ShivaStanceGroup.StanceEnum.Wand);
-
     }
     public void Shiva_Unreal_1_Normal_Enter()
     {

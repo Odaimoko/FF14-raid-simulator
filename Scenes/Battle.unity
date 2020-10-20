@@ -1851,6 +1851,7 @@ GameObject:
   - component: {fileID: 1257624463}
   - component: {fileID: 1257624462}
   - component: {fileID: 1257624465}
+  - component: {fileID: 1257624466}
   m_Layer: 0
   m_Name: Battle Manager
   m_TagString: BattleManager
@@ -1925,7 +1926,7 @@ Animator:
   m_GameObject: {fileID: 1257624459}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1435011de418d514a99cbcb6020513dc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2030,6 +2031,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!320 &1257624466
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257624459}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 8bf81bf8feb21f243839c6f46f5363d1, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &1277828158
 GameObject:
   m_ObjectHideFlags: 0
