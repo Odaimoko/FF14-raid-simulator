@@ -8,7 +8,4 @@ public class DealerDamageChanger : DamageChanger
     {
         name = "";
     }
-
- 
-
 }

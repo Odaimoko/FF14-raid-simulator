@@ -14,6 +14,7 @@ public class SlashVulnerable : ReceiverDamageChanger
 
     public override float GetMultiplier(List<Constants.Battle.DamageType> types)
     {
+        // TODO: Set multiplier according to stacks
         float m = 1;
         if (types.Contains(Constants.Battle.DamageType.Slash))
             m *= multi;
