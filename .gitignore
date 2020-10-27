@@ -257,3 +257,4 @@ Chicken
 lib/
 *.otf
 *.ttf 
+AddressableAssetsData/
