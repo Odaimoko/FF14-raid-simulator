@@ -60,6 +60,7 @@ public class MenuFunction : MonoBehaviour
             TMP_Dropdown.OptionData option = bossDropdown.options[i];
             var dictStruct = Constants.GameSystem.boss2meta[(SupportedBoss)i];
             Sprite sprite = Resources.Load<Sprite>(dictStruct.headFileName);
+            Debug.Log($"MenuFunction InitBossDropdown: Load {dictStruct.headFileName} for {bossDropdown.options[i].text}: [{sprite}]");
             option.image = sprite;
         }
     }
