@@ -42,7 +42,7 @@ public static class Constants
 
     public static class Battle
     {
-        public const string PlayerPrefabPath = "battle_misc/player prefab";
+        public const string PlayerPrefabPath = "battle_misc/playerPrefab";
         public const string PlayerGOPrefix = "Player";
         public const int NumPlayers = 8;
         public const float InBattleDistance = 10f;

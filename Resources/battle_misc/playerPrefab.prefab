@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 6448418068984417555}
   - component: {fileID: 6448418068984417552}
   m_Layer: 8
-  m_Name: player prefab
+  m_Name: playerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,7 +341,7 @@ PrefabInstance:
       objectReference: {fileID: 6448418069001932647}
     - target: {fileID: 6448418068862575208, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
       propertyPath: maxHP
-      value: 1203
+      value: 1237
       objectReference: {fileID: 0}
     - target: {fileID: 6448418068862575208, guid: 312b31977ed9b2d48a14849ebb8c7fb3, type: 3}
       propertyPath: currentHP

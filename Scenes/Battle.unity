@@ -4053,6 +4053,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1824908767, guid: d99ff660a6939fe4c873911735c19af6, type: 3}
+      propertyPath: m_Mass
+      value: 1.001
+      objectReference: {fileID: 0}
     - target: {fileID: 2571144394269237969, guid: d99ff660a6939fe4c873911735c19af6, type: 3}
       propertyPath: m_Name
       value: strat pos text
